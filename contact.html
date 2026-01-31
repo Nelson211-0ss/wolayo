@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 mt-16 sm:mt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/wall1.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/90 to-[#0f0a3a]/80"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6" data-en="Get in Touch" data-pl="Skontaktuj Się">Get in Touch</h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-2" data-en="We'd Love to Hear From You - Connect with us to learn more, volunteer, or become a partner" data-pl="Chcielibyśmy Usłyszeć od Ciebie - Skontaktuj się z nami, aby dowiedzieć się więcej, zostać wolontariuszem lub partnerem">We'd Love to Hear From You - Connect with us to learn more, volunteer, or become a partner</p>
+        </div>
+    </section>
+
+    <!-- Contact Information & Form -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+                <!-- Contact Information -->
+                <div class="fade-in-left">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6" data-en="Contact Information" data-pl="Informacje Kontaktowe">Contact Information</h2>
+                    <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8" data-en="Have questions or want to get involved? Reach out to us through any of the following channels:" data-pl="Masz pytania lub chcesz się zaangażować? Skontaktuj się z nami za pośrednictwem dowolnego z poniższych kanałów:">Have questions or want to get involved? Reach out to us through any of the following channels:</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1" data-en="Address" data-pl="Adres">Address</h3>
+                                <p class="text-gray-600">123 Hope Street, Warsaw, Poland<br>00-001</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-phone text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1" data-en="Phone" data-pl="Telefon">Phone</h3>
+                                <p class="text-gray-600">+48 22 123 4567<br>Mon-Fri: 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-envelope text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1" data-en="Email" data-pl="Email">Email</h3>
+                                <p class="text-gray-600">info@wolayo.org<br>support@wolayo.org</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="mt-10">
+                        <h3 class="font-bold text-gray-800 mb-4" data-en="Follow Us" data-pl="Śledź Nas">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-[#150f4b] text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#22c55e] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 transform">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-[#150f4b] text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#22c55e] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 transform">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-[#150f4b] text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#22c55e] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 transform">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-[#150f4b] text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#22c55e] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 transform">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-gray-50 p-6 sm:p-8 rounded-lg fade-in-right">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6" data-en="Send Us a Message" data-pl="Wyślij Nam Wiadomość">Send Us a Message</h2>
+                    <form action="https://formsubmit.co/info@wolayo.org" method="POST" class="space-y-4">
+                        <!-- FormSubmit Configuration -->
+                        <input type="hidden" name="_subject" value="New Contact Form Submission - Wolayo">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" style="display:none">
+                        
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Full Name" data-pl="Imię i Nazwisko">Full Name</label>
+                            <input type="text" name="name" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Email Address" data-pl="Adres Email">Email Address</label>
+                            <input type="email" name="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none" placeholder="john@example.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Subject" data-pl="Temat">Subject</label>
+                            <input type="text" name="subject" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none" placeholder="How can we help?" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Message" data-pl="Wiadomość">Message</label>
+                            <textarea rows="5" name="message" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none" placeholder="Your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-[#150f4b] text-white py-4 rounded-lg font-bold text-lg hover:bg-[#0f0a3a] transition" data-en="Send Message" data-pl="Wyślij Wiadomość">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 sm:mb-12" data-en="Visit Our Location" data-pl="Odwiedź Naszą Lokalizację">Visit Our Location</h2>
+            <div class="max-w-6xl mx-auto">
+                <div class="bg-gray-300 h-96 rounded-lg overflow-hidden shadow-lg">
+                    <!-- Placeholder for map - In production, you would integrate Google Maps or similar -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.109742164739!2d21.01223931607026!3d52.22977797975724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarsaw%2C%20Poland!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Section -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center fade-in-up">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 sm:mb-6" data-en="Become a Volunteer" data-pl="Zostań Wolontariuszem">Become a Volunteer</h2>
+                <p class="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 px-2" data-en="Join our team of dedicated volunteers making a real difference in children's lives. Whether you have a few hours a week or want to commit long-term, we have opportunities that match your skills and availability." data-pl="Dołącz do naszego zespołu oddanych wolontariuszy, którzy robią prawdziwą różnicę w życiu dzieci. Niezależnie od tego, czy masz kilka godzin tygodniowo, czy chcesz się zaangażować długoterminowo, mamy możliwości dopasowane do Twoich umiejętności i dostępności.">Join our team of dedicated volunteers making a real difference in children's lives. Whether you have a few hours a week or want to commit long-term, we have opportunities that match your skills and availability.</p>
+                <a href="donate.html" class="bg-[#150f4b] text-white px-8 py-3 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-[#0f0a3a] transition inline-block" data-en="Apply to Volunteer" data-pl="Zgłoś Się na Wolontariat">Apply to Volunteer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+            animatedElements.forEach(function(el) {
+                scrollAnimationObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+

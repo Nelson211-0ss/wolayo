@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Application - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+
+        .form-section {
+            transition: all 0.3s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-section:not(.active) {
+            display: none;
+        }
+
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background-color: #22c55e;
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background-color: #150f4b;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 mt-16 sm:mt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/distribute.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/90 to-[#0f0a3a]/80"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6" data-en="Volunteer Application" data-pl="Aplikacja Wolontariusza">Volunteer Application</h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-2" data-en="Join our team and make a lasting impact in children's lives" data-pl="Dołącz do naszego zespołu i wywieraj trwały wpływ na życie dzieci">Join our team and make a lasting impact in children's lives</p>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- Progress Steps -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 text-center">
+                            <div class="step-indicator active w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-gray-300 font-bold">1</div>
+                            <p class="text-xs sm:text-sm font-medium text-gray-600" data-en="Personal Info" data-pl="Dane Osobowe">Personal Info</p>
+                        </div>
+                        <div class="flex-1 border-t-2 border-gray-300 mx-2 sm:mx-4 mt-[-20px]"></div>
+                        <div class="flex-1 text-center">
+                            <div class="step-indicator w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-gray-300 font-bold">2</div>
+                            <p class="text-xs sm:text-sm font-medium text-gray-600" data-en="Preferences" data-pl="Preferencje">Preferences</p>
+                        </div>
+                        <div class="flex-1 border-t-2 border-gray-300 mx-2 sm:mx-4 mt-[-20px]"></div>
+                        <div class="flex-1 text-center">
+                            <div class="step-indicator w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-gray-300 font-bold">3</div>
+                            <p class="text-xs sm:text-sm font-medium text-gray-600" data-en="Experience" data-pl="Doświadczenie">Experience</p>
+                        </div>
+                        <div class="flex-1 border-t-2 border-gray-300 mx-2 sm:mx-4 mt-[-20px]"></div>
+                        <div class="flex-1 text-center">
+                            <div class="step-indicator w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-gray-300 font-bold">4</div>
+                            <p class="text-xs sm:text-sm font-medium text-gray-600" data-en="Review" data-pl="Przegląd">Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="volunteer-form" action="https://formsubmit.co/info@wolayo.org" method="POST" class="bg-gray-50 p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl">
+                    <!-- FormSubmit Configuration -->
+                    <input type="hidden" name="_subject" value="New Volunteer Application - Wolayo">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="_honey" style="display:none">
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-section active" id="step1">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6" data-en="Personal Information" data-pl="Informacje Osobiste">Personal Information</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="First Name *" data-pl="Imię *">First Name *</label>
+                                <input type="text" id="firstName" name="first_name" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Last Name *" data-pl="Nazwisko *">Last Name *</label>
+                                <input type="text" id="lastName" name="last_name" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Email Address *" data-pl="Adres Email *">Email Address *</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="john@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Phone Number *" data-pl="Numer Telefonu *">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="+1 234 567 890">
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Date of Birth *" data-pl="Data Urodzenia *">Date of Birth *</label>
+                            <input type="date" id="dob" name="date_of_birth" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Address *" data-pl="Adres *">Address *</label>
+                            <input type="text" id="address" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Street Address">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="City *" data-pl="Miasto *">City *</label>
+                                <input type="text" id="city" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Warsaw">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Country *" data-pl="Kraj *">Country *</label>
+                                <input type="text" id="country" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Poland">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Postal Code *" data-pl="Kod Pocztowy *">Postal Code *</label>
+                                <input type="text" id="postal" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="00-001">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-8">
+                            <button type="button" onclick="nextStep(2)" class="bg-[#150f4b] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#0f0a3a] transition" data-en="Next" data-pl="Dalej">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Volunteer Preferences -->
+                    <div class="form-section" id="step2">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6" data-en="Volunteer Preferences" data-pl="Preferencje Wolontariatu">Volunteer Preferences</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Volunteer Role *" data-pl="Rola Wolontariusza *">Volunteer Role *</label>
+                            <select id="volunteerRole" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                                <option value="" data-en="Select a role" data-pl="Wybierz rolę">Select a role</option>
+                                <option value="education" data-en="Education Volunteer" data-pl="Wolontariusz Edukacyjny">Education Volunteer</option>
+                                <option value="mentorship" data-en="Mentorship Volunteer" data-pl="Wolontariusz Mentoringu">Mentorship Volunteer</option>
+                                <option value="healthcare" data-en="Healthcare Volunteer" data-pl="Wolontariusz Medyczny">Healthcare Volunteer</option>
+                                <option value="event" data-en="Event Volunteer" data-pl="Wolontariusz Wydarzeń">Event Volunteer</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Commitment Period *" data-pl="Okres Zaangażowania *">Commitment Period *</label>
+                            <select id="commitment" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                                <option value="" data-en="Select period" data-pl="Wybierz okres">Select period</option>
+                                <option value="3months" data-en="3 months" data-pl="3 miesiące">3 months</option>
+                                <option value="6months" data-en="6 months" data-pl="6 miesięcy">6 months</option>
+                                <option value="1year" data-en="1 year" data-pl="1 rok">1 year</option>
+                                <option value="ongoing" data-en="Ongoing" data-pl="Ciągły">Ongoing</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Availability *" data-pl="Dostępność *">Availability *</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="availability" value="weekday-morning" class="mr-2 w-5 h-5 text-[#150f4b]">
+                                    <span data-en="Weekday Mornings" data-pl="Poranki w Tygodniu">Weekday Mornings</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="availability" value="weekday-afternoon" class="mr-2 w-5 h-5 text-[#150f4b]">
+                                    <span data-en="Weekday Afternoons" data-pl="Popołudnia w Tygodniu">Weekday Afternoons</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="availability" value="weekday-evening" class="mr-2 w-5 h-5 text-[#150f4b]">
+                                    <span data-en="Weekday Evenings" data-pl="Wieczory w Tygodniu">Weekday Evenings</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="availability" value="weekend" class="mr-2 w-5 h-5 text-[#150f4b]">
+                                    <span data-en="Weekends" data-pl="Weekendy">Weekends</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Hours Per Week *" data-pl="Godziny Tygodniowo *">Hours Per Week *</label>
+                            <select id="hoursPerWeek" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                                <option value="" data-en="Select hours" data-pl="Wybierz godziny">Select hours</option>
+                                <option value="2-3" data-en="2-3 hours" data-pl="2-3 godziny">2-3 hours</option>
+                                <option value="4-6" data-en="4-6 hours" data-pl="4-6 godzin">4-6 hours</option>
+                                <option value="7-10" data-en="7-10 hours" data-pl="7-10 godzin">7-10 hours</option>
+                                <option value="10+" data-en="10+ hours" data-pl="10+ godzin">10+ hours</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Start Date *" data-pl="Data Rozpoczęcia *">Start Date *</label>
+                            <input type="date" id="startDate" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="prevStep(1)" class="bg-gray-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-600 transition" data-en="Back" data-pl="Wstecz">Back</button>
+                            <button type="button" onclick="nextStep(3)" class="bg-[#150f4b] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#0f0a3a] transition" data-en="Next" data-pl="Dalej">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Experience & Skills -->
+                    <div class="form-section" id="step3">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6" data-en="Experience & Skills" data-pl="Doświadczenie i Umiejętności">Experience & Skills</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Education Level *" data-pl="Poziom Wykształcenia *">Education Level *</label>
+                            <select id="education" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                                <option value="" data-en="Select education level" data-pl="Wybierz poziom wykształcenia">Select education level</option>
+                                <option value="highschool" data-en="High School" data-pl="Szkoła Średnia">High School</option>
+                                <option value="bachelors" data-en="Bachelor's Degree" data-pl="Licencjat">Bachelor's Degree</option>
+                                <option value="masters" data-en="Master's Degree" data-pl="Magister">Master's Degree</option>
+                                <option value="doctorate" data-en="Doctorate" data-pl="Doktorat">Doctorate</option>
+                                <option value="other" data-en="Other" data-pl="Inne">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Field of Study/Work" data-pl="Kierunek Studiów/Pracy">Field of Study/Work</label>
+                            <input type="text" id="fieldOfStudy" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., Social Work, Education, Healthcare">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Previous Volunteer Experience" data-pl="Poprzednie Doświadczenie Wolontariatu">Previous Volunteer Experience</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="prevExperience" value="none" class="mr-2">
+                                    <span data-en="No previous experience" data-pl="Brak doświadczenia">No previous experience</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="prevExperience" value="some" class="mr-2">
+                                    <span data-en="Some experience (1-2 years)" data-pl="Pewne doświadczenie (1-2 lata)">Some experience (1-2 years)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="prevExperience" value="experienced" class="mr-2">
+                                    <span data-en="Experienced (3+ years)" data-pl="Doświadczony (3+ lata)">Experienced (3+ years)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Relevant Skills (select all that apply)" data-pl="Odpowiednie Umiejętności (zaznacz wszystkie)">Relevant Skills (select all that apply)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="teaching" class="mr-2 w-5 h-5">
+                                    <span data-en="Teaching/Tutoring" data-pl="Nauczanie/Korepetycje">Teaching/Tutoring</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="counseling" class="mr-2 w-5 h-5">
+                                    <span data-en="Counseling" data-pl="Poradnictwo">Counseling</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="healthcare" class="mr-2 w-5 h-5">
+                                    <span data-en="Healthcare/Nursing" data-pl="Opieka Zdrowotna">Healthcare/Nursing</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="event" class="mr-2 w-5 h-5">
+                                    <span data-en="Event Planning" data-pl="Planowanie Wydarzeń">Event Planning</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="communication" class="mr-2 w-5 h-5">
+                                    <span data-en="Communication" data-pl="Komunikacja">Communication</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="skills" value="fundraising" class="mr-2 w-5 h-5">
+                                    <span data-en="Fundraising" data-pl="Fundraising">Fundraising</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Languages Spoken" data-pl="Języki Mówione">Languages Spoken</label>
+                            <input type="text" id="languages" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., English, Polish, Spanish">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Why do you want to volunteer with us? *" data-pl="Dlaczego chcesz być wolontariuszem? *">Why do you want to volunteer with us? *</label>
+                            <textarea id="motivation" required rows="5" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Tell us about your motivation and what you hope to contribute..."></textarea>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="prevStep(2)" class="bg-gray-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-600 transition" data-en="Back" data-pl="Wstecz">Back</button>
+                            <button type="button" onclick="nextStep(4)" class="bg-[#150f4b] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#0f0a3a] transition" data-en="Next" data-pl="Dalej">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review & Submit -->
+                    <div class="form-section" id="step4">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6" data-en="Review & Submit" data-pl="Przegląd i Wyślij">Review & Submit</h2>
+                        
+                        <div class="bg-white p-6 rounded-lg mb-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4" data-en="Application Summary" data-pl="Podsumowanie Aplikacji">Application Summary</h3>
+                            <div id="reviewContent" class="space-y-4 text-gray-700">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="terms" name="terms_accepted" value="yes" required class="mr-3 mt-1 w-5 h-5">
+                                <span class="text-sm text-gray-700">
+                                    <span data-en="I agree to the" data-pl="Zgadzam się na">I agree to the</span> 
+                                    <a href="#" class="text-[#150f4b] underline" data-en="terms and conditions" data-pl="warunki">terms and conditions</a> 
+                                    <span data-en="and acknowledge that background checks may be required for certain volunteer positions." data-pl="i potwierdzam, że sprawdzenie przeszłości może być wymagane dla niektórych pozycji wolontariackich.">and acknowledge that background checks may be required for certain volunteer positions.</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                            <div class="flex">
+                                <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-gray-700" data-en="After submission, our team will review your application and contact you within 5-7 business days. Thank you for your interest in volunteering with Wolayo!" data-pl="Po przesłaniu, nasz zespół przejrzy Twoją aplikację i skontaktuje się z Tobą w ciągu 5-7 dni roboczych. Dziękujemy za zainteresowanie wolontariatem w Wolayo!">After submission, our team will review your application and contact you within 5-7 business days. Thank you for your interest in volunteering with Wolayo!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button type="button" onclick="prevStep(3)" class="bg-gray-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-600 transition" data-en="Back" data-pl="Wstecz">Back</button>
+                            <button type="submit" class="bg-[#22c55e] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#16a34a] transition shadow-lg hover:shadow-xl" data-en="Submit Application" data-pl="Wyślij Aplikację">Submit Application</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            // Validate current step before proceeding
+            const currentSection = document.getElementById(`step${currentStep}`);
+            const inputs = currentSection.querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.value) {
+                    valid = false;
+                    input.classList.add('border-red-500');
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
+
+            if (!valid) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Update step indicators
+            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.add('completed');
+            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.remove('active');
+            
+            // Hide current step
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Show next step
+            currentStep = step;
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.add('active');
+
+            // If moving to review step, populate summary
+            if (step === 4) {
+                populateReview();
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(step) {
+            // Update step indicators
+            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.remove('active');
+            
+            // Hide current step
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Show previous step
+            currentStep = step;
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.add('active');
+            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.remove('completed');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function populateReview() {
+            const reviewContent = document.getElementById('reviewContent');
+            
+            const availability = Array.from(document.querySelectorAll('input[name="availability"]:checked'))
+                .map(cb => cb.nextElementSibling.textContent)
+                .join(', ');
+
+            const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked'))
+                .map(cb => cb.nextElementSibling.textContent)
+                .join(', ');
+
+            const prevExperience = document.querySelector('input[name="prevExperience"]:checked')?.nextElementSibling?.textContent || 'Not specified';
+
+            reviewContent.innerHTML = `
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Name:</p>
+                    <p>${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Contact:</p>
+                    <p>${document.getElementById('email').value} | ${document.getElementById('phone').value}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Address:</p>
+                    <p>${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('country').value} ${document.getElementById('postal').value}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Volunteer Role:</p>
+                    <p>${document.getElementById('volunteerRole').options[document.getElementById('volunteerRole').selectedIndex].text}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Commitment:</p>
+                    <p>${document.getElementById('commitment').options[document.getElementById('commitment').selectedIndex].text} | ${document.getElementById('hoursPerWeek').value} hours/week</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Availability:</p>
+                    <p>${availability || 'Not specified'}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Education:</p>
+                    <p>${document.getElementById('education').options[document.getElementById('education').selectedIndex].text}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Skills:</p>
+                    <p>${skills || 'Not specified'}</p>
+                </div>
+                <div class="border-b pb-3">
+                    <p class="font-semibold text-gray-800">Previous Experience:</p>
+                    <p>${prevExperience}</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800">Motivation:</p>
+                    <p>${document.getElementById('motivation').value}</p>
+                </div>
+            `;
+        }
+
+        // Form submission
+        document.getElementById('volunteer-form').addEventListener('submit', function(e) {
+            if (!document.getElementById('terms').checked) {
+                e.preventDefault();
+                alert('Please accept the terms and conditions');
+                return false;
+            }
+            
+            // Add name attributes to all form fields dynamically before submission
+            const form = document.getElementById('volunteer-form');
+            const inputs = form.querySelectorAll('input[id]:not([name]), select[id]:not([name]), textarea[id]:not([name])');
+            inputs.forEach(input => {
+                if (input.id && input.id !== 'terms' && input.id !== 'volunteer-form') {
+                    input.setAttribute('name', input.id.replace(/([A-Z])/g, '_$1').toLowerCase());
+                }
+            });
+            
+            // Allow form to submit naturally to FormSubmit
+            return true;
+        });
+
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+            animatedElements.forEach(function(el) {
+                scrollAnimationObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+

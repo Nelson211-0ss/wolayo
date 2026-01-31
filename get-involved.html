@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Involved - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+
+        /* Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scale-in.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Stagger animation delay for children */
+        .stagger-animation > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-animation > *:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-animation > *:nth-child(6) { transition-delay: 0.6s; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 mt-16 sm:mt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/treat.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/90 to-[#0f0a3a]/80"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6" data-en="Get Involved" data-pl="Zaangażuj Się">Get Involved</h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-2" data-en="Join our mission to transform lives - Multiple ways to make a lasting impact" data-pl="Dołącz do naszej misji transformacji życia - Wiele sposobów, aby wywrzeć trwały wpływ">Join our mission to transform lives - Multiple ways to make a lasting impact</p>
+        </div>
+    </section>
+
+    <!-- Ways to Get Involved Overview -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4" data-en="Make a Difference Today" data-pl="Zrób Różnicę Dzisiaj">Make a Difference Today</h2>
+                    <p class="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-2" data-en="Whether you have time, resources, or expertise to share, there's a place for you at Wolayo" data-pl="Niezależnie od tego, czy masz czas, zasoby lub wiedzę do podzielenia się, jest dla Ciebie miejsce w Wolayo">Whether you have time, resources, or expertise to share, there's a place for you at Wolayo</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 stagger-animation max-w-4xl mx-auto">
+                    <!-- Quick Action 1 -->
+                    <div class="bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/10 p-6 sm:p-8 rounded-xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scale-in">
+                        <div class="bg-[#22c55e] w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                            <i class="fas fa-hands-helping text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-[#150f4b] mb-3" data-en="Volunteer" data-pl="Wolontariat">Volunteer</h3>
+                        <p class="text-gray-600 mb-4" data-en="Share your time and skills with children who need it most" data-pl="Podziel się swoim czasem i umiejętnościami z dziećmi, które tego najbardziej potrzebują">Share your time and skills with children who need it most</p>
+                        <a href="#volunteer" class="text-[#150f4b] font-semibold hover:text-[#22c55e] transition-colors" data-en="Learn More →" data-pl="Dowiedz Się Więcej →">Learn More →</a>
+                    </div>
+
+                    <!-- Quick Action 2 -->
+                    <div class="bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/10 p-6 sm:p-8 rounded-xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scale-in">
+                        <div class="bg-[#22c55e] w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                            <i class="fas fa-user-graduate text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-[#150f4b] mb-3" data-en="Internships" data-pl="Staże">Internships</h3>
+                        <p class="text-gray-600 mb-4" data-en="Gain experience while making a meaningful impact" data-pl="Zdobądź doświadczenie, jednocześnie wywierając znaczący wpływ">Gain experience while making a meaningful impact</p>
+                        <a href="#internship" class="text-[#150f4b] font-semibold hover:text-[#22c55e] transition-colors" data-en="Learn More →" data-pl="Dowiedz Się Więcej →">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Opportunities -->
+    <section id="volunteer" class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 sm:mb-12">
+                    <div class="inline-block bg-[#22c55e]/10 px-4 py-2 rounded-full mb-4">
+                        <span class="text-[#22c55e] font-semibold text-sm sm:text-base" data-en="VOLUNTEER WITH US" data-pl="WOLONTARIAT">VOLUNTEER WITH US</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4" data-en="Volunteer Opportunities" data-pl="Możliwości Wolontariatu">Volunteer Opportunities</h2>
+                    <p class="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-en="Make a hands-on difference in the lives of children through various volunteer roles" data-pl="Wywieraj praktyczny wpływ na życie dzieci poprzez różne role wolontariackie">Make a hands-on difference in the lives of children through various volunteer roles</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-10">
+                    <!-- Volunteer Role 1 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chalkboard-teacher text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Education Volunteer" data-pl="Wolontariusz Edukacyjny">Education Volunteer</h3>
+                                <p class="text-gray-600 text-sm mb-3" data-en="Help with tutoring, homework assistance, and educational activities" data-pl="Pomoc z korepetycjami, pracą domową i działaniami edukacyjnymi">Help with tutoring, homework assistance, and educational activities</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 mb-4">
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Minimum 3 months commitment" data-pl="Minimum 3 miesiące zaangażowania">Minimum 3 months commitment</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="2-3 hours per week" data-pl="2-3 godziny tygodniowo">2-3 hours per week</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Teaching or education background preferred" data-pl="Preferowane doświadczenie pedagogiczne">Teaching or education background preferred</span>
+                            </li>
+                        </ul>
+                        <a href="volunteer-application.html" class="block bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+
+                    <!-- Volunteer Role 2 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-users text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Mentorship Volunteer" data-pl="Wolontariusz Mentoringu">Mentorship Volunteer</h3>
+                                <p class="text-gray-600 text-sm mb-3" data-en="Provide one-on-one guidance and life skills coaching" data-pl="Zapewniaj indywidualne wsparcie i coaching umiejętności życiowych">Provide one-on-one guidance and life skills coaching</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 mb-4">
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Minimum 6 months commitment" data-pl="Minimum 6 miesięcy zaangażowania">Minimum 6 months commitment</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="4-6 hours per week" data-pl="4-6 godzin tygodniowo">4-6 hours per week</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Background check required" data-pl="Wymagane sprawdzenie przeszłości">Background check required</span>
+                            </li>
+                        </ul>
+                        <a href="volunteer-application.html" class="block bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+
+                    <!-- Volunteer Role 3 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-heartbeat text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Healthcare Volunteer" data-pl="Wolontariusz Medyczny">Healthcare Volunteer</h3>
+                                <p class="text-gray-600 text-sm mb-3" data-en="Support health programs and wellness initiatives" data-pl="Wspieraj programy zdrowotne i inicjatywy wellness">Support health programs and wellness initiatives</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 mb-4">
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Medical/nursing background required" data-pl="Wymagane wykształcenie medyczne">Medical/nursing background required</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Flexible schedule" data-pl="Elastyczny harmonogram">Flexible schedule</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Valid certifications needed" data-pl="Wymagane ważne certyfikaty">Valid certifications needed</span>
+                            </li>
+                        </ul>
+                        <a href="volunteer-application.html" class="block bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+
+                    <!-- Volunteer Role 4 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-calendar-alt text-[#150f4b] text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Event Volunteer" data-pl="Wolontariusz Wydarzeń">Event Volunteer</h3>
+                                <p class="text-gray-600 text-sm mb-3" data-en="Help organize and run fundraising events and community programs" data-pl="Pomóż organizować wydarzenia fundraisingowe i programy społeczne">Help organize and run fundraising events and community programs</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 mb-4">
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Short-term commitment" data-pl="Krótkoterminowe zaangażowanie">Short-term commitment</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Event-based schedule" data-pl="Harmonogram oparty na wydarzeniach">Event-based schedule</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                <span data-en="Great for busy professionals" data-pl="Idealne dla zapracowanych profesjonalistów">Great for busy professionals</span>
+                            </li>
+                        </ul>
+                        <a href="volunteer-application.html" class="block bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+                </div>
+
+                <!-- Volunteer Benefits -->
+                <div class="bg-gradient-to-r from-[#150f4b] to-[#0f0a3a] rounded-2xl p-6 sm:p-8 text-white">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-4 text-center" data-en="Why Volunteer With Us?" data-pl="Dlaczego Warto Zostać Wolontariuszem?">Why Volunteer With Us?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                        <div class="text-center">
+                            <i class="fas fa-heart text-[#22c55e] text-3xl mb-2"></i>
+                            <p class="font-semibold" data-en="Make Real Impact" data-pl="Wywieraj Prawdziwy Wpływ">Make Real Impact</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-certificate text-[#22c55e] text-3xl mb-2"></i>
+                            <p class="font-semibold" data-en="Gain Experience" data-pl="Zdobądź Doświadczenie">Gain Experience</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-users text-[#22c55e] text-3xl mb-2"></i>
+                            <p class="font-semibold" data-en="Join Community" data-pl="Dołącz do Społeczności">Join Community</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Internship & Mentorship Programs -->
+    <section id="internship" class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 sm:mb-12">
+                    <div class="inline-block bg-[#22c55e]/10 px-4 py-2 rounded-full mb-4">
+                        <span class="text-[#22c55e] font-semibold text-sm sm:text-base" data-en="LEARN & GROW" data-pl="UCZ SIĘ I ROZWIJAJ">LEARN & GROW</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4" data-en="Internship & Mentorship Programs" data-pl="Programy Stażowe i Mentorskie">Internship & Mentorship Programs</h2>
+                    <p class="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto" data-en="Gain valuable experience in nonprofit management, social work, and community development while making a difference" data-pl="Zdobądź cenne doświadczenie w zarządzaniu organizacjami non-profit, pracy socjalnej i rozwoju społeczności, jednocześnie robiąc różnicę">Gain valuable experience in nonprofit management, social work, and community development while making a difference</p>
+                </div>
+
+                <!-- Internship Programs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-10">
+                    <!-- Program 1 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#22c55e]/10 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-laptop-code text-[#22c55e] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Social Work Internship" data-pl="Staż Pracy Socjalnej">Social Work Internship</h3>
+                                <p class="text-sm text-gray-600 mb-2" data-en="3-6 months | Full-time/Part-time" data-pl="3-6 miesięcy | Pełny etat/Część etatu">3-6 months | Full-time/Part-time</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-en="Work directly with our field teams in Uganda, assisting with child welfare programs, family support initiatives, and community outreach." data-pl="Pracuj bezpośrednio z naszymi zespołami terenowymi w Ugandzie, pomagając w programach opieki nad dziećmi, inicjatywach wsparcia rodzin i działaniach społecznych.">Work directly with our field teams in Uganda, assisting with child welfare programs, family support initiatives, and community outreach.</p>
+                        <div class="border-t pt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2" data-en="Requirements:" data-pl="Wymagania:">Requirements:</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• <span data-en="Social work or related degree" data-pl="Dyplom pracy socjalnej lub pokrewny">Social work or related degree</span></li>
+                                <li>• <span data-en="Passion for child welfare" data-pl="Pasja do opieki nad dziećmi">Passion for child welfare</span></li>
+                                <li>• <span data-en="Willingness to travel to Uganda" data-pl="Chęć podróży do Ugandy">Willingness to travel to Uganda</span></li>
+                            </ul>
+                        </div>
+                        <a href="volunteer-application.html" class="mt-6 block bg-[#22c55e] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#16a34a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+
+                    <!-- Program 2 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chart-line text-[#150f4b] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Program Management Internship" data-pl="Staż Zarządzania Programem">Program Management Internship</h3>
+                                <p class="text-sm text-gray-600 mb-2" data-en="4-6 months | Full-time" data-pl="4-6 miesięcy | Pełny etat">4-6 months | Full-time</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-en="Learn nonprofit program design, implementation, and evaluation while supporting our education and mentorship initiatives." data-pl="Ucz się projektowania, wdrażania i oceny programów non-profit, wspierając nasze inicjatywy edukacyjne i mentorskie.">Learn nonprofit program design, implementation, and evaluation while supporting our education and mentorship initiatives.</p>
+                        <div class="border-t pt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2" data-en="Requirements:" data-pl="Wymagania:">Requirements:</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• <span data-en="Business/nonprofit management background" data-pl="Doświadczenie w zarządzaniu biznesem/non-profit">Business/nonprofit management background</span></li>
+                                <li>• <span data-en="Project management skills" data-pl="Umiejętności zarządzania projektami">Project management skills</span></li>
+                                <li>• <span data-en="Strong analytical abilities" data-pl="Silne zdolności analityczne">Strong analytical abilities</span></li>
+                            </ul>
+                        </div>
+                        <button class="mt-6 bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</button>
+                    </div>
+
+                    <!-- Program 3 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#22c55e]/10 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-bullhorn text-[#22c55e] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Communications Internship" data-pl="Staż Komunikacyjny">Communications Internship</h3>
+                                <p class="text-sm text-gray-600 mb-2" data-en="3-6 months | Part-time/Remote" data-pl="3-6 miesięcy | Część etatu/Zdalnie">3-6 months | Part-time/Remote</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-en="Help tell our story through social media, content creation, and digital marketing while developing your communications portfolio." data-pl="Pomóż opowiedzieć naszą historię poprzez media społecznościowe, tworzenie treści i marketing cyfrowy, rozwijając swoje portfolio komunikacyjne.">Help tell our story through social media, content creation, and digital marketing while developing your communications portfolio.</p>
+                        <div class="border-t pt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2" data-en="Requirements:" data-pl="Wymagania:">Requirements:</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• <span data-en="Communications or marketing studies" data-pl="Studia komunikacyjne lub marketingowe">Communications or marketing studies</span></li>
+                                <li>• <span data-en="Social media expertise" data-pl="Ekspertyza mediów społecznościowych">Social media expertise</span></li>
+                                <li>• <span data-en="Creative content skills" data-pl="Umiejętności kreatywnej treści">Creative content skills</span></li>
+                            </ul>
+                        </div>
+                        <a href="volunteer-application.html" class="mt-6 block bg-[#22c55e] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#16a34a] transition-colors w-full text-center" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</a>
+                    </div>
+
+                    <!-- Program 4 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-[#150f4b]/10 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-dollar-sign text-[#150f4b] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2" data-en="Fundraising Internship" data-pl="Staż Fundraisingowy">Fundraising Internship</h3>
+                                <p class="text-sm text-gray-600 mb-2" data-en="4-6 months | Part-time/Remote" data-pl="4-6 miesięcy | Część etatu/Zdalnie">4-6 months | Part-time/Remote</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-en="Gain experience in donor relations, grant writing, and fundraising campaigns while helping us secure resources for our programs." data-pl="Zdobądź doświadczenie w relacjach z darczyńcami, pisaniu wniosków o granty i kampaniach fundraisingowych, pomagając nam zabezpieczyć zasoby dla naszych programów.">Gain experience in donor relations, grant writing, and fundraising campaigns while helping us secure resources for our programs.</p>
+                        <div class="border-t pt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2" data-en="Requirements:" data-pl="Wymagania:">Requirements:</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• <span data-en="Strong writing skills" data-pl="Silne umiejętności pisania">Strong writing skills</span></li>
+                                <li>• <span data-en="Research capabilities" data-pl="Zdolności badawcze">Research capabilities</span></li>
+                                <li>• <span data-en="Interest in nonprofit fundraising" data-pl="Zainteresowanie fundraisingiem non-profit">Interest in nonprofit fundraising</span></li>
+                            </ul>
+                        </div>
+                        <button class="mt-6 bg-[#150f4b] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#0f0a3a] transition-colors w-full" data-en="Apply Now" data-pl="Aplikuj Teraz">Apply Now</button>
+                    </div>
+                </div>
+
+                <!-- Mentorship Program -->
+                <div class="bg-gradient-to-br from-[#150f4b] to-[#0f0a3a] rounded-2xl p-8 text-white">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-4" data-en="Professional Mentorship Program" data-pl="Program Mentoringu Profesjonalnego">Professional Mentorship Program</h3>
+                            <p class="mb-6" data-en="Connect with experienced professionals in social work, nonprofit management, and international development. Our mentorship program provides guidance, networking opportunities, and career development support." data-pl="Połącz się z doświadczonymi profesjonalistami w pracy socjalnej, zarządzaniu non-profit i rozwoju międzynarodowym. Nasz program mentoringu zapewnia wskazówki, możliwości networkingowe i wsparcie rozwoju kariery.">Connect with experienced professionals in social work, nonprofit management, and international development. Our mentorship program provides guidance, networking opportunities, and career development support.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                    <span data-en="6-month mentorship commitment" data-pl="6-miesięczne zaangażowanie mentorskie">6-month mentorship commitment</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                    <span data-en="Monthly one-on-one sessions" data-pl="Miesięczne sesje indywidualne">Monthly one-on-one sessions</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                    <span data-en="Career development workshops" data-pl="Warsztaty rozwoju kariery">Career development workshops</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-[#22c55e] mr-2"></i>
+                                    <span data-en="Networking events access" data-pl="Dostęp do wydarzeń networkingowych">Networking events access</span>
+                                </li>
+                            </ul>
+                            <a href="volunteer-application.html" class="inline-block bg-[#22c55e] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#16a34a] transition-colors" data-en="Apply for Mentorship" data-pl="Aplikuj na Mentoring">Apply for Mentorship</a>
+                        </div>
+                        <div class="hidden md:block">
+                            <img src="images/gather.jpeg" alt="Mentorship" class="rounded-lg shadow-xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Process -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-8" data-en="How to Get Started" data-pl="Jak Zacząć">How to Get Started</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                    <div class="text-center">
+                        <div class="bg-[#150f4b] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-2xl font-bold">1</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2" data-en="Choose Program" data-pl="Wybierz Program">Choose Program</h4>
+                        <p class="text-sm text-gray-600" data-en="Select the opportunity that fits you" data-pl="Wybierz możliwość, która Ci pasuje">Select the opportunity that fits you</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-[#150f4b] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-2xl font-bold">2</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2" data-en="Submit Application" data-pl="Wyślij Aplikację">Submit Application</h4>
+                        <p class="text-sm text-gray-600" data-en="Complete our online form" data-pl="Wypełnij nasz formularz online">Complete our online form</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-[#150f4b] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-2xl font-bold">3</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2" data-en="Interview" data-pl="Rozmowa">Interview</h4>
+                        <p class="text-sm text-gray-600" data-en="Meet with our team" data-pl="Spotkaj się z naszym zespołem">Meet with our team</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-[#22c55e] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-2xl font-bold">4</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2" data-en="Start Making Impact" data-pl="Zacznij Robić Wpływ">Start Making Impact</h4>
+                        <p class="text-sm text-gray-600" data-en="Begin your journey with us" data-pl="Rozpocznij swoją podróż z nami">Begin your journey with us</p>
+                    </div>
+                </div>
+                <a href="contact.html" class="inline-block bg-[#150f4b] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#0f0a3a] transition-colors shadow-lg hover:shadow-xl" data-en="Contact Us to Learn More" data-pl="Skontaktuj Się, Aby Dowiedzieć Się Więcej">Contact Us to Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .scale-in');
+            animatedElements.forEach(el => scrollAnimationObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
+

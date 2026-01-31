@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+        
+        .donation-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .donation-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .donation-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .donation-btn.selected {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-color: #22c55e;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+        
+        .impact-card {
+            background: linear-gradient(135deg, rgba(21, 15, 75, 0.03) 0%, rgba(34, 197, 94, 0.03) 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(21, 15, 75, 0.1);
+        }
+        
+        .form-input:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(34, 197, 94, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 mt-16 sm:mt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/kid.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/90 to-[#0f0a3a]/80"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6" data-en="Make a Difference" data-pl="Zrób Różnicę">Make a Difference</h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-2" data-en="Your Support Changes Lives - Every contribution helps us provide care, education, and hope to vulnerable children" data-pl="Twoje Wsparcie Zmienia Życia - Każdy wkład pomaga nam zapewniać opiekę, edukację i nadzieję bezbronnym dzieciom">Your Support Changes Lives - Every contribution helps us provide care, education, and hope to vulnerable children</p>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="py-16 sm:py-20 bg-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23150f4b" fill-opacity="0.1"><circle cx="30" cy="30" r="2"/></g></svg>')"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-4xl mx-auto text-center mb-12 sm:mb-16 fade-in-up">
+                <div class="inline-block bg-gradient-to-r from-[#150f4b]/10 to-[#22c55e]/10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-sm font-semibold text-[#150f4b]" data-en="See The Difference You'll Make" data-pl="Zobacz Różnicę, Którą Zrobisz">See The Difference You'll Make</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#150f4b] mb-6" data-en="Your Impact" data-pl="Twój Wpływ">Your Impact</h2>
+                <p class="text-lg text-gray-600" data-en="Every donation, no matter the size, makes a real difference in a child's life. See how your contribution helps:" data-pl="Każda darowizna, niezależnie od wysokości, robi realną różnicę w życiu dziecka. Zobacz, jak Twój wkład pomaga:">Every donation, no matter the size, makes a real difference in a child's life. See how your contribution helps:</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 stagger-animation">
+                <div class="impact-card p-8 rounded-xl text-center border-2 border-[#150f4b]/10 scale-in">
+                    <div class="bg-gradient-to-br from-[#150f4b] to-[#0f0a3a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 transform hover:rotate-6 transition-transform duration-300">
+                        <i class="fas fa-book text-white text-3xl"></i>
+                    </div>
+                    <div class="text-5xl font-bold bg-gradient-to-r from-[#150f4b] to-[#22c55e] bg-clip-text text-transparent mb-3">$50</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="School Supplies" data-pl="Przybory Szkolne">School Supplies</h3>
+                    <p class="text-gray-600" data-en="Provides books, uniforms, and materials for one child for a semester" data-pl="Zapewnia książki, mundurki i materiały dla jednego dziecka na semestr">Provides books, uniforms, and materials for one child for a semester</p>
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] rounded-full" style="width: 33%"></div>
+                    </div>
+                </div>
+                
+                <div class="impact-card p-8 rounded-xl text-center border-2 border-[#22c55e]/30 scale-in relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-[#22c55e] text-white text-xs font-bold px-3 py-1 rounded-bl-lg" data-en="POPULAR" data-pl="POPULARNE">POPULAR</div>
+                    <div class="bg-gradient-to-br from-[#22c55e] to-[#16a34a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 transform hover:rotate-6 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-heart text-white text-3xl"></i>
+                    </div>
+                    <div class="text-5xl font-bold bg-gradient-to-r from-[#22c55e] to-[#150f4b] bg-clip-text text-transparent mb-3">$150</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="Monthly Care" data-pl="Miesięczna Opieka">Monthly Care</h3>
+                    <p class="text-gray-600" data-en="Covers food, shelter, and basic necessities for one child for a month" data-pl="Pokrywa jedzenie, schronienie i podstawowe potrzeby jednego dziecka przez miesiąc">Covers food, shelter, and basic necessities for one child for a month</p>
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] rounded-full" style="width: 66%"></div>
+                    </div>
+                </div>
+                
+                <div class="impact-card p-8 rounded-xl text-center border-2 border-[#150f4b]/10 scale-in">
+                    <div class="bg-gradient-to-br from-[#150f4b] to-[#0f0a3a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 transform hover:rotate-6 transition-transform duration-300">
+                        <i class="fas fa-hands-helping text-white text-3xl"></i>
+                    </div>
+                    <div class="text-5xl font-bold bg-gradient-to-r from-[#150f4b] to-[#22c55e] bg-clip-text text-transparent mb-3">$500</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="Full Support" data-pl="Pełne Wsparcie">Full Support</h3>
+                    <p class="text-gray-600" data-en="Sponsors comprehensive care including education and healthcare for one child for three months" data-pl="Sponsoruje kompleksową opiekę, w tym edukację i opiekę zdrowotną dla jednego dziecka przez trzy miesiące">Sponsors comprehensive care including education and healthcare for one child for three months</p>
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Form -->
+    <section class="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-72 h-72 bg-[#22c55e]/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#150f4b]/5 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mx-auto">
+                <!-- Form Header -->
+                <div class="text-center mb-10 fade-in-up">
+                    <div class="inline-block bg-gradient-to-r from-[#22c55e] to-[#16a34a] px-4 py-2 rounded-full mb-4">
+                        <span class="text-sm font-semibold text-white" data-en="Make Your Contribution" data-pl="Przekaż Swoją Darowiznę">Make Your Contribution</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-[#150f4b] mb-4" data-en="Choose Your Donation Amount" data-pl="Wybierz Kwotę Darowizny">Choose Your Donation Amount</h2>
+                    <p class="text-gray-600" data-en="Every contribution helps us restore hope and transform lives" data-pl="Każdy wkład pomaga nam przywracać nadzieję i zmieniać życie">Every contribution helps us restore hope and transform lives</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 border border-gray-100 scale-in">
+                    <!-- Preset Amounts -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-4 text-center" data-en="Quick Select Amount" data-pl="Szybki Wybór Kwoty">Quick Select Amount</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="25">$25</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="50">$50</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="100">$100</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="250">$250</button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Amount -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-3 text-center" data-en="Or Enter Custom Amount" data-pl="Lub Wprowadź Własną Kwotę">Or Enter Custom Amount</label>
+                        <div class="relative">
+                            <span class="absolute left-5 top-1/2 transform -translate-y-1/2 text-[#150f4b] text-2xl font-bold">$</span>
+                            <input type="number" id="custom-amount" class="form-input w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl text-2xl font-bold text-center transition-all duration-300" placeholder="0.00" min="1">
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-8"></div>
+
+                    <!-- Donation Type -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-semibold mb-4" data-en="Donation Type" data-pl="Rodzaj Darowizny">Donation Type</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="donation-type" value="once" class="peer sr-only" checked>
+                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
+                                    <i class="fas fa-hand-holding-heart text-2xl text-gray-400 peer-checked:text-[#22c55e] mb-2"></i>
+                                    <p class="font-semibold text-gray-700" data-en="One-time" data-pl="Jednorazowa">One-time</p>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="donation-type" value="monthly" class="peer sr-only">
+                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
+                                    <i class="fas fa-sync-alt text-2xl text-gray-400 peer-checked:text-[#22c55e] mb-2"></i>
+                                    <p class="font-semibold text-gray-700" data-en="Monthly" data-pl="Miesięczna">Monthly</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Donor Information -->
+                    <div class="space-y-5 mb-8">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Full Name" data-pl="Imię i Nazwisko">
+                                <i class="fas fa-user text-[#150f4b] mr-2"></i>Full Name
+                            </label>
+                            <input type="text" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Email Address" data-pl="Adres Email">
+                                <i class="fas fa-envelope text-[#150f4b] mr-2"></i>Email Address
+                            </label>
+                            <input type="email" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2" data-en="Phone Number (Optional)" data-pl="Numer Telefonu (Opcjonalny)">
+                                <i class="fas fa-phone text-[#150f4b] mr-2"></i>Phone Number <span class="text-gray-400 text-sm">(Optional)</span>
+                            </label>
+                            <input type="tel" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="+1 234 567 890">
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="pulse-button w-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] text-white py-5 rounded-xl font-bold text-lg hover:from-[#16a34a] hover:to-[#15803d] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-3" data-en="Proceed to Payment" data-pl="Przejdź do Płatności">
+                        <i class="fas fa-lock text-xl"></i>
+                        <span>Proceed to Payment</span>
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </button>
+
+                    <!-- Security Badge -->
+                    <div class="mt-6 flex items-center justify-center gap-2 text-gray-600 text-sm">
+                        <i class="fas fa-shield-alt text-[#22c55e]"></i>
+                        <p data-en="Your donation is secure and tax-deductible" data-pl="Twoja darowizna jest bezpieczna i można ją odliczyć od podatku">Your donation is secure and tax-deductible</p>
+                    </div>
+                    
+                    <!-- Trust Badges -->
+                    <div class="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center gap-6 flex-wrap">
+                        <div class="flex items-center gap-2 text-gray-500">
+                            <i class="fas fa-lock text-lg"></i>
+                            <span class="text-xs font-medium">SSL Encrypted</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-500">
+                            <i class="fas fa-credit-card text-lg"></i>
+                            <span class="text-xs font-medium">Secure Payment</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-500">
+                            <i class="fas fa-check-circle text-lg"></i>
+                            <span class="text-xs font-medium">Verified Nonprofit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Ways to Help -->
+    <section class="py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#150f4b] mb-4" data-en="Other Ways to Help" data-pl="Inne Sposoby Pomocy">Other Ways to Help</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-en="Can't donate right now? There are many other ways you can support our mission" data-pl="Nie możesz teraz przekazać darowizny? Jest wiele innych sposobów, aby wesprzeć naszą misję">Can't donate right now? There are many other ways you can support our mission</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 stagger-animation">
+                <div class="group text-center p-8 bg-white rounded-2xl border-2 border-gray-100 hover:border-[#22c55e] transition-all duration-300 hover:shadow-xl scale-in">
+                    <div class="bg-gradient-to-br from-[#150f4b] to-[#0f0a3a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-5 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-hands-helping text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="Volunteer" data-pl="Wolontariat">Volunteer</h3>
+                    <p class="text-gray-600 mb-5 leading-relaxed" data-en="Share your time and skills to make a direct impact" data-pl="Podziel się swoim czasem i umiejętnościami, aby wywrzeć bezpośredni wpływ">Share your time and skills to make a direct impact</p>
+                    <a href="contact.html" class="inline-flex items-center gap-2 text-[#22c55e] font-bold hover:gap-3 transition-all duration-300" data-en="Learn More →" data-pl="Dowiedz Się Więcej →">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="group text-center p-8 bg-white rounded-2xl border-2 border-gray-100 hover:border-[#22c55e] transition-all duration-300 hover:shadow-xl scale-in">
+                    <div class="bg-gradient-to-br from-[#22c55e] to-[#16a34a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-5 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-gift text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="In-Kind Donations" data-pl="Darowizny Rzeczowe">In-Kind Donations</h3>
+                    <p class="text-gray-600 mb-5 leading-relaxed" data-en="Donate supplies, clothing, or equipment" data-pl="Przekaż materiały, ubrania lub sprzęt">Donate supplies, clothing, or equipment</p>
+                    <a href="contact.html" class="inline-flex items-center gap-2 text-[#22c55e] font-bold hover:gap-3 transition-all duration-300" data-en="Learn More →" data-pl="Dowiedz Się Więcej →">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="group text-center p-8 bg-white rounded-2xl border-2 border-gray-100 hover:border-[#22c55e] transition-all duration-300 hover:shadow-xl scale-in">
+                    <div class="bg-gradient-to-br from-[#150f4b] to-[#0f0a3a] w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-5 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-share-alt text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3" data-en="Spread the Word" data-pl="Rozpowszechnij">Spread the Word</h3>
+                    <p class="text-gray-600 mb-5 leading-relaxed" data-en="Share our mission with your network" data-pl="Podziel się naszą misją ze swoją siecią">Share our mission with your network</p>
+                    <div class="flex justify-center gap-3">
+                        <a href="#" class="w-10 h-10 bg-[#22c55e]/10 hover:bg-[#22c55e] text-[#22c55e] hover:text-white rounded-full flex items-center justify-center transition-all duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-[#22c55e]/10 hover:bg-[#22c55e] text-[#22c55e] hover:text-white rounded-full flex items-center justify-center transition-all duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-[#22c55e]/10 hover:bg-[#22c55e] text-[#22c55e] hover:text-white rounded-full flex items-center justify-center transition-all duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        // Donation button interactions
+        document.querySelectorAll('.donation-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update the custom amount input
+                document.getElementById('custom-amount').value = this.dataset.amount;
+                
+                // Remove selected class from all buttons
+                document.querySelectorAll('.donation-btn').forEach(b => {
+                    b.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
+            });
+        });
+        
+        // Clear button selection when custom amount is entered
+        document.getElementById('custom-amount').addEventListener('input', function() {
+            if (this.value) {
+                document.querySelectorAll('.donation-btn').forEach(b => {
+                    b.classList.remove('selected');
+                });
+            }
+        });
+        
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+            animatedElements.forEach(function(el) {
+                scrollAnimationObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+

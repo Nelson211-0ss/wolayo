@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Programs - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-animation > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-animation > *:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-animation > *:nth-child(6) { transition-delay: 0.6s; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-20 sm:py-24 md:py-28 mt-16 sm:mt-20">
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/DSC_9101.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/95 to-[#0f0a3a]/90"></div>
+        </div>
+        
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6" data-en="Our Programs" data-pl="Nasze Programy">Our Programs</h1>
+            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto" data-en="Transforming lives through education, healthcare, and family support" data-pl="Transformacja życia poprzez edukację, opiekę zdrowotną i wsparcie rodzin">Transforming lives through education, healthcare, and family support</p>
+        </div>
+    </section>
+
+    <!-- Core Programs -->
+    <section class="py-16 sm:py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16">
+                <span class="inline-block bg-[#22c55e]/10 text-[#22c55e] px-4 py-2 rounded-full text-sm font-semibold mb-4" data-en="WHAT WE DO" data-pl="CO ROBIMY">WHAT WE DO</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4" data-en="Core Programs" data-pl="Główne Programy">Core Programs</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-en="Comprehensive support to break the cycle of poverty" data-pl="Kompleksowe wsparcie w przerwaniu cyklu ubóstwa">Comprehensive support to break the cycle of poverty</p>
+            </div>
+
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 stagger-animation">
+                <!-- Program 1: Education -->
+                <div class="group bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden fade-in-up">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-[#22c55e] w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800" data-en="Education Support" data-pl="Wsparcie Edukacyjne">Education Support</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-en="Providing school fees, uniforms, and supplies to ensure every child has access to quality education." data-pl="Zapewnianie opłat szkolnych, mundurków i przyborów, aby każde dziecko miało dostęp do edukacji.">Providing school fees, uniforms, and supplies to ensure every child has access to quality education.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Full tuition coverage" data-pl="Pełne pokrycie czesnego">Full tuition coverage</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="School supplies & uniforms" data-pl="Przybory i mundurki szkolne">School supplies & uniforms</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Tutoring programs" data-pl="Programy korepetycji">Tutoring programs</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Program 2: Healthcare -->
+                <div class="group bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden fade-in-up">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-[#150f4b] w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800" data-en="Healthcare Services" data-pl="Usługi Zdrowotne">Healthcare Services</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-en="Comprehensive healthcare and nutrition programs to keep children healthy and thriving." data-pl="Kompleksowe programy opieki zdrowotnej i żywienia, aby dzieci były zdrowe.">Comprehensive healthcare and nutrition programs to keep children healthy and thriving.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Medical checkups" data-pl="Kontrole medyczne">Medical checkups</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Nutrition programs" data-pl="Programy żywieniowe">Nutrition programs</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Health education" data-pl="Edukacja zdrowotna">Health education</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Program 3: Mentorship -->
+                <div class="group bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden fade-in-up">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-[#22c55e] w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-hands-helping text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800" data-en="Mentorship & Counseling" data-pl="Mentoring i Poradnictwo">Mentorship & Counseling</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-en="Providing guidance and support to help children develop life skills and build self-worth." data-pl="Zapewnianie wskazówek i wsparcia, aby pomóc dzieciom rozwijać umiejętności życiowe.">Providing guidance and support to help children develop life skills and build self-worth.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="One-on-one mentorship" data-pl="Mentoring jeden na jeden">One-on-one mentorship</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Life skills workshops" data-pl="Warsztaty umiejętności życiowych">Life skills workshops</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Counseling services" data-pl="Usługi doradcze">Counseling services</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Program 4: Family Support -->
+                <div class="group bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden fade-in-up">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-[#150f4b] w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-home text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800" data-en="Family Strengthening" data-pl="Wzmacnianie Rodzin">Family Strengthening</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-en="Supporting families with resources and training to create stable, nurturing home environments." data-pl="Wspieranie rodzin zasobami i szkoleniem w celu stworzenia stabilnego środowiska domowego.">Supporting families with resources and training to create stable, nurturing home environments.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Parenting training" data-pl="Szkolenie rodzicielskie">Parenting training</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Economic empowerment" data-pl="Wzmocnienie ekonomiczne">Economic empowerment</span>
+                            </li>
+                            <li class="flex items-start text-gray-700">
+                                <i class="fas fa-check-circle text-[#22c55e] mr-3 mt-1"></i>
+                                <span data-en="Crisis intervention" data-pl="Interwencja kryzysowa">Crisis intervention</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Programs -->
+    <section class="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4" data-en="Community Impact" data-pl="Wpływ Społeczności">Community Impact</h2>
+                    <p class="text-lg text-gray-600" data-en="Building stronger communities through outreach and spiritual development" data-pl="Budowanie silniejszych społeczności poprzez działania i rozwój duchowy">Building stronger communities through outreach and spiritual development</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Community Outreach -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-[#22c55e]/10 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-users text-[#22c55e] text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4" data-en="Community Outreach" data-pl="Wsparcie Społeczności">Community Outreach</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4" data-en="Organizing workshops, health awareness programs, and mentorship camps to reduce poverty-driven child exploitation." data-pl="Organizowanie warsztatów, programów świadomości zdrowotnej i obozów mentorskich w celu zmniejszenia wyzysku dzieci.">Organizing workshops, health awareness programs, and mentorship camps to reduce poverty-driven child exploitation.</p>
+                    </div>
+
+                    <!-- Spiritual Development -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-[#150f4b]/10 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-cross text-[#150f4b] text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4" data-en="Spiritual Development" data-pl="Rozwój Duchowy">Spiritual Development</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4" data-en="Integrating faith-based teachings to nurture strong moral character and resilience in children." data-pl="Integrowanie nauk opartych na wierze w celu pielęgnowania silnego charakteru moralnego.">Integrating faith-based teachings to nurture strong moral character and resilience in children.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Statistics -->
+    <section class="py-16 sm:py-20 bg-gradient-to-r from-[#150f4b] to-[#0f0a3a] text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-en="Our Impact" data-pl="Nasz Wpływ">Our Impact</h2>
+                    <p class="text-lg text-gray-200" data-en="Transforming lives across Eastern Uganda" data-pl="Transformacja życia we wschodniej Ugandzie">Transforming lives across Eastern Uganda</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-[#22c55e] w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-graduation-cap text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2" data-en="School Reintegration" data-pl="Reintegracja Szkolna">School Reintegration</h4>
+                                <p class="text-gray-200 text-sm" data-en="Children returned to school from street situations" data-pl="Dzieci powróciły do szkoły z sytuacji ulicznych">Children returned to school from street situations</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-[#22c55e] w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-female text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2" data-en="Empowering Girls" data-pl="Wzmacnianie Dziewcząt">Empowering Girls</h4>
+                                <p class="text-gray-200 text-sm" data-en="Young girls mentored to pursue education" data-pl="Młode dziewczęta mentoringowane do kontynuacji edukacji">Young girls mentored to pursue education</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-[#22c55e] w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-hands-helping text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2" data-en="Family Support" data-pl="Wsparcie Rodzin">Family Support</h4>
+                                <p class="text-gray-200 text-sm" data-en="Families supported during crisis" data-pl="Rodziny wspierane podczas kryzysu">Families supported during crisis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-[#22c55e] w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-users text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2" data-en="Community Awareness" data-pl="Świadomość Społeczna">Community Awareness</h4>
+                                <p class="text-gray-200 text-sm" data-en="Fostering stronger, resilient communities" data-pl="Wspieranie silniejszych społeczności">Fostering stronger, resilient communities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="donate.html" class="inline-block bg-[#22c55e] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#16a34a] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform" data-en="Support Our Programs" data-pl="Wesprzyj Nasze Programy">Support Our Programs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            animatedElements.forEach(function(el) {
+                scrollAnimationObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+

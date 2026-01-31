@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        p { font-size: 1rem; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+        }
+        
+        /* Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scale-in.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Stagger animation delay for children */
+        .stagger-animation > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-animation > *:nth-child(5) { transition-delay: 0.5s; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 mt-16 sm:mt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <div class="w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('images/gather.jpeg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/90 to-[#0f0a3a]/80"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6" data-en="About Us" data-pl="O Nas">About Us</h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto px-2" data-en="Our Story, Vision, and Team - Learn about our journey and the people behind our mission" data-pl="Nasza Historia, Wizja i Zespół - Poznaj naszą podróż i ludzi stojących za naszą misją">Our Story, Vision, and Team - Learn about our journey and the people behind our mission</p>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+                    <div class="fade-in-left">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 sm:mb-6" data-en="Background" data-pl="Historia">Background</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-justify" data-en="Wolayo is a Ugandan-based non-profit organization founded by Mrs. Cieciora Sheila, a visionary leader whose personal story of resilience and faith inspired her to act. Growing up in Eastern Uganda, an area deeply affected by poverty, Sheila witnessed firsthand the struggles of children and families—broken homes, young girls giving birth before the age of 18, and the absence of father figures." data-pl="Wolayo to ugandyjska organizacja non-profit założona przez Panią Cieciora Sheila, wizjonerską liderkę, której osobista historia odporności i wiary zainspirowała ją do działania. Dorastając we wschodniej Ugandzie, obszarze głęboko dotkniętym ubóstwem, Sheila była świadkiem na własne oczy walk dzieci i rodzin—rozbitych domów, młodych dziewcząt rodzących przed 18. rokiem życia i braku postaci ojców.">Wolayo is a Ugandan-based non-profit organization founded by Mrs. Cieciora Sheila, a visionary leader whose personal story of resilience and faith inspired her to act. Growing up in Eastern Uganda, an area deeply affected by poverty, Sheila witnessed firsthand the struggles of children and families—broken homes, young girls giving birth before the age of 18, and the absence of father figures.</p>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-justify" data-en="These circumstances often forced children onto the streets, robbing them of their futures. Out of this burden grew her calling: to light a candle of hope and restore dignity to underprivileged children by creating opportunities for a brighter tomorrow." data-pl="Te okoliczności często zmuszały dzieci na ulice, pozbawiając je ich przyszłości. Z tego brzemienia narodziło się jej powołanie: zapalić świecę nadziei i przywrócić godność dzieciom z ubogich rodzin, tworząc możliwości na lepsze jutro.">These circumstances often forced children onto the streets, robbing them of their futures. Out of this burden grew her calling: to light a candle of hope and restore dignity to underprivileged children by creating opportunities for a brighter tomorrow.</p>
+                        
+                        <!-- Founder Quote -->
+                        <div class="bg-gradient-to-r from-[#150f4b]/5 to-[#22c55e]/5 p-4 sm:p-6 rounded-lg border-l-4 border-[#22c55e] mt-6 sm:mt-8">
+                            <blockquote class="text-gray-700 italic text-sm sm:text-base md:text-lg">
+                                <span data-en="\"Every child deserves a chance to dream, to hope, and to build a future filled with possibilities. This is not just our mission—it's our calling.\"" data-pl="\"Każde dziecko zasługuje na szansę marzenia, nadziei i budowania przyszłości pełnej możliwości. To nie tylko nasza misja—to nasze powołanie.\"">"Every child deserves a chance to dream, to hope, and to build a future filled with possibilities. This is not just our mission—it's our calling."</span>
+                            </blockquote>
+                            <cite class="text-[#150f4b] font-semibold mt-2 block text-sm sm:text-base" data-en="— Mrs. Cieciora Sheila, Founder" data-pl="— Pani Cieciora Sheila, Założycielka">— Mrs. Cieciora Sheila, Founder</cite>
+                        </div>
+                    </div>
+                    <div class="fade-in-right">
+                        <img src="images/sheila.jpg" alt="Our story" class="rounded-lg shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-[#150f4b] mb-4">
+                        <i class="fas fa-eye text-4xl"></i>
+                    </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4" data-en="Our Vision" data-pl="Nasza Wizja">Our Vision</h3>
+                        <p class="text-gray-600 leading-relaxed text-justify" data-en="A Uganda where every child has the opportunity to thrive—physically, emotionally, and spiritually—regardless of their socio-economic background." data-pl="Uganda, w której każde dziecko ma możliwość rozwoju—fizycznego, emocjonalnego i duchowego—niezależnie od swojego pochodzenia społeczno-ekonomicznego.">A Uganda where every child has the opportunity to thrive—physically, emotionally, and spiritually—regardless of their socio-economic background.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="text-[#150f4b] mb-4">
+                        <i class="fas fa-bullseye text-4xl"></i>
+                    </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4" data-en="Our Mission" data-pl="Nasza Misja">Our Mission</h3>
+                        <p class="text-gray-600 leading-relaxed text-justify" data-en="Our mission is to restore hope to underprivileged children in Uganda by breaking the cycle of poverty, nurturing strong values, and mentoring the next generation into responsible and God-centered citizens of society." data-pl="Naszą misją jest przywrócenie nadziei bezbronnym dzieciom w Ugandzie poprzez przerwanie cyklu ubóstwa, pielęgnowanie silnych wartości i mentoring następnego pokolenia, aby stali się odpowiedzialnymi i Bogu oddanymi obywatelami społeczeństwa.">Our mission is to restore hope to underprivileged children in Uganda by breaking the cycle of poverty, nurturing strong values, and mentoring the next generation into responsible and God-centered citizens of society.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Boy Child Restoration Focus -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+                    <div class="fade-in-right order-2 lg:order-1">
+                        <img src="images/kid.jpeg" alt="Boy Child Restoration" class="rounded-lg shadow-xl">
+                    </div>
+                    <div class="fade-in-left order-1 lg:order-2">
+                        <div class="mb-4">
+                            <span class="inline-block bg-[#22c55e] text-white px-4 py-2 rounded-full text-sm font-semibold" data-en="Special Focus" data-pl="Specjalny Fokus">Special Focus</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 sm:mb-6" data-en="Restoring the Boy Child" data-pl="Przywracanie Chłopca">Restoring the Boy Child</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-justify" data-en="At Wolayo, we recognize the critical need to restore and empower the boy child in Uganda. In many communities, boys face unique challenges—lack of positive male role models, exposure to violence, early school dropout, and limited opportunities for mentorship. These factors often lead to a cycle of poverty, delinquency, and broken futures." data-pl="W Wolayo uznajemy krytyczną potrzebę przywrócenia i wzmocnienia chłopca w Ugandzie. W wielu społecznościach chłopcy stoją przed unikalnymi wyzwaniami—brakiem pozytywnych męskich wzorców, narażeniem na przemoc, wczesnym porzuceniem szkoły i ograniczonymi możliwościami mentoringu. Te czynniki często prowadzą do cyklu ubóstwa, przestępczości i zniszczonych przyszłości.">At Wolayo, we recognize the critical need to restore and empower the boy child in Uganda. In many communities, boys face unique challenges—lack of positive male role models, exposure to violence, early school dropout, and limited opportunities for mentorship. These factors often lead to a cycle of poverty, delinquency, and broken futures.</p>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-justify" data-en="Our commitment is to break this cycle by providing boys with strong mentorship, faith-based guidance, education, and life skills training. We believe that when boys are nurtured with the right values, discipline, and opportunities, they become responsible fathers, leaders, and pillars of their communities." data-pl="Naszym zobowiązaniem jest przerwanie tego cyklu poprzez zapewnienie chłopcom silnego mentoringu, przewodnictwa opartego na wierze, edukacji i treningu umiejętności życiowych. Wierzymy, że gdy chłopcy są wychowywani z odpowiednimi wartościami, dyscypliną i możliwościami, stają się odpowiedzialnymi ojcami, liderami i filarami swoich społeczności.">Our commitment is to break this cycle by providing boys with strong mentorship, faith-based guidance, education, and life skills training. We believe that when boys are nurtured with the right values, discipline, and opportunities, they become responsible fathers, leaders, and pillars of their communities.</p>
+                        
+                        <!-- Key Focus Areas -->
+                        <div class="mt-6 space-y-3">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-[#150f4b] rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-user-tie text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1" data-en="Male Mentorship Programs" data-pl="Programy Mentoringu Męskiego">Male Mentorship Programs</h4>
+                                    <p class="text-gray-600 text-sm" data-en="Connecting boys with positive role models and father figures" data-pl="Łączenie chłopców z pozytywnymi wzorcami i postaciami ojców">Connecting boys with positive role models and father figures</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-[#22c55e] rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-book-reader text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1" data-en="Character & Leadership Training" data-pl="Trening Charakteru i Przywództwa">Character & Leadership Training</h4>
+                                    <p class="text-gray-600 text-sm" data-en="Building integrity, responsibility, and servant leadership" data-pl="Budowanie uczciwości, odpowiedzialności i służebnego przywództwa">Building integrity, responsibility, and servant leadership</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-[#150f4b] rounded-full flex items-center justify-center mr-3 mt-1">
+                                    <i class="fas fa-tools text-white text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1" data-en="Vocational Skills Development" data-pl="Rozwój Umiejętności Zawodowych">Vocational Skills Development</h4>
+                                    <p class="text-gray-600 text-sm" data-en="Equipping boys with practical skills for sustainable livelihoods" data-pl="Wyposażanie chłopców w praktyczne umiejętności dla zrównoważonego utrzymania">Equipping boys with practical skills for sustainable livelihoods</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Call to Action Quote -->
+                        <div class="bg-gradient-to-r from-[#150f4b]/5 to-[#22c55e]/5 p-4 sm:p-5 rounded-lg border-l-4 border-[#150f4b] mt-6">
+                            <p class="text-gray-700 font-semibold italic text-sm sm:text-base">
+                                <span data-en="\"A restored boy child today is a restored family tomorrow.\"" data-pl="\"Przywrócony chłopiec dzisiaj to przywrócona rodzina jutro.\"">"A restored boy child today is a restored family tomorrow."</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4" data-en="Core Values" data-pl="Wartości Podstawowe">Core Values</h2>
+                <p class="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-2" data-en="These fundamental principles guide everything we do and shape how we serve the children and communities in Uganda." data-pl="Te fundamentalne zasady kierują wszystkim, co robimy i kształtują sposób, w jaki służymy dzieciom i społecznościom w Ugandzie.">These fundamental principles guide everything we do and shape how we serve the children and communities in Uganda.</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 stagger-animation">
+                    <!-- First 3 cards in row 1 -->
+                    <div class="lg:col-span-1">
+                    <!-- Hope -->
+                    <div class="text-center p-5 sm:p-6 bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/5 rounded-lg sm:rounded-xl hover:shadow-lg transition-shadow duration-300 fade-in-up">
+                        <div class="bg-[#22c55e] w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                            <i class="fas fa-lightbulb text-white text-xl sm:text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-bold text-[#150f4b] mb-2 sm:mb-3" data-en="Hope" data-pl="Nadzieja">Hope</h3>
+                        <p class="text-gray-600" data-en="Inspiring belief in a brighter future for every child." data-pl="Inspirowanie wiary w jaśniejszą przyszłość dla każdego dziecka.">Inspiring belief in a brighter future for every child.</p>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-1">
+                    <!-- Faith -->
+                    <div class="text-center p-6 bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/5 rounded-xl hover:shadow-lg transition-shadow duration-300 fade-in-up">
+                        <div class="bg-[#150f4b] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-cross text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#150f4b] mb-3" data-en="Faith" data-pl="Wiara">Faith</h3>
+                        <p class="text-gray-600" data-en="Building lives on a strong pillar of God's guidance." data-pl="Budowanie życia na silnym filarze Bożego przewodnictwa.">Building lives on a strong pillar of God's guidance.</p>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-1">
+                    <!-- Integrity -->
+                    <div class="text-center p-6 bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/5 rounded-xl hover:shadow-lg transition-shadow duration-300 fade-in-up">
+                        <div class="bg-[#22c55e] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#150f4b] mb-3" data-en="Integrity" data-pl="Uczciwość">Integrity</h3>
+                        <p class="text-gray-600" data-en="Acting with honesty, accountability, and compassion." data-pl="Działanie z uczciwością, odpowiedzialnością i współczuciem.">Acting with honesty, accountability, and compassion.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Second row with 2 centered cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto mt-4 sm:mt-6 md:mt-8 stagger-animation">
+                <div>
+                    <!-- Restoration -->
+                    <div class="text-center p-6 bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/5 rounded-xl hover:shadow-lg transition-shadow duration-300 fade-in-up">
+                        <div class="bg-[#150f4b] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-hands-helping text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#150f4b] mb-3" data-en="Restoration" data-pl="Przywrócenie">Restoration</h3>
+                        <p class="text-gray-600" data-en="Rebuilding broken lives, families, and communities." data-pl="Odbudowywanie zniszczonych żyć, rodzin i społeczności.">Rebuilding broken lives, families, and communities.</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <!-- Empowerment -->
+                    <div class="text-center p-6 bg-gradient-to-br from-[#150f4b]/5 to-[#22c55e]/5 rounded-xl hover:shadow-lg transition-shadow duration-300 fade-in-up">
+                        <div class="bg-[#22c55e] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-graduate text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#150f4b] mb-3" data-en="Empowerment" data-pl="Wzmocnienie">Empowerment</h3>
+                        <p class="text-gray-600" data-en="Equipping children with education, skills, and mentorship to transform society." data-pl="Wyposażanie dzieci w edukację, umiejętności i mentoring, aby przekształcać społeczeństwo.">Equipping children with education, skills, and mentorship to transform society.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-12" data-en="Our Core Values" data-pl="Nasze Wartości">Our Core Values</h2>
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="bg-[#150f4b]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-[#150f4b] text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-3" data-en="Compassion" data-pl="Współczucie">Compassion</h4>
+                    <p class="text-gray-600" data-en="We approach every child with empathy, understanding, and unconditional love." data-pl="Podchodzimy do każdego dziecka z empatią, zrozumieniem i bezwarunkową miłością.">We approach every child with empathy, understanding, and unconditional love.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="bg-[#150f4b]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-handshake text-[#150f4b] text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-3" data-en="Integrity" data-pl="Uczciwość">Integrity</h4>
+                    <p class="text-gray-600" data-en="We operate with transparency, honesty, and accountability in all our actions." data-pl="Działamy z przejrzystością, uczciwością i odpowiedzialnością we wszystkich naszych działaniach.">We operate with transparency, honesty, and accountability in all our actions.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="bg-[#150f4b]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-[#150f4b] text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-3" data-en="Community" data-pl="Społeczność">Community</h4>
+                    <p class="text-gray-600" data-en="We believe in the power of community and work together to create lasting change." data-pl="Wierzymy w siłę społeczności i współpracujemy, aby stworzyć trwałą zmianę.">We believe in the power of community and work together to create lasting change.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-12 sm:py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 sm:mb-12 fade-in-up">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4" data-en="Meet Our Team" data-pl="Poznaj Nasz Zespół">Meet Our Team</h2>
+                <p class="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-2" data-en="Dedicated professionals committed to transforming the lives of children in Uganda" data-pl="Oddani profesjonaliści zaangażowani w transformację życia dzieci w Ugandzie">Dedicated professionals committed to transforming the lives of children in Uganda</p>
+            </div>
+            
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 stagger-animation">
+                <!-- Team Member 1: Co-Founder & President -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 scale-in">
+                    <div class="relative overflow-hidden h-80 bg-gray-100">
+                        <img src="images/sheila.jpg" alt="Mrs. Cieciora Sheila" class="w-full h-full object-contain md:object-cover md:object-top group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#150f4b]/90 via-[#150f4b]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                            <div class="flex gap-3">
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6">
+                        <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-1">Mrs. Cieciora Sheila</h4>
+                        <p class="text-[#150f4b] font-semibold mb-2 text-sm" data-en="Co-Founder & President" data-pl="Współzałożycielka i Prezes">Co-Founder and CEO</p>
+                        <p class="text-gray-600 text-xs leading-relaxed" data-en="Visionary leader, child advocate, and faith-driven mentor" data-pl="Wizjonerski lider, obrońca dzieci i mentor kierowany wiarą">Visionary leader, child advocate, and faith-driven mentor</p>
+                    </div>
+                </div>
+
+                <!-- Team Member 2: Co-Founder -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 scale-in">
+                    <div class="relative overflow-hidden h-80 bg-gray-100">
+                        <img src="images/cofounder.jpeg" alt="Mr. Cieciora Jan Stanislaw" class="w-full h-full object-contain md:object-cover md:object-top group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#150f4b]/90 via-[#150f4b]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                            <div class="flex gap-3">
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6">
+                        <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-1">Mr. Cieciora Jan Stanislaw</h4>
+                        <p class="text-[#150f4b] font-semibold mb-2 text-sm" data-en="Co-Founder" data-pl="Współzałożyciel">Co-Founder & President</p>
+                        <p class="text-gray-600 text-xs leading-relaxed" data-en="Strategic advisor and supporter of child welfare initiatives" data-pl="Doradca strategiczny i zwolennik inicjatyw na rzecz dobra dzieci">Strategic advisor and supporter of child welfare initiatives</p>
+                    </div>
+                </div>
+
+                <!-- Team Member 3: Director of Operations -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 scale-in">
+                    <div class="relative overflow-hidden h-80 bg-gray-100">
+                        <img src="images/Shakiib copy.jpg" alt="Shakiib Wauyo" class="w-full h-full object-contain md:object-cover md:object-top group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#150f4b]/90 via-[#150f4b]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                            <div class="flex gap-3">
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-white text-[#150f4b] rounded-full flex items-center justify-center hover:bg-[#22c55e] hover:text-white transition-all duration-300 transform hover:scale-110">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6">
+                        <h4 class="text-lg sm:text-xl font-bold text-gray-800 mb-1">Shakiib Wauyo</h4>
+                        <p class="text-[#150f4b] font-semibold mb-2 text-sm" data-en="Director of Operations" data-pl="Dyrektor ds. Operacji">Director of Operations</p>
+                        <p class="text-gray-600 text-xs leading-relaxed" data-en="Oversees daily programs, partnerships, and logistics in Uganda" data-pl="Nadzoruje codzienne programy, partnerstwa i logistykę w Ugandzie">Oversees daily programs, partnerships, and logistics in Uganda</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+            animatedElements.forEach(el => scrollAnimationObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
+

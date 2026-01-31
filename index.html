@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wolayo Child Restoration - Transforming Lives Through Hope</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/fonts.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+        
+        /* Modern gradient backgrounds */
+        .gradient-primary {
+            background: linear-gradient(135deg, #150f4b 0%, #1e1654 50%, #2a1b5e 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+        
+        .gradient-overlay {
+            background: linear-gradient(135deg, rgba(21, 15, 75, 0.95) 0%, rgba(15, 10, 58, 0.85) 100%);
+        }
+        
+        /* Hero Slider Styles */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        /* Ken Burns effect for hero slides */
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1) translateX(0);
+            }
+            100% {
+                transform: scale(1.1) translateX(-20px);
+            }
+        }
+        
+        .hero-slide.active {
+            animation: kenBurns 20s ease-out infinite alternate;
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Fade in animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scale-in.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Stagger animation delays */
+        .stagger-animation > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-animation > *:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-animation > *:nth-child(6) { transition-delay: 0.6s; }
+        
+        /* Modern card hover effects */
+        .card-modern {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Slider dots */
+        .slider-dot {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slider-dot.active {
+            background-color: #22c55e !important;
+            transform: scale(1.4);
+            width: 2.5rem !important;
+            border-radius: 1rem;
+        }
+        
+        /* Stats counter animation */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 20px 10px rgba(34, 197, 94, 0.2);
+            }
+        }
+        
+        .stat-card {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        .scroll-to-top:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.6);
+            transform: scale(1.1) translateY(-5px);
+        }
+        
+        .scroll-to-top:active {
+            transform: scale(0.95);
+        }
+        
+        /* Parallax sections */
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 6px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        }
+        
+        /* Responsive typography */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.125rem; }
+            
+            .scroll-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 20px;
+            }
+        }
+        
+        /* Image overlay effects */
+        .overlay-gradient {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .overlay-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .overlay-gradient:hover::before {
+            opacity: 0.8;
+        }
+        
+        /* Button effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header will be loaded dynamically -->
+    <div id="header-container"></div>
+
+    <!-- Hero Section with Background Slider -->
+    <section class="relative overflow-hidden min-h-screen mt-16 sm:mt-20 flex items-center">
+        <!-- Background Image Slider -->
+        <div class="absolute inset-0">
+            <div class="hero-slider">
+                <!-- Slide 1 -->
+                <div class="hero-slide active" style="background-image: url('images/DSC_9101.jpeg');">
+                    <div class="absolute inset-0 gradient-overlay"></div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="hero-slide" style="background-image: url('images/gather.jpeg');">
+                    <div class="absolute inset-0 gradient-overlay"></div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="hero-slide" style="background-image: url('images/distribute.jpeg');">
+                    <div class="absolute inset-0 gradient-overlay"></div>
+                </div>
+                <!-- Slide 4 -->
+                <div class="hero-slide" style="background-image: url('images/treat.jpeg');">
+                    <div class="absolute inset-0 gradient-overlay"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute top-20 right-10 w-72 h-72 bg-[#22c55e] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-20 left-10 w-96 h-96 bg-[#150f4b] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10 w-full py-20 sm:py-24 lg:py-32">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div class="text-white space-y-8 sm:space-y-10">
+                        <!-- Badge -->
+                        <div class="inline-flex items-center glass px-6 py-3 rounded-full shadow-lg">
+                            <i class="fas fa-heart text-[#22c55e] mr-2 animate-pulse"></i>
+                            <span class="text-sm sm:text-base font-semibold text-white" data-en="Making a Difference Since 2025" data-pl="Tworzenie Różnicy Od 2025">Making a Difference Since 2025</span>
+                            </div>
+                        
+                        <!-- Main Heading -->
+                        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight px-4">
+                            <span class="block mb-2" data-en="Restoring Hope" data-pl="Przywracanie Nadziei">Restoring <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#22c55e] to-[#10b981]">Hope</span></span>
+                            <span class="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl" data-en="Transforming Lives" data-pl="Transformacja Życia">Transforming Lives</span>
+                            </h1>
+                        
+                        <!-- Description -->
+                        <p class="text-lg sm:text-xl md:text-2xl text-gray-200 leading-relaxed max-w-3xl mx-auto px-4 font-light" data-en="Wolayo Child Restoration is dedicated to providing comprehensive care, quality education, and a brighter future for vulnerable children in our community." data-pl="Wolayo Child Restoration jest dedykowane zapewnianiu kompleksowej opieki, wysokiej jakości edukacji i lepszej przyszłości dla bezbronnych dzieci w naszej społeczności.">Providing comprehensive care, quality education, and a brighter future for vulnerable children in Uganda</p>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-4">
+                            <a href="donate.html" class="btn-primary group gradient-accent text-white px-10 py-5 rounded-full font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 shadow-xl w-full sm:w-auto">
+                                <span class="flex items-center justify-center gap-3">
+                                    <i class="fas fa-heart group-hover:scale-110 transition-transform"></i>
+                                    <span data-en="Donate Now" data-pl="Przekaż Darowiznę">Donate Now</span>
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </a>
+                            <a href="about.html" class="group glass text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white hover:text-[#150f4b] transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                                <span class="flex items-center justify-center gap-3">
+                                    <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                                    <span data-en="Learn More" data-pl="Dowiedz Się Więcej">Learn More</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slider Navigation Dots -->
+        <div class="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 z-20">
+            <div class="flex items-center space-x-3">
+                <button class="slider-dot active w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-all duration-300"></button>
+                <button class="slider-dot w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-all duration-300"></button>
+                <button class="slider-dot w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-all duration-300"></button>
+                <button class="slider-dot w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-all duration-300"></button>
+            </div>
+        </div>
+        
+        <!-- Slider Navigation Arrows -->
+        <button class="slider-prev absolute left-4 sm:left-8 top-1/2 transform -translate-y-1/2 z-20 glass text-white p-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-110">
+            <i class="fas fa-chevron-left text-xl"></i>
+        </button>
+        <button class="slider-next absolute right-4 sm:right-8 top-1/2 transform -translate-y-1/2 z-20 glass text-white p-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-110">
+            <i class="fas fa-chevron-right text-xl"></i>
+        </button>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 hidden md:block z-20">
+            <div class="flex flex-col items-center gap-2 float-animation">
+                <span class="text-white text-sm font-medium">Scroll Down</span>
+                <i class="fas fa-chevron-down text-white text-xl"></i>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Mission Statement -->
+    <section class="py-20 sm:py-24 md:py-32 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto text-center">
+                <div class="inline-flex items-center bg-[#22c55e]/10 px-6 py-3 rounded-full mb-6">
+                    <span class="text-sm font-semibold text-[#22c55e] uppercase tracking-wider" data-en="Our Mission" data-pl="Nasza Misja">Our Mission</span>
+        </div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-[#150f4b] leading-tight" data-en="Building a Brighter Future" data-pl="Budowanie Lepszej Przyszłości">Building a Brighter Future<br><span class="text-[#22c55e]">One Child at a Time</span></h2>
+                <p class="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-12" data-en="We believe every child deserves love, education, and opportunity" data-pl="Wierzymy, że każde dziecko zasługuje na miłość, edukację i możliwości">We believe every child deserves love, education, and opportunity to reach their full potential</p>
+                
+                <!-- Impact Metrics -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                    <div class="fade-in-up">
+                        <div class="relative bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] rounded-3xl p-8 text-white shadow-2xl stat-card">
+                            <div class="absolute top-4 right-4 w-16 h-16 bg-[#22c55e]/20 rounded-full blur-xl"></div>
+                            <i class="fas fa-child text-4xl text-[#22c55e] mb-4"></i>
+                            <div class="text-5xl sm:text-6xl font-bold mb-2 counter" data-target="200">0</div>
+                            <p class="text-sm sm:text-base text-gray-300" data-en="Children Helped" data-pl="Dzieci Wsparte">Children Helped</p>
+                    </div>
+                </div>
+                
+                    <div class="fade-in-up">
+                        <div class="relative bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] rounded-3xl p-8 text-white shadow-2xl stat-card">
+                            <div class="absolute top-4 right-4 w-16 h-16 bg-[#22c55e]/20 rounded-full blur-xl"></div>
+                            <i class="fas fa-calendar-alt text-4xl text-[#22c55e] mb-4"></i>
+                            <div class="text-5xl sm:text-6xl font-bold mb-2 counter" data-target="1">0</div>
+                            <p class="text-sm sm:text-base text-gray-300" data-en="Years" data-pl="Lat">Years</p>
+                    </div>
+                </div>
+                
+                    <div class="fade-in-up">
+                        <div class="relative bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] rounded-3xl p-8 text-white shadow-2xl stat-card">
+                            <div class="absolute top-4 right-4 w-16 h-16 bg-[#22c55e]/20 rounded-full blur-xl"></div>
+                            <i class="fas fa-users text-4xl text-[#22c55e] mb-4"></i>
+                            <div class="text-5xl sm:text-6xl font-bold mb-2 counter" data-target="3">0</div>
+                            <p class="text-sm sm:text-base text-gray-300" data-en="Volunteers" data-pl="Wolontariuszy">Volunteers</p>
+                    </div>
+                </div>
+                
+                    <div class="fade-in-up">
+                        <div class="relative bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] rounded-3xl p-8 text-white shadow-2xl stat-card">
+                            <div class="absolute top-4 right-4 w-16 h-16 bg-[#22c55e]/20 rounded-full blur-xl"></div>
+                            <i class="fas fa-chart-line text-4xl text-[#22c55e] mb-4"></i>
+                            <div class="text-5xl sm:text-6xl font-bold mb-2 counter" data-target="10">0</div>
+                            <p class="text-sm sm:text-base text-gray-300" data-en="Success Rate" data-pl="Sukces">Success Rate</p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class="py-20 sm:py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center bg-[#150f4b]/10 px-6 py-3 rounded-full mb-6">
+                    <span class="text-sm font-semibold text-[#150f4b] uppercase tracking-wider" data-en="Our Goals" data-pl="Nasze Cele">Our Goals</span>
+                </div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[#150f4b] mb-6" data-en="Strategic Objectives" data-pl="Cele Strategiczne">Strategic Objectives</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto" data-en="Five pillars guiding our mission" data-pl="Pięć filarów naszej misji">Five pillars guiding our mission to transform lives and communities in Uganda</p>
+            </div>
+            
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
+                    <!-- Goal 1: Child Restoration -->
+                    <div class="card-modern bg-white p-8 rounded-3xl shadow-lg fade-in-up group">
+                        <div class="relative">
+                            <div class="absolute -top-4 -left-4 w-20 h-20 bg-[#22c55e]/20 rounded-full blur-2xl group-hover:bg-[#22c55e]/30 transition-all"></div>
+                            <div class="relative flex items-center gap-4 mb-6">
+                                <div class="bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] w-16 h-16 rounded-2xl flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">1</span>
+                            </div>
+                                <div class="gradient-accent w-14 h-14 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-heart text-white text-2xl"></i>
+                            </div>
+                        </div>
+                            <h3 class="text-2xl font-bold text-[#150f4b] mb-4" data-en="Child Restoration" data-pl="Przywracanie Dzieci">Child Restoration</h3>
+                            <p class="text-gray-600 leading-relaxed" data-en="Provide holistic support to children affected by poverty, abandonment, or broken families." data-pl="Zapewnianie kompleksowego wsparcia dzieciom dotkniętym ubóstwem, porzuceniem lub rozbitymi rodzinami.">Provide holistic support to children affected by poverty, abandonment, or broken families.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 2: Education Access -->
+                    <div class="card-modern bg-white p-8 rounded-3xl shadow-lg fade-in-up group">
+                        <div class="relative">
+                            <div class="absolute -top-4 -left-4 w-20 h-20 bg-[#22c55e]/20 rounded-full blur-2xl group-hover:bg-[#22c55e]/30 transition-all"></div>
+                            <div class="relative flex items-center gap-4 mb-6">
+                                <div class="bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] w-16 h-16 rounded-2xl flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">2</span>
+                            </div>
+                                <div class="gradient-accent w-14 h-14 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                            </div>
+                        </div>
+                            <h3 class="text-2xl font-bold text-[#150f4b] mb-4" data-en="Education Access" data-pl="Dostęp do Edukacji">Education Access</h3>
+                            <p class="text-gray-600 leading-relaxed" data-en="Ensure children have access to schooling, learning materials, and mentorship." data-pl="Zapewnianie dzieciom dostępu do szkoły, materiałów edukacyjnych i mentoringu.">Ensure children have access to schooling, learning materials, and mentorship.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 3: Family Strengthening -->
+                    <div class="card-modern bg-white p-8 rounded-3xl shadow-lg fade-in-up group">
+                        <div class="relative">
+                            <div class="absolute -top-4 -left-4 w-20 h-20 bg-[#22c55e]/20 rounded-full blur-2xl group-hover:bg-[#22c55e]/30 transition-all"></div>
+                            <div class="relative flex items-center gap-4 mb-6">
+                                <div class="bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] w-16 h-16 rounded-2xl flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">3</span>
+                            </div>
+                                <div class="gradient-accent w-14 h-14 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-home text-white text-2xl"></i>
+                            </div>
+                        </div>
+                            <h3 class="text-2xl font-bold text-[#150f4b] mb-4" data-en="Family Strengthening" data-pl="Wzmacnianie Rodzin">Family Strengthening</h3>
+                            <p class="text-gray-600 leading-relaxed" data-en="Support vulnerable families to reduce child neglect and early pregnancies." data-pl="Wspieranie bezbronnych rodzin w celu zmniejszenia zaniedbania dzieci i wczesnych ciąż.">Support vulnerable families to reduce child neglect and early pregnancies.</p>
+                    </div>
+                </div>
+                
+                    <!-- Goal 4: Spiritual Growth -->
+                    <div class="card-modern bg-white p-8 rounded-3xl shadow-lg fade-in-up group md:col-span-2 lg:col-span-1">
+                        <div class="relative">
+                            <div class="absolute -top-4 -left-4 w-20 h-20 bg-[#22c55e]/20 rounded-full blur-2xl group-hover:bg-[#22c55e]/30 transition-all"></div>
+                            <div class="relative flex items-center gap-4 mb-6">
+                                <div class="bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] w-16 h-16 rounded-2xl flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">4</span>
+                            </div>
+                                <div class="gradient-accent w-14 h-14 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-praying-hands text-white text-2xl"></i>
+                            </div>
+                        </div>
+                            <h3 class="text-2xl font-bold text-[#150f4b] mb-4" data-en="Spiritual Growth" data-pl="Rozwój Duchowy">Spiritual Growth</h3>
+                            <p class="text-gray-600 leading-relaxed" data-en="Mentor children and families in faith and values to build a God-centered community." data-pl="Mentoring dzieci i rodzin w wierze i wartościach, aby budować społeczność skupioną na Bogu.">Mentor children and families in faith and values to build a God-centered community.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Goal 5: Community Outreach -->
+                    <div class="card-modern bg-white p-8 rounded-3xl shadow-lg fade-in-up group md:col-span-2 lg:col-span-2">
+                        <div class="relative">
+                            <div class="absolute -top-4 -left-4 w-20 h-20 bg-[#22c55e]/20 rounded-full blur-2xl group-hover:bg-[#22c55e]/30 transition-all"></div>
+                            <div class="relative flex items-center gap-4 mb-6">
+                                <div class="bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] w-16 h-16 rounded-2xl flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">5</span>
+                            </div>
+                                <div class="gradient-accent w-14 h-14 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-hands-helping text-white text-2xl"></i>
+                            </div>
+                        </div>
+                            <h3 class="text-2xl font-bold text-[#150f4b] mb-4" data-en="Community Outreach" data-pl="Wsparcie Społeczności">Community Outreach</h3>
+                            <p class="text-gray-600 leading-relaxed" data-en="Run programs in Eastern Uganda to reduce poverty-driven child exploitation and homelessness." data-pl="Prowadzenie programów we wschodniej Ugandzie w celu zmniejszenia wyzysku dzieci i bezdomności spowodowanych ubóstwem.">Run programs in Eastern Uganda to reduce poverty-driven child exploitation and homelessness.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Wolayo Matters -->
+    <section class="relative py-24 sm:py-32 md:py-40 overflow-hidden parallax-section" style="background-image: url('images/gather.jpeg');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 gradient-overlay"></div>
+        
+        <!-- Animated Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+            <div class="absolute top-20 left-10 w-64 h-64 bg-[#22c55e] rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-80 h-80 bg-[#22c55e] rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center glass px-6 py-3 rounded-full mb-6">
+                        <span class="text-sm font-semibold text-white uppercase tracking-wider" data-en="Our Why" data-pl="Nasza Misja">Our Why</span>
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8" data-en="Why Wolayo Matters" data-pl="Dlaczego Wolayo Ma Znaczenie">Why Wolayo Matters</h2>
+                </div>
+                
+                <div class="glass rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl">
+                    <p class="text-lg sm:text-xl md:text-2xl text-white leading-relaxed mb-8 font-light" data-en="In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts." data-pl="W Ugandzie ubóstwo i rozbite systemy rodzinne są podstawowymi przyczynami bezdomności dzieci, ciąż nastolatek i porzucania szkoły.">In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts. Wolayo provides a holistic approach—addressing not only material needs but also emotional healing and spiritual grounding.</p>
+                    
+                    <p class="text-lg sm:text-xl md:text-2xl text-white leading-relaxed mb-12 font-light" data-en="By restoring hope and dignity, Wolayo is shaping a new generation of leaders." data-pl="Przywracając nadzieję i godność, Wolayo kształtuje nowe pokolenie liderów.">By restoring hope and dignity, Wolayo is shaping a new generation of leaders who will break cycles of poverty for themselves and their communities.</p>
+                    
+                    <!-- Key Impact Points -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="text-center group">
+                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-shield-alt text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg mb-2" data-en="Preventing Homelessness" data-pl="Zapobieganie Bezdomności">Preventing Homelessness</h4>
+                            <p class="text-gray-300 text-sm" data-en="Safe homes for vulnerable children" data-pl="Bezpieczne domy dla bezbronnych dzieci">Safe homes for vulnerable children</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-heart-pulse text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg mb-2" data-en="Emotional Healing" data-pl="Uzdrowienie Emocjonalne">Emotional Healing</h4>
+                            <p class="text-gray-300 text-sm" data-en="Restoring hope and dignity" data-pl="Przywracanie nadziei i godności">Restoring hope and dignity</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-chart-line text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-white font-bold text-lg mb-2" data-en="Breaking Poverty Cycles" data-pl="Przerwanie Cykli Ubóstwa">Breaking Poverty Cycles</h4>
+                            <p class="text-gray-300 text-sm" data-en="Creating lasting change" data-pl="Tworzenie trwałych zmian">Creating lasting change</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Overview -->
+    <section class="py-20 sm:py-24 md:py-32 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center bg-[#22c55e]/10 px-6 py-3 rounded-full mb-6">
+                    <span class="text-sm font-semibold text-[#22c55e] uppercase tracking-wider" data-en="What We Do" data-pl="Co Robimy">What We Do</span>
+                        </div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[#150f4b] mb-6" data-en="Our Programs" data-pl="Nasze Programy">Our Programs</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto" data-en="Comprehensive support for holistic child development" data-pl="Kompleksowe wsparcie dla holistycznego rozwoju dziecka">Comprehensive support for holistic child development</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-animation max-w-7xl mx-auto">
+                <!-- Program 1: Education -->
+                <div class="card-modern bg-white rounded-3xl shadow-xl overflow-hidden group fade-in-up">
+                    <div class="relative h-72 overflow-hidden overlay-gradient">
+                        <img src="images/kid.jpeg" alt="Education Support" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                            <div class="gradient-accent w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                                <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" data-en="Education Support" data-pl="Wsparcie Edukacyjne">Education Support</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 leading-relaxed mb-6" data-en="Providing quality education and school supplies to ensure every child has the opportunity to learn and grow." data-pl="Zapewnianie wysokiej jakości edukacji i przyborów szkolnych, aby każde dziecko miało szansę na naukę i rozwój.">Providing quality education and school supplies to ensure every child has the opportunity to learn and grow.</p>
+                        <a href="programs.html" class="inline-flex items-center gap-2 text-[#22c55e] font-semibold hover:gap-3 transition-all">
+                            <span data-en="Learn More" data-pl="Dowiedz Się Więcej">Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Program 2: Healthcare -->
+                <div class="card-modern bg-white rounded-3xl shadow-xl overflow-hidden group fade-in-up">
+                    <div class="relative h-72 overflow-hidden overlay-gradient">
+                        <img src="images/treat.jpeg" alt="Healthcare Services" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                            <div class="gradient-accent w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                        </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" data-en="Healthcare Services" data-pl="Usługi Zdrowotne">Healthcare Services</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 leading-relaxed mb-6" data-en="Comprehensive healthcare and nutrition programs to keep our children healthy and thriving." data-pl="Kompleksowe programy opieki zdrowotnej i żywienia, aby nasze dzieci były zdrowe i rozwijały się.">Comprehensive healthcare and nutrition programs to keep our children healthy and thriving.</p>
+                        <a href="programs.html" class="inline-flex items-center gap-2 text-[#22c55e] font-semibold hover:gap-3 transition-all">
+                            <span data-en="Learn More" data-pl="Dowiedz Się Więcej">Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Program 3: Safe Housing -->
+                <div class="card-modern bg-white rounded-3xl shadow-xl overflow-hidden group fade-in-up">
+                    <div class="relative h-72 overflow-hidden overlay-gradient">
+                        <img src="images/wall1.jpeg" alt="Safe Housing" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                            <div class="gradient-accent w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                                <i class="fas fa-home text-white text-2xl"></i>
+                        </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" data-en="Safe Housing" data-pl="Bezpieczne Schronienie">Safe Housing</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-600 leading-relaxed mb-6" data-en="Creating safe, loving homes where children feel protected and can flourish in a family environment." data-pl="Tworzenie bezpiecznych, pełnych miłości domów, gdzie dzieci czują się chronione i mogą rozwijać w rodzinnym otoczeniu.">Creating safe, loving homes where children feel protected and can flourish in a family environment.</p>
+                        <a href="programs.html" class="inline-flex items-center gap-2 text-[#22c55e] font-semibold hover:gap-3 transition-all">
+                            <span data-en="Learn More" data-pl="Dowiedz Się Więcej">Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 sm:py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center bg-[#150f4b]/10 px-6 py-3 rounded-full mb-6">
+                    <span class="text-sm font-semibold text-[#150f4b] uppercase tracking-wider" data-en="Testimonials" data-pl="Opinie">Testimonials</span>
+                </div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[#150f4b] mb-6" data-en="Success Stories" data-pl="Historie Sukcesu">Success Stories</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto" data-en="Real stories from real people" data-pl="Prawdziwe historie od prawdziwych ludzi">Real stories from real people whose lives have been transformed</p>
+            </div>
+            <!--
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto stagger-animation">
+                <!-- Testimonial 1 -->
+                <div class="card-modern bg-white p-10 rounded-3xl shadow-xl fade-in-up">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="relative flex-shrink-0">
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#22c55e]/20">
+                                <img src="images/Shakiib copy.jpg" alt="Maria" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-10 h-10 gradient-accent rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-right text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-[#150f4b] mb-1">Maria K.</h4>
+                            <p class="text-[#22c55e] font-semibold text-sm" data-en="Former Resident, Now Teacher" data-pl="Była Rezydentka, Teraz Nauczycielka">Former Resident, Now Teacher</p>
+                            <div class="flex gap-1 mt-2">
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-700 text-lg leading-relaxed italic" data-en="Wolayo gave me a second chance at life. Thanks to their support, I finished university and now I'm giving back by teaching children in my community." data-pl="Wolayo dało mi drugą szansę na życie. Dzięki ich wsparciu ukończyłam uniwersytet i teraz pomagam, ucząc dzieci w mojej społeczności.">"Wolayo gave me a second chance at life. Thanks to their support, I finished university and now I'm giving back by teaching children in my community."</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="card-modern bg-white p-10 rounded-3xl shadow-xl fade-in-up">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="relative flex-shrink-0">
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#22c55e]/20">
+                                <img src="images/Shakiib copy.jpg" alt="John" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-10 h-10 gradient-accent rounded-full flex items-center justify-center">
+                                <i class="fas fa-quote-right text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-[#150f4b] mb-1">John M.</h4>
+                            <p class="text-[#22c55e] font-semibold text-sm" data-en="Graduate, Engineer" data-pl="Absolwent, Inżynier">Graduate, Engineer</p>
+                            <div class="flex gap-1 mt-2">
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                                <i class="fas fa-star text-[#22c55e]"></i>
+                        </div>
+                    </div>
+                    </div>
+                    <p class="text-gray-700 text-lg leading-relaxed italic" data-en="The education and care I received at Wolayo transformed my life. I'm now working as an engineer and supporting my family." data-pl="Edukacja i opieka, które otrzymałem w Wolayo, zmieniły moje życie. Teraz pracuję jako inżynier i wspieram moją rodzinę.">"The education and care I received at Wolayo transformed my life. I'm now working as an engineer and supporting my family."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="relative py-32 sm:py-40 md:py-48 text-white overflow-hidden parallax-section" style="background-image: url('images/DSC_9101.jpeg');">
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#22c55e]/95 via-[#16a34a]/90 to-[#15803d]/95"></div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+            <div class="absolute -top-20 -left-20 w-96 h-96 bg-white rounded-full mix-blend-soft-light filter blur-3xl opacity-10"></div>
+            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-white rounded-full mix-blend-soft-light filter blur-3xl opacity-10"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Badge -->
+                <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
+                    <span class="text-sm font-semibold text-white uppercase tracking-wider" data-en="Join Us" data-pl="Dołącz Do Nas">Join Us</span>
+            </div>
+            
+                <!-- Heading -->
+                <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight" data-en="Make a Difference Today" data-pl="Zrób Różnicę Dziś">Make a Difference <span class="block mt-2">Today</span></h2>
+                
+                <!-- Description -->
+                <div class="space-y-6 mb-12">
+                    <p class="text-xl sm:text-2xl md:text-3xl leading-relaxed font-light" data-en="Wolayo cannot do this work alone. We invite partners, donors, churches, and well-wishers to join us." data-pl="Wolayo nie może wykonać tej pracy samodzielnie. Zapraszamy partnerów, darczyńców, kościoły i życzliwych ludzi.">Wolayo cannot do this work alone. We invite partners, donors, churches, and well-wishers to join us in lighting a candle of hope for children in Uganda.</p>
+                    
+                    <p class="text-lg sm:text-xl md:text-2xl leading-relaxed font-light opacity-90" data-en="With your support, we can restore families, mentor leaders, and build a future of dignity and opportunity." data-pl="Dzięki Twojemu wsparciu możemy przywracać rodziny, mentorować liderów i budować przyszłość godności i możliwości.">With your support, we can restore families, mentor leaders, and build a future of dignity and opportunity.</p>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+                    <a href="donate.html" class="btn-primary group bg-white text-[#22c55e] px-12 py-6 rounded-full font-bold text-xl hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform w-full sm:w-auto">
+                        <span class="flex items-center justify-center gap-3">
+                            <i class="fas fa-heart group-hover:scale-110 transition-transform"></i>
+                            <span data-en="Donate Now" data-pl="Przekaż Darowiznę">Donate Now</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
+                    <a href="contact.html" class="btn-primary group bg-[#150f4b] text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-[#0f0a3a] transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform w-full sm:w-auto">
+                        <span class="flex items-center justify-center gap-3">
+                            <i class="fas fa-handshake group-hover:scale-110 transition-transform"></i>
+                            <span data-en="Partner With Us" data-pl="Zostań Partnerem">Partner With Us</span>
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Additional Info -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-3">
+                            <i data-feather="target" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <p class="text-sm font-semibold opacity-90" data-en="Every Donation Counts" data-pl="Każda Darowizna Się Liczy">Every Donation Counts</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex justify-center mb-3">
+                            <i data-feather="users" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <p class="text-sm font-semibold opacity-90" data-en="Partner for Impact" data-pl="Partner dla Wpływu">Partner for Impact</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex justify-center mb-3">
+                            <i data-feather="heart" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <p class="text-sm font-semibold opacity-90" data-en="Transform Lives" data-pl="Transformuj Życie">Transform Lives</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be loaded dynamically -->
+    <div id="footer-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+
+                    // Lower increment for slower counting
+                    const inc = target / speed;
+
+                    // Check if target is reached
+                    if (count < target) {
+                        // Add increment to count and output in counter
+                        counter.innerText = Math.ceil(count + inc);
+                        // Call function every ms
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+
+                updateCount();
+            });
+        }
+
+        // Intersection Observer for counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe the statistics section
+        document.addEventListener('DOMContentLoaded', function() {
+            const statsSection = document.querySelector('.counter').closest('section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        });
+
+        // Hero Slider Functionality
+        class HeroSlider {
+            constructor() {
+                this.slides = document.querySelectorAll('.hero-slide');
+                this.dots = document.querySelectorAll('.slider-dot');
+                this.prevBtn = document.querySelector('.slider-prev');
+                this.nextBtn = document.querySelector('.slider-next');
+                this.currentSlide = 0;
+                this.slideInterval = null;
+                
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.startAutoSlide();
+            }
+            
+            bindEvents() {
+                // Dot navigation
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // Arrow navigation
+                this.prevBtn.addEventListener('click', () => this.previousSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // Pause on hover
+                const heroSection = document.querySelector('.hero-slider').parentElement;
+                heroSection.addEventListener('mouseenter', () => this.stopAutoSlide());
+                heroSection.addEventListener('mouseleave', () => this.startAutoSlide());
+            }
+            
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateSlides();
+                this.updateDots();
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                this.updateSlides();
+                this.updateDots();
+            }
+            
+            previousSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+                this.updateSlides();
+                this.updateDots();
+            }
+            
+            updateSlides() {
+                this.slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+            
+            updateDots() {
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+            
+            startAutoSlide() {
+                this.slideInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 5000); // Change slide every 5 seconds
+            }
+            
+            stopAutoSlide() {
+                if (this.slideInterval) {
+                    clearInterval(this.slideInterval);
+                    this.slideInterval = null;
+                }
+            }
+        }
+
+        // Initialize slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new HeroSlider();
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll Animation Observer
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all elements with animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
+            animatedElements.forEach(function(el) {
+                scrollAnimationObserver.observe(el);
+            });
+        });
+
+        // Scroll to Top Button Functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        // Smooth scroll to top when button is clicked
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
+</body>
+</html>
