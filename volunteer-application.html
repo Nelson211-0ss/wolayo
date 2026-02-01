@@ -107,10 +107,11 @@
                 </div>
 
                 <form id="volunteer-form" action="https://formsubmit.co/info@wolayo.org" method="POST" class="bg-gray-50 p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl">
-                    <!-- FormSubmit Configuration -->
+                    <!-- FormSubmit Configuration - sends to info@wolayo.org -->
                     <input type="hidden" name="_subject" value="New Volunteer Application - Wolayo">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" id="formRedirectUrl" value="">
                     <input type="text" name="_honey" style="display:none">
                     <!-- Step 1: Personal Information -->
                     <div class="form-section active" id="step1">
@@ -145,21 +146,21 @@
 
                         <div class="mt-6">
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Address *" data-pl="Adres *">Address *</label>
-                            <input type="text" id="address" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Street Address">
+                            <input type="text" id="address" name="address" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Street Address">
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2" data-en="City *" data-pl="Miasto *">City *</label>
-                                <input type="text" id="city" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Warsaw">
+                                <input type="text" id="city" name="city" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Warsaw">
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2" data-en="Country *" data-pl="Kraj *">Country *</label>
-                                <input type="text" id="country" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Poland">
+                                <input type="text" id="country" name="country" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Poland">
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2" data-en="Postal Code *" data-pl="Kod Pocztowy *">Postal Code *</label>
-                                <input type="text" id="postal" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="00-001">
+                                <input type="text" id="postal" name="postal_code" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="00-001">
                             </div>
                         </div>
 
@@ -174,7 +175,7 @@
                         
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3" data-en="Volunteer Role *" data-pl="Rola Wolontariusza *">Volunteer Role *</label>
-                            <select id="volunteerRole" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                            <select id="volunteerRole" name="volunteer_role" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
                                 <option value="" data-en="Select a role" data-pl="Wybierz rolę">Select a role</option>
                                 <option value="education" data-en="Education Volunteer" data-pl="Wolontariusz Edukacyjny">Education Volunteer</option>
                                 <option value="mentorship" data-en="Mentorship Volunteer" data-pl="Wolontariusz Mentoringu">Mentorship Volunteer</option>
@@ -185,7 +186,7 @@
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3" data-en="Commitment Period *" data-pl="Okres Zaangażowania *">Commitment Period *</label>
-                            <select id="commitment" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                            <select id="commitment" name="commitment" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
                                 <option value="" data-en="Select period" data-pl="Wybierz okres">Select period</option>
                                 <option value="3months" data-en="3 months" data-pl="3 miesiące">3 months</option>
                                 <option value="6months" data-en="6 months" data-pl="6 miesięcy">6 months</option>
@@ -218,7 +219,7 @@
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3" data-en="Hours Per Week *" data-pl="Godziny Tygodniowo *">Hours Per Week *</label>
-                            <select id="hoursPerWeek" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                            <select id="hoursPerWeek" name="hours_per_week" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
                                 <option value="" data-en="Select hours" data-pl="Wybierz godziny">Select hours</option>
                                 <option value="2-3" data-en="2-3 hours" data-pl="2-3 godziny">2-3 hours</option>
                                 <option value="4-6" data-en="4-6 hours" data-pl="4-6 godzin">4-6 hours</option>
@@ -229,7 +230,7 @@
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-3" data-en="Start Date *" data-pl="Data Rozpoczęcia *">Start Date *</label>
-                            <input type="date" id="startDate" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                            <input type="date" id="startDate" name="start_date" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
                         </div>
 
                         <div class="flex justify-between mt-8">
@@ -244,7 +245,7 @@
                         
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Education Level *" data-pl="Poziom Wykształcenia *">Education Level *</label>
-                            <select id="education" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
+                            <select id="education" name="education" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition">
                                 <option value="" data-en="Select education level" data-pl="Wybierz poziom wykształcenia">Select education level</option>
                                 <option value="highschool" data-en="High School" data-pl="Szkoła Średnia">High School</option>
                                 <option value="bachelors" data-en="Bachelor's Degree" data-pl="Licencjat">Bachelor's Degree</option>
@@ -256,7 +257,7 @@
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Field of Study/Work" data-pl="Kierunek Studiów/Pracy">Field of Study/Work</label>
-                            <input type="text" id="fieldOfStudy" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., Social Work, Education, Healthcare">
+                            <input type="text" id="fieldOfStudy" name="field_of_study" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., Social Work, Education, Healthcare">
                         </div>
 
                         <div class="mb-6">
@@ -309,12 +310,12 @@
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Languages Spoken" data-pl="Języki Mówione">Languages Spoken</label>
-                            <input type="text" id="languages" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., English, Polish, Spanish">
+                            <input type="text" id="languages" name="languages" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="e.g., English, Polish, Spanish">
                         </div>
 
                         <div class="mb-6">
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Why do you want to volunteer with us? *" data-pl="Dlaczego chcesz być wolontariuszem? *">Why do you want to volunteer with us? *</label>
-                            <textarea id="motivation" required rows="5" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Tell us about your motivation and what you hope to contribute..."></textarea>
+                            <textarea id="motivation" name="motivation" required rows="5" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Tell us about your motivation and what you hope to contribute..."></textarea>
                         </div>
 
                         <div class="flex justify-between mt-8">
@@ -495,24 +496,16 @@
             `;
         }
 
-        // Form submission
+        // Form submission - all fields have name attributes, form submits to FormSubmit which emails info@wolayo.org
         document.getElementById('volunteer-form').addEventListener('submit', function(e) {
             if (!document.getElementById('terms').checked) {
                 e.preventDefault();
                 alert('Please accept the terms and conditions');
                 return false;
             }
-            
-            // Add name attributes to all form fields dynamically before submission
-            const form = document.getElementById('volunteer-form');
-            const inputs = form.querySelectorAll('input[id]:not([name]), select[id]:not([name]), textarea[id]:not([name])');
-            inputs.forEach(input => {
-                if (input.id && input.id !== 'terms' && input.id !== 'volunteer-form') {
-                    input.setAttribute('name', input.id.replace(/([A-Z])/g, '_$1').toLowerCase());
-                }
-            });
-            
-            // Allow form to submit naturally to FormSubmit
+            // Set thank-you redirect URL (works for any deployment path)
+            const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            document.getElementById('formRedirectUrl').value = window.location.origin + basePath + 'thank-you-volunteer.html';
             return true;
         });
 
@@ -528,12 +521,17 @@
             rootMargin: '0px 0px -50px 0px'
         });
 
-        // Observe all elements with animation classes
+        // Observe all elements with animation classes + set thank-you redirect URL
         document.addEventListener('DOMContentLoaded', function() {
             const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in');
             animatedElements.forEach(function(el) {
                 scrollAnimationObserver.observe(el);
             });
+            const formRedirect = document.getElementById('formRedirectUrl');
+            if (formRedirect) {
+                const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                formRedirect.value = window.location.origin + basePath + 'thank-you-volunteer.html';
+            }
         });
     </script>
 </body>

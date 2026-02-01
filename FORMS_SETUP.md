@@ -23,10 +23,11 @@ All forms on the Wolayo Child Restoration website now send submissions directly 
 ### 3. **Volunteer Application Form** (`volunteer-application.html`)
 - **Purpose**: Volunteer applications
 - **Email Subject**: "New Volunteer Application - Wolayo"
-- **Fields Collected**:
-  - Personal Information (Name, Email, Phone, DOB, Address)
-  - Availability & Preferences
-  - Experience & Skills
+- **Redirect After Submit**: `thank-you-volunteer.html` (custom thank-you page)
+- **Fields Collected** (all sent to info@wolayo.org):
+  - Personal Information (first_name, last_name, email, phone, date_of_birth, address, city, country, postal_code)
+  - Preferences (volunteer_role, commitment, availability, hours_per_week, start_date)
+  - Experience (education, field_of_study, prevExperience, skills, languages)
   - Motivation
   - Terms & Conditions Acceptance
 
@@ -84,7 +85,7 @@ Message: I would like to know more about volunteer opportunities...
 ### After Submission
 - **Contact Form**: User is redirected to FormSubmit's default thank you page
 - **Newsletter**: User is redirected to FormSubmit's default thank you page
-- **Volunteer Form**: Submission is validated (must accept terms), then sent
+- **Volunteer Form**: Submission is validated (must accept terms), then sent to info@wolayo.org, then user is redirected to `thank-you-volunteer.html`
 
 ### Customization Options (Optional)
 You can customize the post-submission experience by adding these hidden fields to any form:
