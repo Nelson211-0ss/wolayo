@@ -234,24 +234,24 @@
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Full Name" data-pl="Imię i Nazwisko">
                                 <i class="fas fa-user text-[#150f4b] mr-2"></i>Full Name
                             </label>
-                            <input type="text" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="John Doe">
+                            <input type="text" id="donor-name" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="John Doe">
                         </div>
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Email Address" data-pl="Adres Email">
                                 <i class="fas fa-envelope text-[#150f4b] mr-2"></i>Email Address
                             </label>
-                            <input type="email" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="john@example.com">
+                            <input type="email" id="donor-email" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="john@example.com">
                         </div>
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2" data-en="Phone Number (Optional)" data-pl="Numer Telefonu (Opcjonalny)">
                                 <i class="fas fa-phone text-[#150f4b] mr-2"></i>Phone Number <span class="text-gray-400 text-sm">(Optional)</span>
                             </label>
-                            <input type="tel" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="+1 234 567 890">
+                            <input type="tel" id="donor-phone" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="+1 234 567 890">
                         </div>
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="pulse-button w-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] text-white py-5 rounded-xl font-bold text-lg hover:from-[#16a34a] hover:to-[#15803d] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-3" data-en="Proceed to Payment" data-pl="Przejdź do Płatności">
+                    <button type="button" id="proceed-to-payment" class="pulse-button w-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] text-white py-5 rounded-xl font-bold text-lg hover:from-[#16a34a] hover:to-[#15803d] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-3" data-en="Proceed to Payment" data-pl="Przejdź do Płatności">
                         <i class="fas fa-lock text-xl"></i>
                         <span>Proceed to Payment</span>
                         <i class="fas fa-arrow-right text-xl"></i>
@@ -352,6 +352,13 @@
     <script src="js/language.js"></script>
     <script src="js/animations.js"></script>
     <script>
+        // ============================================================
+        // DONATION PAYMENT: Set your payment URL here
+        // Get a link from: Stripe Payment Links, Donorbox, PayPal, or Flutterwave
+        // See DONATION_SETUP.md for step-by-step instructions
+        // ============================================================
+        const DONATION_PAYMENT_URL = '';
+
         // Donation button interactions
         document.querySelectorAll('.donation-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -375,6 +382,25 @@
                     b.classList.remove('selected');
                 });
             }
+        });
+
+        // Proceed to Payment: validate amount and redirect to payment URL
+        document.getElementById('proceed-to-payment').addEventListener('click', function() {
+            const customAmountInput = document.getElementById('custom-amount');
+            const amount = parseFloat(customAmountInput.value) || 0;
+            if (amount < 1) {
+                alert('Please enter or select a donation amount.');
+                customAmountInput.focus();
+                return;
+            }
+            if (!DONATION_PAYMENT_URL) {
+                alert('Payment is not configured yet. Please add your payment link in donate.html (see DONATION_SETUP.md).');
+                return;
+            }
+            // Append amount as query param if your provider supports it (e.g. Donorbox: ?amount=50)
+            const separator = DONATION_PAYMENT_URL.includes('?') ? '&' : '?';
+            const paymentUrl = DONATION_PAYMENT_URL + separator + 'amount=' + Math.round(amount * 100) / 100;
+            window.location.href = paymentUrl;
         });
         
         // Scroll Animation Observer

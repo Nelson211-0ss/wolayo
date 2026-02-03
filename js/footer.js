@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <ul class="space-y-3">
                             <li class="flex items-start text-sm">
                                 <i class="fas fa-map-marker-alt text-[#22c55e] mt-1 mr-3 text-lg"></i>
-                                <span class="text-gray-300">123 Hope Street, Warsaw<br>Poland 00-001</span>
+                                <span class="text-gray-300">Mbale, Uganda</span>
                             </li>
                             <li class="flex items-center text-sm">
                                 <i class="fas fa-phone text-[#22c55e] mr-3 text-lg"></i>
-                                <span class="text-gray-300">+48 22 123 4567</span>
+                                <span class="text-gray-300">+256775454357</span>
                             </li>
                             <li class="flex items-center text-sm">
                                 <i class="fas fa-envelope text-[#22c55e] mr-3 text-lg"></i>
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </a>
                     </div>
                     <p class="text-gray-400 text-sm">
-                        &copy; 2025 Wolayo Child Restoration. <span data-en="All rights reserved." data-pl="Wszystkie prawa zastrzeżone.">All rights reserved.</span>
+                        &copy; ${new Date().getFullYear()} Wolayo Child Restoration. <span data-en="All rights reserved." data-pl="Wszystkie prawa zastrzeżone.">All rights reserved.</span>
                     </p>
                 </div>
             </div>
