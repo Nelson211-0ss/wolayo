@@ -1,0 +1,32 @@
+{
+  "name": "wolayo",
+  "version": "1.0.0",
+  "description": "A beautiful, responsive website for Wolayo Child Restoration NGO, featuring bilingual support (English/Polish) and modern design.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nelson211-0ss/wolayo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nelson211-0ss/wolayo/issues"
+  },
+  "homepage": "https://github.com/Nelson211-0ss/wolayo#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.5",
+    "nodemailer": "^8.0.0",
+    "stripe": "^20.3.0"
+  }
+}

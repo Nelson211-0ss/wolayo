@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Wolayo Child Restoration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            background: linear-gradient(180deg, #150f4b 0%, #1e1654 50%, #0f0a3a 100%);
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-header h2 {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+        
+        .sidebar-header p {
+            color: #22c55e;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #150f4b;
+            margin-bottom: 8px;
+        }
+        
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .stat-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .stat-card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .stat-card-info h3 {
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-card-info h3 i {
+            color: #22c55e;
+            font-size: 16px;
+        }
+        
+        .stat-card-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #150f4b;
+            line-height: 1;
+        }
+        
+        .stat-card-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+        
+        .nav-item {
+            padding: 16px 20px;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 4px 0;
+        }
+        
+        .nav-item i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-item:hover {
+            background: rgba(34, 197, 94, 0.15);
+            border-left-color: #22c55e;
+            color: white;
+            padding-left: 24px;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.25) 0%, transparent 100%);
+            border-left-color: #22c55e;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+        }
+        
+        .chart-container h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #150f4b;
+            margin-bottom: 20px;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: linear-gradient(90deg, #150f4b 0%, #1e1654 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 16px;
+            border-top: 1px solid #f0f0f0;
+            color: #374151;
+            font-size: 14px;
+        }
+        
+        tbody tr {
+            transition: all 0.3s;
+        }
+        
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+        
+        tbody tr:nth-child(even) {
+            background: #fafbfc;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 60;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .modal-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #150f4b;
+            margin-bottom: 20px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+            outline: none;
+        }
+        
+        button {
+            font-family: inherit;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .modal .modal-content input[type="text"],
+        .modal .modal-content input[type="email"],
+        .modal .modal-content input[type="password"] {
+            margin-bottom: 16px;
+        }
+        
+        button[onclick*="delete"] {
+            transition: all 0.3s;
+        }
+        
+        button[onclick*="delete"]:hover {
+            background: #dc2626 !important;
+            color: white !important;
+        }
+        
+        .stat-card:nth-child(1) .stat-card-info h3 i {
+            color: #ef4444;
+        }
+        
+        .stat-card:nth-child(2) .stat-card-info h3 i {
+            color: #3b82f6;
+        }
+        
+        .stat-card:nth-child(3) .stat-card-info h3 i {
+            color: #8b5cf6;
+        }
+        
+        .stat-card:nth-child(4) .stat-card-info h3 i {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+            <h2>Reset Your Password</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Enter your admin email to receive a password reset link.</p>
+                <div style="margin-bottom: 16px;">
+                <label for="reset-email" style="display: block; color: #374151; font-weight: 600; margin-bottom: 8px;">Admin Email</label>
+                <input type="email" id="reset-email" placeholder="admin@wolayo.org">
+            </div>
+            <button onclick="sendResetEmail()" style="width: 100%; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-bottom: 12px;">
+                <i class="fas fa-paper-plane"></i> Send Reset Link
+            </button>
+            <button onclick="closeForgotPasswordModal()" style="width: 100%; background: #e5e7eb; color: #374151; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                Cancel
+            </button>
+            <p id="reset-message" style="text-align: center; font-size: 13px; color: #6b7280; margin-top: 12px;"></p>
+        </div>
+    </div>
+
+    <!-- Reset Password with Token Modal -->
+    <div id="reset-with-token-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create New Password</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Enter your reset token and new password.</p>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Create New Password</h2>
+            <div class="space-y-4">
+                <div>
+                    <label for="new-password" class="block text-gray-700 font-semibold mb-2">New Password</label>
+                    <input type="password" id="new-password" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b]" placeholder="••••••••">
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b]" placeholder="••••••••">
+                </div>
+                <button onclick="submitNewPassword()" class="w-full bg-[#22c55e] text-white py-3 rounded-lg font-bold hover:bg-[#16a34a] transition">Reset Password</button>
+                <p id="token-message" class="text-center text-sm text-gray-600"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" style="position: fixed; inset: 0; background: linear-gradient(135deg, #150f4b 0%, #0f0a3a 100%); display: flex; align-items: center; justify-content: center; z-index: 50;">
+        <div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; width: 100%; max-width: 400px;">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <h1 style="font-size: 32px; font-weight: 700; color: #150f4b; margin-bottom: 8px;"><i class="fas fa-chart-line"></i> Wolayo Admin</h1>
+                <p style="color: #6b7280; font-size: 14px;">Secure Dashboard Access</p>
+            </div>
+            <div>
+                <div style="margin-bottom: 18px;">
+                    <label for="login-username" style="display: block; color: #374151; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Username</label>
+                    <input type="text" id="login-username" placeholder="admin" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px; transition: all 0.3s;">
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <label for="login-password" style="display: block; color: #374151; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="login-password" placeholder="••••••••" style="width: 100%; padding: 12px 40px 12px 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px; transition: all 0.3s;">
+                        <button type="button" onclick="togglePasswordVisibility('login-password', 'pwd-toggle-icon')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #6b7280; cursor: pointer; padding: 0; font-size: 16px;">
+                            <i id="pwd-toggle-icon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button onclick="adminLogin()" style="width: 100%; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 14px; border: none; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s; margin-bottom: 12px;">
+                    <i class="fas fa-lock-open"></i> Sign In
+                </button>
+                <button onclick="openForgotPasswordModal()" style="width: 100%; background: transparent; color: #150f4b; padding: 12px; border: none; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s;">
+                    Forgot Password?
+                </button>
+                <p id="login-error" style="color: #ef4444; text-align: center; font-size: 13px; margin-top: 12px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard (hidden by default) -->
+    <div id="dashboard" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-chart-line"></i> Wolayo</h2>
+                <p>Admin Panel</p>
+            </div>
+            <nav style="padding: 20px 0;">
+                <div class="nav-item active" onclick="switchSection('overview')">
+                    <i class="fas fa-home"></i>Overview
+                </div>
+                <div class="nav-item" onclick="switchSection('donations')">
+                    <i class="fas fa-heart"></i>Donations
+                </div>
+                <div class="nav-item" onclick="switchSection('volunteers')">
+                    <i class="fas fa-users"></i>Volunteers
+                </div>
+                <div class="nav-item" onclick="switchSection('contacts')">
+                    <i class="fas fa-envelope"></i>Messages
+                </div>
+            </nav>
+            <button class="logout-btn" onclick="adminLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <div class="page-header">
+                    <h1>Dashboard Overview</h1>
+                    <p>Monitor key metrics and manage your organization</p>
+                </div>
+                
+                <!-- Statistics -->
+                <div class="stat-cards-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <div class="stat-card-info">
+                                <h3><i class="fas fa-heart"></i>Total Donations</h3>
+                                <div class="stat-card-value" id="stat-donations">0</div>
+                                <div class="stat-card-badge"><i class="fas fa-arrow-up"></i> This month</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <div class="stat-card-info">
+                                <h3><i class="fas fa-dollar-sign"></i>Amount Raised</h3>
+                                <div class="stat-card-value" id="stat-amount" style="font-size: 28px;">$0</div>
+                                <div class="stat-card-badge"><i class="fas fa-check-circle"></i> Verified</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <div class="stat-card-info">
+                                <h3><i class="fas fa-users"></i>Active Volunteers</h3>
+                                <div class="stat-card-value" id="stat-volunteers">0</div>
+                                <div class="stat-card-badge"><i class="fas fa-check-circle"></i> Registered</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-content">
+                            <div class="stat-card-info">
+                                <h3><i class="fas fa-envelope"></i>Messages</h3>
+                                <div class="stat-card-value" id="stat-messages">0</div>
+                                <div class="stat-card-badge"><i class="fas fa-clock"></i> Unread</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <div class="chart-container">
+                        <h2>Donations Trend (30 Days)</h2>
+                        <canvas id="donationsChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>Donations by Currency</h2>
+                        <canvas id="currencyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donations Section -->
+            <section id="donations" class="section">
+                <div class="page-header">
+                    <h1>Donations Management</h1>
+                    <p>View and manage all donation records</p>
+                </div>
+                <div class="table-container">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Donor Name</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Email</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donations-table">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Volunteers Section -->
+            <section id="volunteers" class="section">
+                <div class="page-header">
+                    <h1>Volunteers Management</h1>
+                    <p>Manage volunteer applications and profiles</p>
+                </div>
+                <div class="table-container">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Preferences</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="volunteers-table">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contacts Section -->
+            <section id="contacts" class="section">
+                <div class="page-header">
+                    <h1>Messages Management</h1>
+                    <p>Review inquiries and contact requests</p>
+                </div>
+                <div class="table-container">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contacts-table">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        let adminToken = localStorage.getItem('adminToken');
+        let donationsChart, currencyChart;
+
+        // Check if already logged in
+        if (adminToken) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadDashboardOptimized();
+        }
+
+        async function adminLogin() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+
+            try {
+                console.log('Attempting login with username:', username);
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                console.log('Login response status:', response.status);
+                const data = await response.json();
+                console.log('Login response data:', data);
+                if (response.ok) {
+                    adminToken = data.token;
+                    localStorage.setItem('adminToken', adminToken);
+                    // Use inline style instead of class for visibility
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    // Show dashboard immediately, load data in background
+                    loadDashboardOptimized();
+                } else {
+                    errorEl.textContent = data.message || 'Invalid credentials';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorEl.textContent = 'Error logging in: ' + error.message;
+            }
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('adminToken');
+            adminToken = null;
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').textContent = '';
+        }
+
+        function switchSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        async function loadDashboardOptimized() {
+            // Load analytics first (used by charts)
+            await loadAnalytics();
+            // Then load tables in parallel for speed
+            await Promise.all([
+                loadDonations(),
+                loadVolunteers(),
+                loadContacts()
+            ]);
+        }
+
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/admin/analytics', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await response.json();
+
+                document.getElementById('stat-donations').textContent = data.totalDonations;
+                document.getElementById('stat-amount').textContent = `$${data.totalDonationAmount.toFixed(2)}`;
+                document.getElementById('stat-volunteers').textContent = data.totalVolunteers;
+                document.getElementById('stat-messages').textContent = data.totalContacts;
+
+                // Donations Chart
+                if (donationsChart) donationsChart.destroy();
+                const ctx1 = document.getElementById('donationsChart').getContext('2d');
+                donationsChart = new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: data.donationsOverTime.map(d => d._id),
+                        datasets: [{
+                            label: 'Donations',
+                            data: data.donationsOverTime.map(d => d.count),
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: false } } }
+                });
+
+                // Currency Chart
+                if (currencyChart) currencyChart.destroy();
+                const ctx2 = document.getElementById('currencyChart').getContext('2d');
+                currencyChart = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.donationsByCurrency.map(d => d._id.toUpperCase()),
+                        datasets: [{
+                            data: data.donationsByCurrency.map(d => d.count),
+                            backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444']
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+
+        async function loadDonations() {
+            try {
+                const response = await fetch('/api/admin/donations', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const donations = await response.json();
+                const tbody = document.getElementById('donations-table');
+                tbody.innerHTML = donations.map(d => `
+                    <tr>
+                        <td>${d.name}</td>
+                        <td><strong>${d.currency.toUpperCase()} ${d.amount}</strong></td>
+                        <td><span style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;">${d.type}</span></td>
+                        <td>${d.email}</td>
+                        <td>${new Date(d.createdAt).toLocaleDateString()}</td>
+                        <td><span style="display: inline-block; background: ${d.status === 'completed' ? '#d1fae5' : '#fef3c7'}; color: ${d.status === 'completed' ? '#065f46' : '#92400e'}; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">${d.status || 'pending'}</span></td>
+                        <td><button onclick="deleteDonation('${d._id}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s; font-weight: 500;"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading donations:', error);
+            }
+        }
+
+        async function loadVolunteers() {
+            try {
+                const response = await fetch('/api/admin/volunteers', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const volunteers = await response.json();
+                const tbody = document.getElementById('volunteers-table');
+                tbody.innerHTML = volunteers.map(v => `
+                    <tr>
+                        <td><strong>${v.name}</strong></td>
+                        <td>${v.email}</td>
+                        <td>${v.phone}</td>
+                        <td><span style="color: #6b7280;">${v.preferences.substring(0, 40)}...</span></td>
+                        <td>${new Date(v.createdAt).toLocaleDateString()}</td>
+                        <td><button onclick="deleteVolunteer('${v._id}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s; font-weight: 500;"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading volunteers:', error);
+            }
+        }
+
+        async function loadContacts() {
+            try {
+                const response = await fetch('/api/admin/contacts', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const contacts = await response.json();
+                const tbody = document.getElementById('contacts-table');
+                tbody.innerHTML = contacts.map(c => `
+                    <tr>
+                        <td><strong>${c.name}</strong></td>
+                        <td>${c.email}</td>
+                        <td><span style="color: #6b7280; display: block; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.message}</span></td>
+                        <td>${new Date(c.createdAt).toLocaleDateString()}</td>
+                        <td><button onclick="deleteContact('${c._id}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s; font-weight: 500;"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+            }
+        }
+
+        async function deleteDonation(id) {
+            if (!confirm('Delete this donation record?')) return;
+            try {
+                await fetch(`/api/admin/donations/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                loadDonations();
+                loadAnalytics();
+            } catch (error) {
+                console.error('Error deleting donation:', error);
+            }
+        }
+
+        async function deleteVolunteer(id) {
+            if (!confirm('Delete this volunteer record?')) return;
+            try {
+                await fetch(`/api/admin/volunteers/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                loadVolunteers();
+                loadAnalytics();
+            } catch (error) {
+                console.error('Error deleting volunteer:', error);
+            }
+        }
+
+        async function deleteContact(id) {
+            if (!confirm('Delete this message?')) return;
+            try {
+                await fetch(`/api/admin/contacts/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                loadContacts();
+                loadAnalytics();
+            } catch (error) {
+                console.error('Error deleting contact:', error);
+            }
+        }
+
+        // Auto-refresh analytics every 30 seconds
+        setInterval(() => {
+            if (adminToken) loadAnalytics();
+        }, 30000);
+
+        // Password Reset Functions
+        let resetTokenFromUrl = null;
+
+        // Check for reset token in URL on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            resetTokenFromUrl = params.get('resetToken');
+            if (resetTokenFromUrl) {
+                document.getElementById('login-screen').classList.add('hidden');
+                openResetWithTokenModal();
+            }
+        });
+
+        function openForgotPasswordModal() {
+            document.getElementById('forgot-password-modal').classList.add('active');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgot-password-modal').classList.remove('active');
+            document.getElementById('reset-email').value = '';
+            document.getElementById('reset-message').textContent = '';
+        }
+
+        function openResetWithTokenModal() {
+            document.getElementById('reset-with-token-modal').classList.add('active');
+        }
+
+        function closeResetWithTokenModal() {
+            document.getElementById('reset-with-token-modal').classList.remove('active');
+        }
+
+        async function sendResetEmail() {
+            const email = document.getElementById('reset-email').value;
+            const msgEl = document.getElementById('reset-message');
+
+            if (!email) {
+                msgEl.textContent = 'Please enter email';
+                msgEl.style.color = 'red';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const result = await response.json();
+                msgEl.textContent = result.message;
+                msgEl.style.color = response.ok ? 'green' : 'red';
+                if (response.ok) {
+                    setTimeout(() => closeForgotPasswordModal(), 3000);
+                }
+            } catch (error) {
+                msgEl.textContent = 'Error sending email';
+                msgEl.style.color = 'red';
+            }
+        }
+
+        async function submitNewPassword() {
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            const msgEl = document.getElementById('token-message');
+
+            if (!newPass || !confirmPass) {
+                msgEl.textContent = 'Please fill in both password fields';
+                msgEl.style.color = 'red';
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                msgEl.textContent = 'Passwords do not match';
+                msgEl.style.color = 'red';
+                return;
+            }
+
+            if (newPass.length < 8) {
+                msgEl.textContent = 'Password must be at least 8 characters';
+                msgEl.style.color = 'red';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resetToken: resetTokenFromUrl, newPassword: newPass })
+                });
+                const result = await response.json();
+                msgEl.textContent = result.message;
+                msgEl.style.color = response.ok ? 'green' : 'red';
+                if (response.ok) {
+                    setTimeout(() => {
+                        window.location.href = '/admin';
+                    }, 3000);
+                }
+            } catch (error) {
+                msgEl.textContent = 'Error resetting password';
+                msgEl.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

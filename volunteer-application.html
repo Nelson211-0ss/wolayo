@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-                <form id="volunteer-form" action="https://formsubmit.co/info@wolayo.org" method="POST" class="bg-gray-50 p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl">
+                <form id="volunteer-form" class="bg-gray-50 p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl">
                     <!-- FormSubmit Configuration - sends to info@wolayo.org -->
                     <input type="hidden" name="_subject" value="New Volunteer Application - Wolayo">
                     <input type="hidden" name="_captcha" value="false">
@@ -159,8 +159,8 @@
                                 <input type="text" id="country" name="country" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="Poland">
                             </div>
                             <div>
-                                <label class="block text-gray-700 font-semibold mb-2" data-en="Postal Code *" data-pl="Kod Pocztowy *">Postal Code *</label>
-                                <input type="text" id="postal" name="postal_code" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="00-001">
+                                <label class="block text-gray-700 font-semibold mb-2" data-en="Postal Code" data-pl="Kod Pocztowy">Postal Code</label>
+                                <input type="text" id="postal" name="postal_code" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#150f4b] focus:outline-none transition" placeholder="00-001">
                             </div>
                         </div>
 
@@ -196,8 +196,8 @@
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-gray-700 font-semibold mb-3" data-en="Availability *" data-pl="Dostępność *">Availability *</label>
-                            <div class="space-y-2">
+                            <label class="block text-gray-700 font-semibold mb-3" data-en="Availability *" data-pl="Dostępność *">Availability * (select at least one)</label>
+                            <div class="space-y-2" id="availability-group">
                                 <label class="flex items-center">
                                     <input type="checkbox" name="availability" value="weekday-morning" class="mr-2 w-5 h-5 text-[#150f4b]">
                                     <span data-en="Weekday Mornings" data-pl="Poranki w Tygodniu">Weekday Mornings</span>
@@ -396,22 +396,38 @@
                 }
             });
 
+            // Special validation for availability checkboxes on step 2
+            if (currentStep === 2) {
+                const availabilityChecked = document.querySelectorAll('input[name="availability"]:checked').length;
+                if (availabilityChecked === 0) {
+                    valid = false;
+                    const availGroup = document.getElementById('availability-group');
+                    if (availGroup) availGroup.style.borderColor = 'red';
+                    alert('Please select at least one availability option');
+                }
+            }
+
             if (!valid) {
                 alert('Please fill in all required fields');
                 return;
             }
 
-            // Update step indicators
-            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.add('completed');
-            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.remove('active');
-            
+            // Update step indicators - simpler approach
+            document.querySelectorAll('.step-indicator').forEach((el, index) => {
+                el.classList.remove('active', 'completed');
+                if (index + 1 === currentStep) {
+                    el.classList.add('completed');
+                } else if (index + 1 === step) {
+                    el.classList.add('active');
+                }
+            });
+
             // Hide current step
             document.getElementById(`step${currentStep}`).classList.remove('active');
             
             // Show next step
             currentStep = step;
             document.getElementById(`step${step}`).classList.add('active');
-            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.add('active');
 
             // If moving to review step, populate summary
             if (step === 4) {
@@ -423,17 +439,20 @@
         }
 
         function prevStep(step) {
-            // Update step indicators
-            document.querySelector(`.step-indicator:nth-of-type(${currentStep * 2 - 1})`).classList.remove('active');
-            
+            // Update step indicators - simpler approach
+            document.querySelectorAll('.step-indicator').forEach((el, index) => {
+                el.classList.remove('active', 'completed');
+                if (index + 1 === step) {
+                    el.classList.add('active');
+                }
+            });
+
             // Hide current step
             document.getElementById(`step${currentStep}`).classList.remove('active');
             
             // Show previous step
             currentStep = step;
             document.getElementById(`step${step}`).classList.add('active');
-            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.add('active');
-            document.querySelector(`.step-indicator:nth-of-type(${step * 2 - 1})`).classList.remove('completed');
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -496,17 +515,45 @@
             `;
         }
 
-        // Form submission - all fields have name attributes, form submits to FormSubmit which emails info@wolayo.org
-        document.getElementById('volunteer-form').addEventListener('submit', function(e) {
+        // Form submission
+        document.getElementById('volunteer-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
             if (!document.getElementById('terms').checked) {
-                e.preventDefault();
                 alert('Please accept the terms and conditions');
-                return false;
+                return;
             }
-            // Set thank-you redirect URL (works for any deployment path)
-            const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-            document.getElementById('formRedirectUrl').value = window.location.origin + basePath + 'thank-you-volunteer.html';
-            return true;
+
+            // Collect data
+            const name = `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const preferences = [
+                document.getElementById('volunteerRole').options[document.getElementById('volunteerRole').selectedIndex].text,
+                ...Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.nextElementSibling.textContent),
+                ...Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.nextElementSibling.textContent),
+                document.getElementById('languages').value
+            ].join(', ');
+            const experience = `${document.getElementById('education').options[document.getElementById('education').selectedIndex].text}, ${document.querySelector('input[name="prevExperience"]:checked')?.nextElementSibling?.textContent || 'None'}, ${document.getElementById('motivation').value}`;
+            const availability = `${document.getElementById('commitment').options[document.getElementById('commitment').selectedIndex].text}, ${document.getElementById('hoursPerWeek').value} hours/week, ${Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(cb => cb.nextElementSibling.textContent).join(', ')}`;
+
+            const data = { name, email, phone, preferences, experience, availability };
+
+            try {
+                const response = await fetch('/api/volunteer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    window.location.href = '/thank-you-volunteer';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
         });
 
         // Scroll Animation Observer
@@ -530,7 +577,7 @@
             const formRedirect = document.getElementById('formRedirectUrl');
             if (formRedirect) {
                 const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-                formRedirect.value = window.location.origin + basePath + 'thank-you-volunteer.html';
+                formRedirect.value = window.location.origin + basePath + '/thank-you-volunteer';
             }
         });
     </script>
