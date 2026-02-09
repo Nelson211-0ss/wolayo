@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const https = require('https');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -11,6 +11,83 @@ const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// PayPal API Configuration
+const PAYPAL_API_BASE = 'https://api.sandbox.paypal.com';
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
+
+// Helper: Get PayPal Access Token
+async function getPayPalAccessToken() {
+  return new Promise((resolve, reject) => {
+    const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`).toString('base64');
+    const postData = 'grant_type=client_credentials';
+
+    const options = {
+      hostname: 'api.sandbox.paypal.com',
+      port: 443,
+      path: '/v1/oauth2/token',
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const response = JSON.parse(data);
+          resolve(response.access_token);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(postData);
+    req.end();
+  });
+}
+
+// Helper: Make PayPal API Request
+async function makePayPalRequest(method, path, data, token) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify(data);
+    const options = {
+      hostname: 'api.sandbox.paypal.com',
+      port: 443,
+      path: path,
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let responseData = '';
+      res.on('data', (chunk) => { responseData += chunk; });
+      res.on('end', () => {
+        try {
+          const response = JSON.parse(responseData);
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+
+    req.on('error', reject);
+    if (postData) req.write(postData);
+    req.end();
+  });
+}
 
 // Middleware
 app.use(cors());
@@ -23,36 +100,76 @@ app.use((req, res, next) => {
   next();
 });
 
-// Stripe webhook requires the raw body, so we'll mount the webhook route before body parsing.
-// The body parser will be applied after the webhook route.
-
 // Simple request logger for debugging
 app.use((req, res, next) => {
   console.log(new Date().toISOString(), req.method, req.originalUrl);
   next();
 });
 
-// Stripe Webhook endpoint (raw body required)
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
+// PayPal Create Order endpoint
+app.post('/api/paypal/create-order', bodyParser.json(), async (req, res) => {
+  const { amount, currency, description } = req.body;
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    console.error('Webhook signature verification failed.', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+    // Get PayPal access token
+    const token = await getPayPalAccessToken();
+    
+    const orderData = {
+      intent: 'CAPTURE',
+      purchase_units: [{
+        amount: {
+          currency_code: currency || 'USD',
+          value: amount.toString()
+        },
+        description: description || 'Donation to Wolayo'
+      }],
+      redirect_urls: {
+        return_url: `${process.env.APP_URL || 'http://localhost:3000'}/donate?success=true`,
+        cancel_url: `${process.env.APP_URL || 'http://localhost:3000'}/donate?cancelled=true`
+      }
+    };
 
-  // Handle the checkout.session.completed event
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    // Update donation status by stripeSessionId
-    Donation.findOneAndUpdate({ stripeSessionId: session.id }, { status: 'completed' })
-      .then(doc => console.log('Donation updated from webhook:', doc ? doc._id : 'not found'))
-      .catch(err => console.error('Error updating donation from webhook:', err));
+    const response = await makePayPalRequest('POST', '/v2/checkout/orders', orderData, token);
+    console.log('PayPal Order Created:', response.id);
+    res.json({ id: response.id });
+  } catch (error) {
+    console.error('PayPal Create Order Error:', error);
+    res.status(500).json({ error: error.message });
   }
+});
 
-  res.json({ received: true });
+// Config endpoint to serve public config values (PayPal client ID)
+app.get('/api/config/paypal-client-id', (req, res) => {
+  res.json({ clientId: process.env.PAYPAL_CLIENT_ID || '' });
+});
+
+// PayPal Capture Order endpoint
+app.post('/api/paypal/capture-order', bodyParser.json(), async (req, res) => {
+  const { orderID, amount, currency, donorName, donorEmail, donationType } = req.body;
+  try {
+    const token = await getPayPalAccessToken();
+    const response = await makePayPalRequest('POST', `/v2/checkout/orders/${orderID}/capture`, {}, token);
+    
+    console.log('PayPal Order Captured:', response.id);
+
+    // Save donation to database
+    const donation = new Donation({
+      amount,
+      currency,
+      donorName,
+      donorEmail,
+      donationType,
+      paymentMethod: 'paypal',
+      paypalOrderId: response.id,
+      status: 'completed',
+      transactionId: response.purchase_units[0].payments.captures[0].id
+    });
+    await donation.save();
+
+    res.json({ success: true, orderId: response.id });
+  } catch (error) {
+    console.error('PayPal Capture Order Error:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Body parsers for other routes
@@ -68,11 +185,14 @@ mongoose.connect(process.env.MONGODB_URI)
 const DonationSchema = new mongoose.Schema({
   amount: Number,
   currency: String,
-  type: String, // 'one-time' or 'monthly'
-  name: String,
-  email: String,
-  phone: String,
+  donationType: String, // 'one-time' or 'monthly'
+  donorName: String,
+  donorEmail: String,
+  donorPhone: String,
+  paymentMethod: { type: String, enum: ['paypal', 'stripe'], default: 'paypal' },
+  paypalOrderId: String,
   stripeSessionId: String,
+  transactionId: String,
   status: { type: String, default: 'pending' },
   createdAt: { type: Date, default: Date.now, index: true }
 });
@@ -111,61 +231,28 @@ const PasswordReset = mongoose.model('PasswordReset', PasswordResetSchema);
 // Placeholder routes - we'll implement them next
 app.post('/api/donate', async (req, res) => {
   try {
-    const { amount, currency = 'usd', type, name, email, phone } = req.body;
-    const amountInCents = Math.round(parseFloat(amount) * 100); // Stripe uses cents
+    const { amount, currency = 'USD', type, name, email, phone } = req.body;
 
-    let sessionConfig = {
-      payment_method_types: ['card'],
-      line_items: [{
-        price_data: {
-          currency: currency.toLowerCase(),
-          product_data: {
-            name: 'Donation to Wolayo Child Restoration',
-          },
-          unit_amount: amountInCents,
-        },
-        quantity: 1,
-      }],
-      mode: 'payment',
-      success_url: `${req.protocol}://${req.get('host')}/thank-you-volunteer.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.protocol}://${req.get('host')}/donate.html`,
-      customer_email: email,
-      metadata: {
-        name,
-        phone,
-        type,
-      },
-    };
-
-    if (type === 'monthly') {
-      // For subscriptions, create a price with recurring
-      const price = await stripe.prices.create({
-        unit_amount: amountInCents,
-        currency: currency.toLowerCase(),
-        recurring: { interval: 'month' },
-        product_data: { name: 'Monthly Donation' },
-      });
-      sessionConfig.line_items[0] = { price: price.id, quantity: 1 };
-      sessionConfig.mode = 'subscription';
-    }
-
-    const session = await stripe.checkout.sessions.create(sessionConfig);
-
-    // Save to DB
+    // Save to DB (payment handled client-side with PayPal)
     const newDonation = new Donation({
       amount: parseFloat(amount),
-      currency: currency.toLowerCase(),
-      type,
-      name,
-      email,
-      phone,
-      stripeSessionId: session.id,
+      currency: currency.toUpperCase(),
+      donationType: type,
+      donorName: name,
+      donorEmail: email,
+      donorPhone: phone,
+      paymentMethod: 'paypal',
+      status: 'pending'
     });
     await newDonation.save();
 
-    res.json({ url: session.url });
+    res.json({ 
+      success: true, 
+      message: 'Donation initiated. Please complete payment on the next page.',
+      donationId: newDonation._id
+    });
   } catch (error) {
-    console.error('Error creating donation session:', error);
+    console.error('Error creating donation:', error);
     res.status(500).json({ message: 'Error processing donation' });
   }
 });
