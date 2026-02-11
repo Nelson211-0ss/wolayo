@@ -126,7 +126,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ### MongoDB Connection Issues:
 - Ensure MONGODB_URI is set correctly in Railway variables
-- Check MongoDB plugin is active in Railway
+- Check MongoDB plugin is active 
 
 ### PayPal Not Working:
 - Verify PAYPAL_MODE is set to 'live' for production
