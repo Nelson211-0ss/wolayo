@@ -6,21 +6,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="flex items-center justify-between h-16 sm:h-20">
                     <!-- Logo -->
                     <div class="flex-shrink-0">
-                        <a href="index.html" class="flex items-center">
+                        <a href="/" class="flex items-center">
                             <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 flex items-center justify-center">
-                                <img src="js/orglogo.png" alt="Wolayo Child Restoration Logo" class="w-full h-full object-contain">
+                                <img src="/js/orglogo.png" alt="Wolayo Child Restoration Logo" class="w-full h-full object-contain">
                             </div>
                         </a>
                     </div>
 
                     <!-- Desktop Navigation -->
                     <div class="hidden lg:flex items-center space-x-6 xl:space-x-8">
-                        <a href="index.html" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Home" data-pl="Strona Główna">Home</a>
-                        <a href="about.html" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="About" data-pl="O Nas">About</a>
-                        <a href="programs.html" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Programs" data-pl="Programy">Programs</a>
-                        <a href="get-involved.html" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Get Involved" data-pl="Zaangażuj Się">Get Involved</a>
-                        <a href="contact.html" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Contact" data-pl="Kontakt">Contact</a>
-                        <a href="donate.html" class="bg-[#22c55e] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#16a34a] transition text-base" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a>
+                        <a href="/" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Home" data-pl="Strona Główna">Home</a>
+                        <a href="/about" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="About" data-pl="O Nas">About</a>
+                        <a href="/programs" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Programs" data-pl="Programy">Programs</a>
+                        <a href="/get-involved" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Get Involved" data-pl="Zaangażuj Się">Get Involved</a>
+                        <a href="/contact" class="text-white hover:text-[#22c55e] font-medium transition text-base" data-en="Contact" data-pl="Kontakt">Contact</a>
+                        <a href="/donate" class="bg-[#22c55e] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#16a34a] transition text-base" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a>
                         
                         <!-- Language Toggle -->
                         <button id="language-toggle" class="flex items-center space-x-2 bg-sky-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-sky-600 transition shadow-md hover:shadow-lg text-sm">
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 <!-- Mobile Menu -->
                 <div id="mobile-menu" class="hidden lg:hidden pb-4 bg-[#0f0a3a]/95 -mx-3 sm:-mx-6 px-3 sm:px-6 mt-4 rounded-b-lg">
                     <div class="flex flex-col space-y-1">
-                        <a href="index.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Home" data-pl="Strona Główna">Home</a>
-                        <a href="about.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="About" data-pl="O Nas">About</a>
-                        <a href="programs.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Programs" data-pl="Programy">Programs</a>
-                        <a href="get-involved.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Get Involved" data-pl="Zaangażuj Się">Get Involved</a>
-                        <a href="contact.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Contact" data-pl="Kontakt">Contact</a>
-                        <a href="donate.html" class="bg-[#22c55e] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#16a34a] transition-all duration-300 text-center mt-2 shadow-lg text-base" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a>
+                        <a href="/" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Home" data-pl="Strona Główna">Home</a>
+                        <a href="/about" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="About" data-pl="O Nas">About</a>
+                        <a href="/programs" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Programs" data-pl="Programy">Programs</a>
+                        <a href="/get-involved" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Get Involved" data-pl="Zaangażuj Się">Get Involved</a>
+                        <a href="/contact" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Contact" data-pl="Kontakt">Contact</a>
+                        <a href="/donate" class="bg-[#22c55e] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#16a34a] transition-all duration-300 text-center mt-2 shadow-lg text-base" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a>
                     </div>
                 </div>
             </nav>
@@ -74,4 +74,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-

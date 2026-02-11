@@ -516,6 +516,16 @@ app.get('/programs', (req, res) => res.sendFile(path.resolve(__dirname, 'program
 app.get('/get-involved', (req, res) => res.sendFile(path.resolve(__dirname, 'get-involved.html')));
 app.get('/thank-you-volunteer', (req, res) => res.sendFile(path.resolve(__dirname, 'thank-you-volunteer.html')));
 
+// Redirect .html URLs to clean URLs
+app.get('/donate.html', (req, res) => res.redirect(301, '/donate'));
+app.get('/volunteer-application.html', (req, res) => res.redirect(301, '/volunteer-application'));
+app.get('/contact.html', (req, res) => res.redirect(301, '/contact'));
+app.get('/about.html', (req, res) => res.redirect(301, '/about'));
+app.get('/programs.html', (req, res) => res.redirect(301, '/programs'));
+app.get('/get-involved.html', (req, res) => res.redirect(301, '/get-involved'));
+app.get('/thank-you-volunteer.html', (req, res) => res.redirect(301, '/thank-you-volunteer'));
+app.get('/admin.html', (req, res) => res.redirect(301, '/admin'));
+
 // Serve static files (your HTML, CSS, JS) - MUST be after API routes
 app.use(express.static('.'));
 

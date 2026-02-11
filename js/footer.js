@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div>
                         <div class="flex items-center mb-4">
                             <div class="w-32 h-32 flex items-center justify-center">
-                                <img src="js/orglogo.png" alt="Wolayo Child Restoration Logo" class="w-full h-full object-contain">
+                                <img src="/js/orglogo.png" alt="Wolayo Child Restoration Logo" class="w-full h-full object-contain">
                             </div>
                         </div>
                         <p class="text-gray-400 text-sm leading-relaxed text-justify" data-en="Dedicated to restoring hope and transforming the lives of vulnerable children through holistic care, education, and empowerment — nurturing their potential to build a brighter, self-reliant future." data-pl="Oddani przywracaniu nadziei i transformacji życia bezbronnych dzieci poprzez holistyczną opiekę, edukację i wzmacnianie — pielęgnując ich potencjał do budowy jaśniejszej, samodzielnej przyszłości.">Dedicated to restoring hope and transforming the lives of vulnerable children through holistic care, education, and empowerment — nurturing their potential to build a brighter, self-reliant future.</p>
@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div>
                         <h3 class="text-lg font-bold mb-4" style="font-family: 'Playfair Display', Georgia, serif;" data-en="Quick Links" data-pl="Szybkie Linki">Quick Links</h3>
                         <ul class="space-y-2">
-                            <li><a href="index.html" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Home" data-pl="Strona Główna">Home</a></li>
-                            <li><a href="about.html" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="About Us" data-pl="O Nas">About Us</a></li>
-                            <li><a href="programs.html" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Our Programs" data-pl="Nasze Programy">Our Programs</a></li>
-                            <li><a href="donate.html" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a></li>
-                            <li><a href="contact.html" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Contact" data-pl="Kontakt">Contact</a></li>
+                            <li><a href="/" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Home" data-pl="Strona Główna">Home</a></li>
+                            <li><a href="/about" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="About Us" data-pl="O Nas">About Us</a></li>
+                            <li><a href="/programs" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Our Programs" data-pl="Nasze Programy">Our Programs</a></li>
+                            <li><a href="/donate" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Donate" data-pl="Przekaż Darowiznę">Donate</a></li>
+                            <li><a href="/contact" class="text-gray-400 hover:text-white transition text-sm font-medium" data-en="Contact" data-pl="Kontakt">Contact</a></li>
                         </ul>
                     </div>
 
