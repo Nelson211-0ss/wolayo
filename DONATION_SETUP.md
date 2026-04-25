@@ -1,120 +1,116 @@
-# Donation Payment Setup Guide
+# Donation Setup — Stripe
 
-This guide explains how to accept online donations on your Wolayo website. Choose one option below and follow the steps.
+The Wolayo website accepts **one-time donations in USD** via **Stripe Checkout**. This guide walks you through getting it live.
 
 ---
 
-## Option 1: Stripe Payment Links (Recommended – no coding)
+## 1. Create a Stripe account
 
-**Best for:** International donors, cards (Visa, Mastercard). No backend required.
+1. Sign up: <https://dashboard.stripe.com/register>
+2. Verify your email and complete the basic business profile.
+3. (Optional but recommended) Apply for **Stripe for Nonprofits** discounted pricing once you have your registration documents: <https://stripe.com/non-profits>
 
-### Steps
+---
 
-1. **Create a Stripe account** (if you don’t have one): [https://dashboard.stripe.com/register](https://dashboard.stripe.com/register)
+## 2. Get your API keys
 
-2. **Create a Payment Link**
-   - In Stripe Dashboard go to **Product catalog** → **Payment links** → **New**
-   - Name: e.g. “Wolayo Donation”
-   - **Pricing:** choose **One time** and enable **“Customers can enter a custom amount”**
-   - Set currency (e.g. USD)
-   - Optional: add a description and your logo
-   - Click **Save** and copy the link (e.g. `https://buy.stripe.com/xxxxx`)
+1. In the Stripe Dashboard go to **Developers → API keys**.
+2. You will see two keys:
+   - **Publishable key** — starts with `pk_test_…` (test mode) or `pk_live_…` (live mode).
+   - **Secret key** — starts with `sk_test_…` or `sk_live_…`. **Never commit this** to git or share it publicly.
+3. Copy both. You will paste them into your `.env` file (next step).
 
-3. **Add the link to your site**
-   - Open `donate.html` and find the config at the top of the `<script>` section
-   - Set `DONATION_PAYMENT_URL` to your Stripe Payment Link:
-   ```javascript
-   const DONATION_PAYMENT_URL = 'https://buy.stripe.com/YOUR_LINK_HERE';
+> Use **test mode** keys while developing. Switch to **live mode** keys only when you are ready to accept real donations.
+
+---
+
+## 3. Add Stripe keys to your environment
+
+Create (or edit) a `.env` file in the project root with:
+
+```env
+# Stripe
+STRIPE_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxx   # added in step 4
+
+# Public URL of your site (used for Stripe success/cancel redirects)
+APP_URL=http://localhost:3000
+```
+
+When you deploy, set the same variables in your hosting provider (Railway, Render, etc.) and change `APP_URL` to your real domain (for example `https://wolayo.org`).
+
+`.env` is already listed in `.gitignore`, so it will not be committed.
+
+---
+
+## 4. Set up the Stripe webhook
+
+The webhook is what tells your server “the donor actually paid” so the donation in MongoDB is marked **completed**.
+
+### Local development (using the Stripe CLI)
+
+1. Install the Stripe CLI: <https://stripe.com/docs/stripe-cli>
+2. Log in: `stripe login`
+3. Forward webhook events to your local server:
+   ```bash
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
    ```
+4. The CLI will print a `whsec_…` signing secret. Copy it into `.env` as `STRIPE_WEBHOOK_SECRET`.
+5. Restart `node server.js`.
 
-4. **Done.** When donors click “Proceed to Payment” they go to Stripe, enter the amount (or use the one they chose on your page), and pay. You receive the money in your Stripe account.
+### Production
 
-**Fees:** ~2.9% + small fixed fee per transaction (varies by country). Nonprofits may get discounts.
-
----
-
-## Option 2: Donorbox (Built for nonprofits)
-
-**Best for:** Recurring donations, receipts, fundraising pages, no coding.
-
-### Steps
-
-1. **Sign up:** [https://donorbox.org](https://donorbox.org) (free tier available).
-
-2. **Create a campaign**
-   - Create a campaign, set your goal and currency
-   - Enable one-time and/or monthly donations
-   - Customize fields and thank-you message
-
-3. **Get your link or embed code**
-   - **Redirect:** Copy your campaign URL (e.g. `https://donorbox.org/wolayo`)
-   - **Or embed:** Copy the embed code and replace the donation form section in `donate.html` with an iframe (see Donorbox docs)
-
-4. **Add the link to your site**
-   - In `donate.html`, set:
-   ```javascript
-   const DONATION_PAYMENT_URL = 'https://donorbox.org/your-campaign-slug';
-   ```
-
-Donorbox handles receipts, recurring giving, and reporting.
+1. In the Stripe Dashboard go to **Developers → Webhooks → Add endpoint**.
+2. Endpoint URL: `https://YOUR-DOMAIN/api/stripe/webhook`
+3. Listen for the event: `checkout.session.completed`
+4. Click **Add endpoint**, then reveal the **Signing secret** (`whsec_…`) and put it in your production `STRIPE_WEBHOOK_SECRET` env var.
 
 ---
 
-## Option 3: PayPal Donate
+## 5. Run it
 
-**Best for:** Donors who prefer PayPal. Simple to set up.
+```bash
+npm install
+npm start
+```
 
-### Steps
+Visit <http://localhost:3000/donate> and try a donation. In test mode you can use Stripe's test cards:
 
-1. **Get a PayPal Business account:** [https://www.paypal.com/business](https://www.paypal.com/business)
+| Card number          | Result            |
+| -------------------- | ----------------- |
+| `4242 4242 4242 4242` | Successful payment |
+| `4000 0000 0000 9995` | Insufficient funds |
+| `4000 0025 0000 3155` | Requires 3D Secure |
 
-2. **Create a Donate button**
-   - PayPal → **Tools** → **All tools** → **PayPal Buttons** → **Donate**
-   - Set currency (e.g. USD), optional fixed amounts, and “Allow donors to enter their own amount”
-   - Copy the generated link or button code
+Use any future expiry date, any 3-digit CVC, and any ZIP/postal code.
 
-3. **Add to your site**
-   - Use the link as `DONATION_PAYMENT_URL` in `donate.html`, or
-   - Replace the “Proceed to Payment” button with PayPal’s button HTML (paste where the current button is)
-
----
-
-## Option 4: Flutterwave (Uganda / Africa)
-
-**Best for:** Local donors in Uganda – cards and **mobile money (MTN, Airtel)**.
-
-### Steps
-
-1. **Sign up:** [https://flutterwave.com](https://flutterwave.com) (Uganda supported).
-
-2. **Create a payment link**
-   - In Dashboard create a **Payment Link** or use **Pay** (hosted page)
-   - Set currency (USD or UGX), description
-   - Copy the payment link
-
-3. **Add to your site**
-   - Set `DONATION_PAYMENT_URL` in `donate.html` to your Flutterwave payment link
-
-**Note:** For custom amounts from your form with Flutterwave you typically need a small backend (e.g. Node or PHP) that creates a transaction and returns a link. For the simplest setup, use one Flutterwave link and let donors enter the amount on Flutterwave’s page.
+After a successful test payment you should see:
+- A redirect to `/thank-you-donation`
+- A new record in MongoDB with `status: "completed"`
+- The session listed under **Payments** in the Stripe Dashboard
 
 ---
 
-## Summary: What to do in donate.html
+## 6. Going live
 
-1. Open **donate.html**.
-2. Find the line:  
-   `const DONATION_PAYMENT_URL = '';`
-3. Paste your payment URL between the quotes:
-   - **Stripe:** your Payment Link from the Stripe Dashboard  
-   - **Donorbox:** your campaign URL  
-   - **PayPal:** your Donate button link  
-   - **Flutterwave:** your payment link  
-
-4. Save the file. When donors click **“Proceed to Payment”**, they will be sent to your payment page.  
-   The amount they selected on your form can be shown on the next page (if your provider supports it) or they enter it again on the payment page.
+1. Toggle the Stripe Dashboard from **Test mode** to **Live mode**.
+2. Replace the `pk_test_…` and `sk_test_…` values in your production `.env` with the live keys.
+3. Add a **live** webhook endpoint pointing to your production URL and update `STRIPE_WEBHOOK_SECRET`.
+4. Make a small real donation to yourself with a real card to confirm everything works end-to-end, then refund it from the Stripe Dashboard.
 
 ---
 
-## Optional: Bank transfer (offline)
+## How the integration works (for reference)
 
-If you want to also show bank details (e.g. USD and UGX accounts) so people can donate by bank transfer, that can be added as a separate section on the donate page with your bank name, account numbers, and branch. Ask when you’re ready and we can add the exact text and layout.
+- **Frontend** (`donate.html`): collects amount and donor info, then calls `POST /api/stripe/create-checkout-session` and redirects the donor to Stripe's hosted checkout page.
+- **Server** (`server.js`):
+  - `POST /api/stripe/create-checkout-session` creates a one-time Stripe Checkout Session (mode `payment`) in USD and saves a pending `Donation` document.
+  - `POST /api/stripe/webhook` receives the `checkout.session.completed` event and marks the donation as `completed`.
+- **Currency**: hard-coded to **USD**. Recurring/monthly donations are not enabled — every donation is a single one-time charge. (Easy to add later by switching the Checkout Session to `mode: 'subscription'`.)
+
+---
+
+## Optional: bank transfer (offline)
+
+If you also want to display bank account details for offline donations, that can be added as a separate section on `donate.html`. Ask when you're ready and we'll add the layout.

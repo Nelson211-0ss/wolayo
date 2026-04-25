@@ -3,91 +3,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const https = require('https');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const Stripe = require('stripe');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// PayPal API Configuration
-const PAYPAL_API_BASE = 'https://api.sandbox.paypal.com';
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
-
-// Helper: Get PayPal Access Token
-async function getPayPalAccessToken() {
-  return new Promise((resolve, reject) => {
-    const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`).toString('base64');
-    const postData = 'grant_type=client_credentials';
-
-    const options = {
-      hostname: 'api.sandbox.paypal.com',
-      port: 443,
-      path: '/v1/oauth2/token',
-      method: 'POST',
-      headers: {
-        'Authorization': `Basic ${auth}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(postData)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => { data += chunk; });
-      res.on('end', () => {
-        try {
-          const response = JSON.parse(data);
-          resolve(response.access_token);
-        } catch (error) {
-          reject(error);
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.write(postData);
-    req.end();
-  });
-}
-
-// Helper: Make PayPal API Request
-async function makePayPalRequest(method, path, data, token) {
-  return new Promise((resolve, reject) => {
-    const postData = JSON.stringify(data);
-    const options = {
-      hostname: 'api.sandbox.paypal.com',
-      port: 443,
-      path: path,
-      method: method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        'Content-Length': Buffer.byteLength(postData)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let responseData = '';
-      res.on('data', (chunk) => { responseData += chunk; });
-      res.on('end', () => {
-        try {
-          const response = JSON.parse(responseData);
-          resolve(response);
-        } catch (error) {
-          reject(error);
-        }
-      });
-    });
-
-    req.on('error', reject);
-    if (postData) req.write(postData);
-    req.end();
-  });
-}
+// Stripe Configuration
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY || '');
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
+const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
 
 // Middleware
 app.use(cors());
@@ -106,75 +34,143 @@ app.use((req, res, next) => {
   next();
 });
 
-// PayPal Create Order endpoint
-app.post('/api/paypal/create-order', bodyParser.json(), async (req, res) => {
-  const { amount, currency, description } = req.body;
-  try {
-    // Get PayPal access token
-    const token = await getPayPalAccessToken();
-    
-    const orderData = {
-      intent: 'CAPTURE',
-      purchase_units: [{
-        amount: {
-          currency_code: currency || 'USD',
-          value: amount.toString()
-        },
-        description: description || 'Donation to Wolayo'
-      }],
-      redirect_urls: {
-        return_url: `${process.env.APP_URL || 'http://localhost:3000'}/donate?success=true`,
-        cancel_url: `${process.env.APP_URL || 'http://localhost:3000'}/donate?cancelled=true`
-      }
-    };
+// =============================================================
+// STRIPE WEBHOOK (must come BEFORE express.json so we can verify
+// the raw request body signature).
+// =============================================================
+app.post('/api/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
 
-    const response = await makePayPalRequest('POST', '/v2/checkout/orders', orderData, token);
-    console.log('PayPal Order Created:', response.id);
-    res.json({ id: response.id });
-  } catch (error) {
-    console.error('PayPal Create Order Error:', error);
-    res.status(500).json({ error: error.message });
+  try {
+    if (STRIPE_WEBHOOK_SECRET) {
+      event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
+    } else {
+      // No signing secret configured (dev/local) — parse the body directly.
+      event = JSON.parse(req.body.toString());
+    }
+  } catch (err) {
+    console.error('Stripe webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-});
 
-// Config endpoint to serve public config values (PayPal client ID)
-app.get('/api/config/paypal-client-id', (req, res) => {
-  res.json({ clientId: process.env.PAYPAL_CLIENT_ID || '' });
-});
-
-// PayPal Capture Order endpoint
-app.post('/api/paypal/capture-order', bodyParser.json(), async (req, res) => {
-  const { orderID, amount, currency, donorName, donorEmail, donationType } = req.body;
   try {
-    const token = await getPayPalAccessToken();
-    const response = await makePayPalRequest('POST', `/v2/checkout/orders/${orderID}/capture`, {}, token);
-    
-    console.log('PayPal Order Captured:', response.id);
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
 
-    // Save donation to database
-    const donation = new Donation({
-      amount,
-      currency,
-      donorName,
-      donorEmail,
-      donationType,
-      paymentMethod: 'paypal',
-      paypalOrderId: response.id,
-      status: 'completed',
-      transactionId: response.purchase_units[0].payments.captures[0].id
-    });
-    await donation.save();
+      const update = {
+        status: 'completed',
+        stripeSessionId: session.id,
+        stripePaymentIntentId: session.payment_intent || null,
+        donorEmail: session.customer_details?.email || undefined,
+        donorName: session.customer_details?.name || undefined
+      };
 
-    res.json({ success: true, orderId: response.id });
-  } catch (error) {
-    console.error('PayPal Capture Order Error:', error);
-    res.status(500).json({ error: error.message });
+      const donationId = session.metadata?.donationId;
+      if (donationId) {
+        await Donation.findByIdAndUpdate(donationId, update);
+      } else {
+        // Fallback: create a record if metadata is missing.
+        await Donation.create({
+          amount: (session.amount_total || 0) / 100,
+          currency: (session.currency || 'usd').toUpperCase(),
+          donationType: 'once',
+          paymentMethod: 'stripe',
+          ...update
+        });
+      }
+      console.log('Stripe checkout completed:', session.id);
+    }
+    // Other event types are fine — Stripe just needs a 2xx.
+    res.json({ received: true });
+  } catch (err) {
+    console.error('Stripe webhook handler error:', err);
+    res.status(500).json({ error: err.message });
   }
 });
 
 // Body parsers for other routes
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// =============================================================
+// STRIPE CHECKOUT
+// =============================================================
+
+// Create a Stripe Checkout Session and return its URL.
+app.post('/api/stripe/create-checkout-session', async (req, res) => {
+  try {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return res.status(500).json({ error: 'Stripe is not configured on the server.' });
+    }
+
+    const { amount, name, email, phone } = req.body;
+
+    const numericAmount = parseFloat(amount);
+    if (!numericAmount || numericAmount < 1) {
+      return res.status(400).json({ error: 'Please enter a valid donation amount (minimum 1).' });
+    }
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required.' });
+    }
+
+    // Persist a pending donation; Stripe webhook will mark it completed.
+    const donation = await Donation.create({
+      amount: numericAmount,
+      currency: 'USD',
+      donationType: 'once',
+      donorName: name,
+      donorEmail: email,
+      donorPhone: phone,
+      paymentMethod: 'stripe',
+      status: 'pending'
+    });
+
+    // Stripe expects the smallest currency unit (e.g. cents).
+    const unitAmount = Math.round(numericAmount * 100);
+
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      customer_email: email,
+      line_items: [{
+        quantity: 1,
+        price_data: {
+          currency: 'usd',
+          unit_amount: unitAmount,
+          product_data: {
+            name: 'Donation to Wolayo',
+            description: 'Thank you for supporting Wolayo Child Restoration.'
+          }
+        }
+      }],
+      success_url: `${APP_URL}/donate?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP_URL}/donate?cancelled=true`,
+      metadata: {
+        donationId: donation._id.toString(),
+        donorName: name || '',
+        donorPhone: phone || ''
+      },
+      payment_intent_data: {
+        metadata: { donationId: donation._id.toString() }
+      }
+    });
+
+    // Save the session id so the webhook can reconcile if needed.
+    donation.stripeSessionId = session.id;
+    await donation.save();
+
+    res.json({ id: session.id, url: session.url });
+  } catch (error) {
+    console.error('Stripe create-checkout-session error:', error);
+    res.status(500).json({ error: error.message || 'Could not start checkout.' });
+  }
+});
+
+// Public config: Stripe publishable key (safe to expose).
+app.get('/api/config/stripe', (req, res) => {
+  res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+});
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -185,13 +181,13 @@ mongoose.connect(process.env.MONGODB_URI)
 const DonationSchema = new mongoose.Schema({
   amount: Number,
   currency: String,
-  donationType: String, // 'one-time' or 'monthly'
+  donationType: String, // 'once' or 'monthly'
   donorName: String,
   donorEmail: String,
   donorPhone: String,
-  paymentMethod: { type: String, enum: ['paypal', 'stripe'], default: 'paypal' },
-  paypalOrderId: String,
+  paymentMethod: { type: String, enum: ['stripe'], default: 'stripe' },
   stripeSessionId: String,
+  stripePaymentIntentId: String,
   transactionId: String,
   status: { type: String, default: 'pending' },
   createdAt: { type: Date, default: Date.now, index: true }
@@ -227,13 +223,10 @@ const Volunteer = mongoose.model('Volunteer', VolunteerSchema);
 const Contact = mongoose.model('Contact', ContactSchema);
 const PasswordReset = mongoose.model('PasswordReset', PasswordResetSchema);
 
-// API Routes
-// Placeholder routes - we'll implement them next
+// Legacy/manual record endpoint (kept for offline / pledge use cases).
 app.post('/api/donate', async (req, res) => {
   try {
     const { amount, currency = 'USD', type, name, email, phone } = req.body;
-
-    // Save to DB (payment handled client-side with PayPal)
     const newDonation = new Donation({
       amount: parseFloat(amount),
       currency: currency.toUpperCase(),
@@ -241,14 +234,14 @@ app.post('/api/donate', async (req, res) => {
       donorName: name,
       donorEmail: email,
       donorPhone: phone,
-      paymentMethod: 'paypal',
+      paymentMethod: 'stripe',
       status: 'pending'
     });
     await newDonation.save();
 
-    res.json({ 
-      success: true, 
-      message: 'Donation initiated. Please complete payment on the next page.',
+    res.json({
+      success: true,
+      message: 'Donation recorded. Please complete payment to finish.',
       donationId: newDonation._id
     });
   } catch (error) {
@@ -515,6 +508,7 @@ app.get('/about', (req, res) => res.sendFile(path.resolve(__dirname, 'about.html
 app.get('/programs', (req, res) => res.sendFile(path.resolve(__dirname, 'programs.html')));
 app.get('/get-involved', (req, res) => res.sendFile(path.resolve(__dirname, 'get-involved.html')));
 app.get('/thank-you-volunteer', (req, res) => res.sendFile(path.resolve(__dirname, 'thank-you-volunteer.html')));
+app.get('/thank-you-donation', (req, res) => res.sendFile(path.resolve(__dirname, 'thank-you-donation.html')));
 
 // Redirect .html URLs to clean URLs
 app.get('/donate.html', (req, res) => res.redirect(301, '/donate'));
@@ -524,6 +518,7 @@ app.get('/about.html', (req, res) => res.redirect(301, '/about'));
 app.get('/programs.html', (req, res) => res.redirect(301, '/programs'));
 app.get('/get-involved.html', (req, res) => res.redirect(301, '/get-involved'));
 app.get('/thank-you-volunteer.html', (req, res) => res.redirect(301, '/thank-you-volunteer'));
+app.get('/thank-you-donation.html', (req, res) => res.redirect(301, '/thank-you-donation'));
 app.get('/admin.html', (req, res) => res.redirect(301, '/admin'));
 
 // Serve static files (your HTML, CSS, JS) - MUST be after API routes

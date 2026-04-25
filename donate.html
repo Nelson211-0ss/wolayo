@@ -3,39 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/js/orglogo.png">
+    <link rel="apple-touch-icon" href="/js/orglogo.png">
     <title>Donate - Wolayo Child Restoration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/animations.css">
-    <script>
-        // Load PayPal SDK dynamically after fetching client ID
-        async function loadPayPalSDK() {
-            try {
-                const configResponse = await fetch('/api/config/paypal-client-id');
-                const config = await configResponse.json();
-                
-                if (config.clientId && config.clientId.length > 10) {
-                    // Load PayPal SDK script with explicit country setting for testing
-                    const script = document.createElement('script');
-                    script.src = `https://www.paypal.com/sdk/js?client-id=${config.clientId}&currency=USD&locale=en_US`;
-                    script.onload = () => initializePayPalButtons();
-                    script.onerror = () => {
-                        console.error('PayPal SDK failed to load');
-                        document.getElementById('paypal-button-container').innerHTML = '<p class="text-red-600">PayPal SDK failed to load. Please refresh the page.</p>';
-                    };
-                    document.head.appendChild(script);
-                } else {
-                    console.error('Invalid PayPal client ID');
-                    document.getElementById('paypal-button-container').innerHTML = '<p class="text-red-600">PayPal configuration error. Please contact support.</p>';
-                }
-            } catch (error) {
-                console.error('Error fetching PayPal config:', error);
-                document.getElementById('paypal-button-container').innerHTML = '<p class="text-red-600">Error loading payment system. Please try again later.</p>';
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -233,47 +207,10 @@
                         </div>
                     </div>
 
-                    <!-- Currency Selection -->
-                    <div class="mb-8">
-                        <label class="block text-gray-700 font-semibold mb-4" data-en="Select Currency" data-pl="Wybierz Walutę">Select Currency</label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="currency" value="usd" class="peer sr-only" checked>
-                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
-                                    <p class="font-semibold text-gray-700">USD ($)</p>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="currency" value="ugx" class="peer sr-only">
-                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
-                                    <p class="font-semibold text-gray-700">UGX (UGX)</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+                    <!-- Currency (USD only with Stripe) -->
+                    <input type="hidden" name="currency" value="usd">
 
                     <div class="border-t border-gray-200 my-8"></div>
-
-                    <!-- Donation Type -->
-                    <div class="mb-8">
-                        <label class="block text-gray-700 font-semibold mb-4" data-en="Donation Type" data-pl="Rodzaj Darowizny">Donation Type</label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="donation-type" value="once" class="peer sr-only" checked>
-                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
-                                    <i class="fas fa-hand-holding-heart text-2xl text-gray-400 peer-checked:text-[#22c55e] mb-2"></i>
-                                    <p class="font-semibold text-gray-700" data-en="One-time" data-pl="Jednorazowa">One-time</p>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="donation-type" value="monthly" class="peer sr-only">
-                                <div class="border-2 border-gray-300 peer-checked:border-[#22c55e] peer-checked:bg-[#22c55e]/5 rounded-xl p-4 text-center transition-all duration-300">
-                                    <i class="fas fa-sync-alt text-2xl text-gray-400 peer-checked:text-[#22c55e] mb-2"></i>
-                                    <p class="font-semibold text-gray-700" data-en="Monthly" data-pl="Miesięczna">Monthly</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
 
                     <!-- Donor Information -->
                     <div class="space-y-5 mb-8">
@@ -297,8 +234,19 @@
                         </div>
                     </div>
 
-                    <!-- PayPal Buttons -->
-                    <div id="paypal-button-container" class="mb-8"></div>
+                    <!-- Stripe Checkout Button -->
+                    <button type="button" id="stripe-checkout-btn"
+                        class="w-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] hover:from-[#16a34a] hover:to-[#15803d] text-white font-bold py-4 px-6 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-lock"></i>
+                        <span data-en="Donate Securely with Stripe" data-pl="Przekaż Bezpiecznie przez Stripe">Donate Securely with Stripe</span>
+                    </button>
+                    <p id="stripe-error" class="text-red-600 text-sm text-center mt-3 hidden"></p>
+                    <p class="text-xs text-gray-500 text-center mt-3">
+                        <i class="fab fa-cc-visa mx-1"></i>
+                        <i class="fab fa-cc-mastercard mx-1"></i>
+                        <i class="fab fa-cc-amex mx-1"></i>
+                        <span data-en="Cards accepted via Stripe Checkout" data-pl="Karty akceptowane przez Stripe Checkout">Cards accepted via Stripe Checkout</span>
+                    </p>
 
                     <!-- Security Badge -->
                     <div class="mt-6 flex items-center justify-center gap-2 text-gray-600 text-sm">
@@ -396,120 +344,67 @@
     <script src="js/animations.js"></script>
     <script>
         // ============================================================
-        // PAYPAL INTEGRATION
+        // STRIPE CHECKOUT INTEGRATION
         // ============================================================
-        
-        let paypalOrderId = null;
 
-        // Initialize PayPal buttons
-        function initializePayPalButtons() {
-            console.log('Initializing PayPal buttons. PayPal object:', typeof paypal);
-            if (typeof paypal !== 'undefined') {
-                console.log('PayPal SDK loaded successfully');
-                paypal.Buttons({
-                createOrder: async (data, actions) => {
-                    const amount = parseFloat(document.getElementById('custom-amount').value) || 0;
-                    if (amount < 1) {
-                        alert('Please enter or select a donation amount.');
-                        throw new Error('Invalid donation amount');
-                    }
+        function showStripeError(msg) {
+            const el = document.getElementById('stripe-error');
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
 
-                    const currency = document.querySelector('input[name="currency"]:checked').value.toUpperCase();
-                    const type = document.querySelector('input[name="donation-type"]:checked').value;
-                    const name = document.getElementById('donor-name').value.trim();
-                    const email = document.getElementById('donor-email').value.trim();
-                    const phone = document.getElementById('donor-phone').value.trim();
+        function hideStripeError() {
+            const el = document.getElementById('stripe-error');
+            el.textContent = '';
+            el.classList.add('hidden');
+        }
 
-                    if (!name || !email) {
-                        alert('Please fill in your name and email.');
-                        throw new Error('Missing required fields');
-                    }
+        async function startStripeCheckout() {
+            hideStripeError();
 
-                    try {
-                        // Create order on backend
-                        const response = await fetch('/api/paypal/create-order', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ amount, currency, description: `${type} Donation to Wolayo` })
-                        });
-                        
-                        if (!response.ok) {
-                            throw new Error(`Server error: ${response.status}`);
-                        }
-                        
-                        const responseData = await response.json();
-                        
-                        if (!responseData.id) {
-                            console.error('Server response:', responseData);
-                            throw new Error('No order ID returned from server');
-                        }
-                        
-                        paypalOrderId = responseData.id;
-                        console.log('PayPal order created:', responseData.id);
-                        return responseData.id;
-                    } catch (error) {
-                        console.error('Error creating PayPal order:', error);
-                        alert('Error initiating payment: ' + error.message);
-                        throw error;
-                    }
-                },
+            const amount = parseFloat(document.getElementById('custom-amount').value) || 0;
+            if (amount < 1) {
+                showStripeError('Please enter or select a donation amount of at least $1.');
+                return;
+            }
 
-                onApprove: async (data, actions) => {
-                    try {
-                        console.log('Payment approved. OrderID:', data.orderID);
-                        
-                        const amount = parseFloat(document.getElementById('custom-amount').value);
-                        const currency = document.querySelector('input[name="currency"]:checked').value.toUpperCase();
-                        const type = document.querySelector('input[name="donation-type"]:checked').value;
-                        const name = document.getElementById('donor-name').value.trim();
-                        const email = document.getElementById('donor-email').value.trim();
-                        const phone = document.getElementById('donor-phone').value.trim();
+            const name = document.getElementById('donor-name').value.trim();
+            const email = document.getElementById('donor-email').value.trim();
+            const phone = document.getElementById('donor-phone').value.trim();
 
-                        if (!data.orderID) {
-                            throw new Error('No orderID received from PayPal');
-                        }
+            if (!name || !email) {
+                showStripeError('Please fill in your name and email before donating.');
+                return;
+            }
 
-                        // Capture order on backend
-                        const response = await fetch('/api/paypal/capture-order', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ 
-                                orderID: data.orderID, 
-                                amount, 
-                                currency,
-                                donationType: type,
-                                donorName: name,
-                                donorEmail: email,
-                                donorPhone: phone
-                            })
-                        });
-                        
-                        if (!response.ok) {
-                            throw new Error(`Server error: ${response.status}`);
-                        }
-                        
-                        const result = await response.json();
-                        
-                        if (result.success) {
-                            console.log('Payment successful:', result);
-                            window.location.href = '/thank-you-volunteer';
-                        } else {
-                            console.error('Capture failed:', result);
-                            alert('Error: ' + (result.error || 'Payment capture failed'));
-                        }
-                    } catch (error) {
-                        console.error('Error in onApprove:', error);
-                        alert('Error completing payment: ' + error.message);
-                    }
-                },
+            const btn = document.getElementById('stripe-checkout-btn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Redirecting to Stripe...</span>';
 
-                onError: (err) => {
-                    console.error('PayPal error:', err);
-                    alert('An error occurred. Please try again.');
+            try {
+                const response = await fetch('/api/stripe/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount, name, email, phone })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.url) {
+                    throw new Error(data.error || `Server error: ${response.status}`);
                 }
-            }).render('#paypal-button-container');
+
+                window.location.href = data.url;
+            } catch (err) {
+                console.error('Stripe checkout error:', err);
+                showStripeError(err.message || 'Could not start checkout. Please try again.');
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
             }
         }
+
+        document.getElementById('stripe-checkout-btn').addEventListener('click', startStripeCheckout);
 
         // Donation button interactions
         document.querySelectorAll('.donation-btn').forEach(btn => {
@@ -519,20 +414,13 @@
                 this.classList.add('selected');
             });
         });
-        
+
         document.getElementById('custom-amount').addEventListener('input', function() {
             if (this.value) {
                 document.querySelectorAll('.donation-btn').forEach(b => b.classList.remove('selected'));
             }
         });
 
-        document.querySelectorAll('input[name="currency"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const symbol = this.value === 'usd' ? '$' : 'UGX';
-                document.getElementById('currency-symbol').textContent = symbol;
-            });
-        });
-        
         // Scroll Animation Observer
         const scrollAnimationObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -550,8 +438,12 @@
             animatedElements.forEach(function(el) {
                 scrollAnimationObserver.observe(el);
             });
-            // Load PayPal SDK after DOM is ready
-            loadPayPalSDK();
+
+            // If returning from a successful Stripe checkout, send to thank-you page.
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('success') === 'true') {
+                window.location.replace('/thank-you-donation');
+            }
         });
     </script>
 </body>
