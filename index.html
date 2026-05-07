@@ -101,6 +101,48 @@
             animation: float 6s ease-in-out infinite;
         }
         
+        /* Partners infinite horizontal marquee */
+        @keyframes partners-marquee {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .partners-marquee-track {
+            animation: partners-marquee 40s linear infinite;
+        }
+        
+        .partners-marquee:hover .partners-marquee-track {
+            animation-play-state: paused;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .partners-marquee-track {
+                animation: none;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100% !important;
+                max-width: 72rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .partners-marquee-track > div:first-child {
+                flex-wrap: wrap;
+                justify-content: center;
+                row-gap: 2.5rem;
+                padding-right: 0 !important;
+                max-width: 100%;
+            }
+            
+            .partners-marquee-clone {
+                display: none !important;
+            }
+        }
+        
         /* Fade in animations */
         .fade-in-up {
             opacity: 0;
@@ -187,6 +229,52 @@
             transform: scale(1.4);
             width: 2.5rem !important;
             border-radius: 1rem;
+        }
+
+        /* Impact stories slider (homepage) */
+        .impact-slider-viewport {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(15, 10, 53, 0.45);
+        }
+
+        .impact-slide-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 12s ease-out;
+            opacity: 0;
+            transform: scale(1);
+        }
+
+        .impact-slide-img.active {
+            opacity: 1;
+            transform: scale(1.06);
+            z-index: 1;
+        }
+
+        .impact-slider-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 35%, rgba(15, 10, 53, 0.55) 100%);
+            pointer-events: none;
+            z-index: 2;
+            border-radius: inherit;
+        }
+
+        .impact-dot {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .impact-dot.active {
+            background-color: #22c55e !important;
+            transform: scale(1.25);
+            width: 2rem !important;
+            border-radius: 9999px;
         }
         
         /* Stats counter animation */
@@ -365,7 +453,7 @@
         
         <!-- Content -->
         <div class="relative z-10 w-full py-20 sm:py-24 lg:py-32">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
                 <div class="max-w-5xl mx-auto text-center">
                     <div class="text-white space-y-8 sm:space-y-10">
                         <!-- Badge -->
@@ -434,7 +522,7 @@
 
     <!-- Mission Statement -->
     <section class="py-20 sm:py-24 md:py-32 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="max-w-5xl mx-auto text-center">
                 <div class="inline-flex items-center bg-[#22c55e]/10 px-6 py-3 rounded-full mb-6">
                     <span class="text-sm font-semibold text-[#22c55e] uppercase tracking-wider" data-en="Our Mission" data-pl="Nasza Misja">Our Mission</span>
@@ -484,9 +572,74 @@
         </div>
     </section>
 
+    <!-- Impact stories: imagery slider -->
+    <section class="relative py-20 sm:py-24 md:py-32 overflow-hidden bg-gradient-to-br from-[#0c0840] via-[#150f4b] to-[#1e1658] text-white">
+        <div class="pointer-events-none absolute inset-0 opacity-40">
+            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-[#22c55e] blur-[120px]"></div>
+            <div class="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-[#2563eb]/40 blur-[100px]"></div>
+        </div>
+        <div class="container relative z-10 mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
+            <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-5 py-2 backdrop-blur-sm">
+                        <i class="fas fa-camera mr-2 text-[#22c55e]" aria-hidden="true"></i>
+                        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-white/90" data-en="On the Ground" data-pl="W Terenie">On the Ground</span>
+                    </div>
+                    <h2 class="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-[3.25rem]" data-en="Hope in Every Moment" data-pl="Nadzieja w Każdej Chwili">Hope in Every Moment</h2>
+                    <p class="mt-5 max-w-xl text-lg leading-relaxed text-gray-300" data-en="From quiet mentorship to shared meals and healing hands—Wolayo walks beside children and families with patience, dignity, and heart." data-pl="Od cichego mentorowania po wspólne posiłki i pomoc medyczną—Wolayo towarzyszy dzieciom i rodzinom z cierpliwością, godnością i sercem.">From quiet mentorship to shared meals and healing hands—Wolayo walks beside children and families with patience, dignity, and heart.</p>
+
+                    <div class="mt-10 rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur-md">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-[#22c55e]" data-en="Spotlight" data-pl="W centrum uwagi">Spotlight</p>
+                        <h3 id="impact-caption-title" class="mt-2 text-2xl font-bold text-white" data-en="Mentorship &amp; Trust" data-pl="Mentoring i Zaufanie">Mentorship &amp; Trust</h3>
+                        <p id="impact-caption-desc" class="mt-3 text-base leading-relaxed text-gray-300" data-en="One-on-one presence helps children feel seen, safe, and ready to grow." data-pl="Indywidualna obecność pomaga dzieciom poczuć się zauważonymi, bezpiecznymi i gotowymi do rozwoju.">One-on-one presence helps children feel seen, safe, and ready to grow.</p>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
+                        <div class="flex items-center gap-2" role="tablist" aria-label="Impact photo slides">
+                            <button type="button" class="impact-dot active h-2.5 w-2.5 rounded-full bg-white/40 hover:bg-white/70" aria-label="Slide 1" data-impact-index="0"></button>
+                            <button type="button" class="impact-dot h-2.5 w-2.5 rounded-full bg-white/40 hover:bg-white/70" aria-label="Slide 2" data-impact-index="1"></button>
+                            <button type="button" class="impact-dot h-2.5 w-2.5 rounded-full bg-white/40 hover:bg-white/70" aria-label="Slide 3" data-impact-index="2"></button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" class="impact-prev rounded-full border border-white/20 bg-white/10 p-3 text-white transition hover:bg-white/20" aria-label="Previous slide">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="impact-next rounded-full border border-white/20 bg-white/10 p-3 text-white transition hover:bg-white/20" aria-label="Next slide">
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2">
+                    <div class="impact-slider-viewport impact-slider-frame relative aspect-[4/3] w-full ring-1 ring-white/10">
+                        <img class="impact-slide-img active" src="images/wolayo-friendship.png" alt="Wolayo mentor spending quiet time with a child outdoors on the grass." width="1200" height="900" data-impact-index="0">
+                        <img class="impact-slide-img" src="images/wolayo-community-feeding.png" alt="Wolayo volunteers in branded shirts serving bread to children at a community gathering." width="1200" height="900" data-impact-index="1">
+                        <img class="impact-slide-img" src="images/wolayo-medical-outreach.png" alt="Medical outreach: a caregiver tends to a child's leg while a Wolayo team member offers support." width="1200" height="900" data-impact-index="2">
+                        <!-- Hidden caption sources swapped into #impact-caption-* on slide change -->
+                        <div class="hidden" aria-hidden="true">
+                            <div data-impact-caption="0">
+                                <span class="impact-src-title" data-en="Mentorship &amp; Trust" data-pl="Mentoring i Zaufanie"></span>
+                                <span class="impact-src-desc" data-en="One-on-one presence helps children feel seen, safe, and ready to grow." data-pl="Indywidualna obecność pomaga dzieciom poczuć się zauważonymi, bezpiecznymi i gotowymi do rozwoju."></span>
+                            </div>
+                            <div data-impact-caption="1">
+                                <span class="impact-src-title" data-en="Nourishing Community" data-pl="Odżywianie Społeczności"></span>
+                                <span class="impact-src-desc" data-en="Shared meals meet urgent needs—and open the door to lasting relationships." data-pl="Wspólne posiłki zaspokajają pilne potrzeby i otwierają drogę do trwałych relacji."></span>
+                            </div>
+                            <div data-impact-caption="2">
+                                <span class="impact-src-title" data-en="Healing &amp; Restoration" data-pl="Leczenie i Przywracanie"></span>
+                                <span class="impact-src-desc" data-en="Compassionate medical care helps children recover strength and hope." data-pl="Współczująca opieka medyczna pomaga dzieciom odzyskać siłę i nadzieję."></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Goals Section -->
     <section class="py-20 sm:py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="text-center mb-16">
                 <div class="inline-flex items-center bg-[#150f4b]/10 px-6 py-3 rounded-full mb-6">
                     <span class="text-sm font-semibold text-[#150f4b] uppercase tracking-wider" data-en="Our Goals" data-pl="Nasze Cele">Our Goals</span>
@@ -587,53 +740,69 @@
     </section>
 
     <!-- Why Wolayo Matters -->
-    <section class="relative py-24 sm:py-32 md:py-40 overflow-hidden parallax-section" style="background-image: url('images/gather.jpeg');">
-        <!-- Overlay -->
-        <div class="absolute inset-0 gradient-overlay"></div>
-        
-        <!-- Animated Background Elements -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
-            <div class="absolute top-20 left-10 w-64 h-64 bg-[#22c55e] rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse"></div>
-            <div class="absolute bottom-20 right-10 w-80 h-80 bg-[#22c55e] rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse"></div>
-        </div>
-        
-        <!-- Content -->
-        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-12">
-                    <div class="inline-flex items-center glass px-6 py-3 rounded-full mb-6">
-                        <span class="text-sm font-semibold text-white uppercase tracking-wider" data-en="Our Why" data-pl="Nasza Misja">Our Why</span>
+    <section class="relative overflow-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50 py-24 sm:py-28 md:py-36">
+        <div class="pointer-events-none absolute left-0 top-24 h-72 w-72 rounded-full bg-[#22c55e]/12 blur-3xl"></div>
+        <div class="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#150f4b]/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute inset-0 opacity-[0.035]" style="background-image: radial-gradient(circle at 1px 1px, #150f4b 1px, transparent 0); background-size: 28px 28px;"></div>
+
+        <div class="relative container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
+            <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-16">
+                <!-- Visual column -->
+                <div class="relative order-2 lg:order-1 lg:col-span-5 fade-in-up">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-[#150f4b]/20 ring-1 ring-black/[0.06]">
+                            <img src="images/wolayo-friendship.png" alt="Adult mentor with a child during time together outdoors." class="h-full w-full object-cover transition duration-700 hover:scale-[1.02]" width="900" height="1125" loading="lazy">
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#150f4b]/25 via-transparent to-transparent"></div>
+                        </div>
+                        <div class="absolute -bottom-8 -right-4 z-10 hidden w-[42%] overflow-hidden rounded-2xl border-[5px] border-white shadow-xl shadow-black/15 md:block lg:-right-8 lg:w-[38%]">
+                            <img src="images/kid.jpeg" alt="Child benefitting from Wolayo community programs." class="aspect-square h-full w-full object-cover" width="400" height="400" loading="lazy">
+                        </div>
+                        <div class="absolute -left-4 top-1/4 z-10 hidden rounded-2xl bg-white px-4 py-3 shadow-lg shadow-[#150f4b]/10 ring-1 ring-gray-100 md:flex md:items-center md:gap-3 lg:-left-6">
+                            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#22c55e]/15 text-[#16a34a]">
+                                <i class="fas fa-seedling text-lg" aria-hidden="true"></i>
+                            </span>
+                            <div class="text-left">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-[#150f4b]/70" data-en="Root causes" data-pl="Przyczyny źródłowe">Root causes</p>
+                                <p class="text-sm font-bold text-[#150f4b]" data-en="Met with holistic care" data-pl="Oparte na holistycznej opiece">Met with holistic care</p>
+                            </div>
+                        </div>
                     </div>
-                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8" data-en="Why Wolayo Matters" data-pl="Dlaczego Wolayo Ma Znaczenie">Why Wolayo Matters</h2>
                 </div>
-                
-                <div class="glass rounded-3xl p-8 sm:p-12 md:p-16 shadow-2xl">
-                    <p class="text-lg sm:text-xl md:text-2xl text-white leading-relaxed mb-8 font-light" data-en="In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts." data-pl="W Ugandzie ubóstwo i rozbite systemy rodzinne są podstawowymi przyczynami bezdomności dzieci, ciąż nastolatek i porzucania szkoły.">In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts. Wolayo provides a holistic approach—addressing not only material needs but also emotional healing and spiritual grounding.</p>
-                    
-                    <p class="text-lg sm:text-xl md:text-2xl text-white leading-relaxed mb-12 font-light" data-en="By restoring hope and dignity, Wolayo is shaping a new generation of leaders." data-pl="Przywracając nadzieję i godność, Wolayo kształtuje nowe pokolenie liderów.">By restoring hope and dignity, Wolayo is shaping a new generation of leaders who will break cycles of poverty for themselves and their communities.</p>
-                    
-                    <!-- Key Impact Points -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="text-center group">
-                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fas fa-shield-alt text-white text-3xl"></i>
+
+                <!-- Copy column -->
+                <div class="order-1 lg:order-2 lg:col-span-7">
+                    <div class="fade-in-up mb-8 inline-flex items-center gap-2 rounded-full bg-[#150f4b]/10 px-5 py-2 ring-1 ring-[#150f4b]/10">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#22c55e]" aria-hidden="true"></span>
+                        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[#150f4b]" data-en="Our Why" data-pl="Nasza Misja">Our Why</span>
+                    </div>
+                    <h2 class="fade-in-up mb-8 text-4xl font-bold leading-[1.1] text-[#150f4b] sm:text-5xl md:text-[3.25rem]" data-en="Why Wolayo Matters" data-pl="Dlaczego Wolayo Ma Znaczenie">Why Wolayo Matters</h2>
+
+                    <div class="fade-in-up space-y-6 text-lg leading-relaxed text-gray-600 sm:text-xl">
+                        <p data-en="In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts. Wolayo provides a holistic approach—addressing not only material needs but also emotional healing and spiritual grounding." data-pl="W Ugandzie ubóstwo i rozbite systemy rodzinne są podstawowymi przyczynami bezdomności dzieci, ciąż nastolatek i porzucania szkoły. Wolayo stosuje holistyczne podejście—zaspokajając nie tylko potrzeby materialne, ale także gojenie emocjonalne i duchowe wsparcie.">In Uganda, poverty and broken family systems are root causes of child homelessness, teenage pregnancies, and school dropouts. Wolayo provides a holistic approach—addressing not only material needs but also emotional healing and spiritual grounding.</p>
+                        <p class="border-l-[3px] border-[#22c55e] pl-6 text-[#1e293b]" data-en="By restoring hope and dignity, Wolayo is shaping a new generation of leaders who will break cycles of poverty for themselves and their communities." data-pl="Przywracając nadzieję i godność, Wolayo kształtuje nowe pokolenie liderów, którzy przerwą cykle ubóstwa dla siebie i swoich społeczności.">By restoring hope and dignity, Wolayo is shaping a new generation of leaders who will break cycles of poverty for themselves and their communities.</p>
+                    </div>
+
+                    <div class="fade-in-up mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
+                        <div class="group rounded-2xl border border-gray-100 bg-white p-6 shadow-sm shadow-[#150f4b]/[0.06] transition hover:border-[#22c55e]/25 hover:shadow-md">
+                            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22c55e] to-[#16a34a] text-white shadow-md shadow-[#22c55e]/25 transition group-hover:scale-105">
+                                <i class="fas fa-shield-alt text-lg" aria-hidden="true"></i>
                             </div>
-                            <h4 class="text-white font-bold text-lg mb-2" data-en="Preventing Homelessness" data-pl="Zapobieganie Bezdomności">Preventing Homelessness</h4>
-                            <p class="text-gray-300 text-sm" data-en="Safe homes for vulnerable children" data-pl="Bezpieczne domy dla bezbronnych dzieci">Safe homes for vulnerable children</p>
+                            <h4 class="mb-2 text-base font-bold text-[#150f4b]" data-en="Preventing Homelessness" data-pl="Zapobieganie Bezdomności">Preventing Homelessness</h4>
+                            <p class="text-sm leading-relaxed text-gray-500" data-en="Safe homes for vulnerable children" data-pl="Bezpieczne domy dla bezbronnych dzieci">Safe homes for vulnerable children</p>
                         </div>
-                        <div class="text-center group">
-                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fas fa-heart-pulse text-white text-3xl"></i>
+                        <div class="group rounded-2xl border border-gray-100 bg-white p-6 shadow-sm shadow-[#150f4b]/[0.06] transition hover:border-[#22c55e]/25 hover:shadow-md">
+                            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#150f4b] to-[#2a1b5e] text-white shadow-md transition group-hover:scale-105">
+                                <i class="fas fa-heart-pulse text-lg" aria-hidden="true"></i>
                             </div>
-                            <h4 class="text-white font-bold text-lg mb-2" data-en="Emotional Healing" data-pl="Uzdrowienie Emocjonalne">Emotional Healing</h4>
-                            <p class="text-gray-300 text-sm" data-en="Restoring hope and dignity" data-pl="Przywracanie nadziei i godności">Restoring hope and dignity</p>
+                            <h4 class="mb-2 text-base font-bold text-[#150f4b]" data-en="Emotional Healing" data-pl="Uzdrowienie Emocjonalne">Emotional Healing</h4>
+                            <p class="text-sm leading-relaxed text-gray-500" data-en="Restoring hope and dignity" data-pl="Przywracanie nadziei i godności">Restoring hope and dignity</p>
                         </div>
-                        <div class="text-center group">
-                            <div class="gradient-accent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                <i class="fas fa-chart-line text-white text-3xl"></i>
+                        <div class="group rounded-2xl border border-gray-100 bg-white p-6 shadow-sm shadow-[#150f4b]/[0.06] transition hover:border-[#22c55e]/25 hover:shadow-md">
+                            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22c55e] to-[#15803d] text-white shadow-md shadow-[#22c55e]/20 transition group-hover:scale-105">
+                                <i class="fas fa-chart-line text-lg" aria-hidden="true"></i>
                             </div>
-                            <h4 class="text-white font-bold text-lg mb-2" data-en="Breaking Poverty Cycles" data-pl="Przerwanie Cykli Ubóstwa">Breaking Poverty Cycles</h4>
-                            <p class="text-gray-300 text-sm" data-en="Creating lasting change" data-pl="Tworzenie trwałych zmian">Creating lasting change</p>
+                            <h4 class="mb-2 text-base font-bold text-[#150f4b]" data-en="Breaking Poverty Cycles" data-pl="Przerwanie Cykli Ubóstwa">Breaking Poverty Cycles</h4>
+                            <p class="text-sm leading-relaxed text-gray-500" data-en="Creating lasting change" data-pl="Tworzenie trwałych zmian">Creating lasting change</p>
                         </div>
                     </div>
                 </div>
@@ -643,7 +812,7 @@
 
     <!-- Programs Overview -->
     <section class="py-20 sm:py-24 md:py-32 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="text-center mb-16">
                 <div class="inline-flex items-center bg-[#22c55e]/10 px-6 py-3 rounded-full mb-6">
                     <span class="text-sm font-semibold text-[#22c55e] uppercase tracking-wider" data-en="What We Do" data-pl="Co Robimy">What We Do</span>
@@ -716,6 +885,63 @@
         </div>
     </section>
 
+    <!-- Partners -->
+    <section class="relative overflow-hidden border-y border-gray-100 bg-gradient-to-b from-white via-gray-50/70 to-white py-20 sm:py-24 md:py-28">
+        <div class="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#22c55e]/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-16 top-0 h-48 w-48 rounded-full bg-[#150f4b]/8 blur-3xl"></div>
+        <div class="relative container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
+            <div class="mx-auto mb-14 max-w-3xl text-center">
+                <div class="mb-6 inline-flex items-center rounded-full bg-[#150f4b]/10 px-6 py-3">
+                    <i class="fas fa-handshake mr-2 text-[#22c55e]" aria-hidden="true"></i>
+                    <span class="text-sm font-semibold uppercase tracking-wider text-[#150f4b]" data-en="Our Partners" data-pl="Nasi Partnerzy">Our Partners</span>
+                </div>
+                <h2 class="mb-5 text-4xl font-bold text-[#150f4b] sm:text-5xl md:text-6xl" data-en="Trusted alongside us" data-pl="Zaufani partnerzy">Trusted alongside us</h2>
+                <p class="text-lg text-gray-600 sm:text-xl" data-en="We are grateful for organizations and allies who share our commitment to children, families, and lasting change in Uganda." data-pl="Jesteśmy wdzięczni organizacjom i sojusznikom, którzy dzielą nasze zaangażowanie w dzieci, rodziny i trwałą zmianę w Ugandzie.">We are grateful for organizations and allies who share our commitment to children, families, and lasting change in Uganda.</p>
+            </div>
+
+            <div class="partners-marquee relative mx-auto -mx-4 max-w-none overflow-hidden px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div class="partners-marquee-track flex w-max" role="presentation">
+                    <div class="flex shrink-0 items-center gap-10 pr-10 sm:gap-12 sm:pr-12 md:gap-16 md:pr-16 lg:gap-20 lg:pr-20">
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/bubita-arabica-coffee.png" alt="Bubita Arabica Coffee" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="220" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/unicef.jpg" alt="UNICEF" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/world.png" alt="Partner organization logo" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/safe.jpg" alt="SAFE initiative partner logo" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                    </div>
+                    <div class="partners-marquee-clone flex shrink-0 items-center gap-10 pr-10 sm:gap-12 sm:pr-12 md:gap-16 md:pr-16 lg:gap-20 lg:pr-20" aria-hidden="true">
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/bubita-arabica-coffee.png" alt="" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="220" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/unicef.jpg" alt="" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/world.png" alt="" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                        <figure class="partner-logo flex h-28 w-44 shrink-0 items-center justify-center rounded-2xl bg-white px-6 py-5 shadow-lg shadow-[#150f4b]/5 ring-1 ring-gray-100 md:h-32 md:w-52">
+                            <img src="images/partners/safe.jpg" alt="" class="max-h-16 w-auto max-w-full object-contain opacity-90 md:max-h-[4.5rem]" width="200" height="80" loading="lazy">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mx-auto mt-12 max-w-2xl text-center text-sm text-gray-500" data-en="Interested in partnering with Wolayo? Reach out through our contact page—we would love to explore collaboration." data-pl="Chcesz zostać partnerem Wolayo? Skontaktuj się z nami—chętnie omówimy współpracę.">Interested in partnering with Wolayo? Reach out through our contact page—we would love to explore collaboration.</p>
+            <div class="mt-6 text-center">
+                <a href="contact.html" class="inline-flex items-center gap-2 font-semibold text-[#22c55e] transition hover:gap-3 hover:text-[#16a34a]">
+                    <span data-en="Become a partner" data-pl="Zostań partnerem">Become a partner</span>
+                    <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action -->
     <section class="relative py-32 sm:py-40 md:py-48 text-white overflow-hidden parallax-section" style="background-image: url('images/DSC_9101.jpeg');">
         <!-- Gradient Overlay -->
@@ -728,7 +954,7 @@
         </div>
         
         <!-- Content -->
-        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative z-10 container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="max-w-4xl mx-auto text-center">
                 <!-- Badge -->
                 <div class="inline-flex items-center bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
@@ -929,9 +1155,103 @@
             }
         }
 
+        class ImpactStoriesSlider {
+            constructor() {
+                this.slides = document.querySelectorAll('.impact-slide-img');
+                this.dots = document.querySelectorAll('.impact-dot');
+                this.prevBtn = document.querySelector('.impact-prev');
+                this.nextBtn = document.querySelector('.impact-next');
+                this.titleEl = document.getElementById('impact-caption-title');
+                this.descEl = document.getElementById('impact-caption-desc');
+                this.section = this.slides[0] ? this.slides[0].closest('section') : null;
+                this.currentSlide = 0;
+                this.slideInterval = null;
+
+                if (!this.slides.length || !this.titleEl || !this.descEl) return;
+
+                this.init();
+            }
+
+            syncCaption(index) {
+                const box = document.querySelector('[data-impact-caption="' + index + '"]');
+                if (!box) return;
+                const titleSrc = box.querySelector('.impact-src-title');
+                const descSrc = box.querySelector('.impact-src-desc');
+                if (!titleSrc || !descSrc) return;
+
+                this.titleEl.setAttribute('data-en', titleSrc.getAttribute('data-en'));
+                this.titleEl.setAttribute('data-pl', titleSrc.getAttribute('data-pl'));
+                this.descEl.setAttribute('data-en', descSrc.getAttribute('data-en'));
+                this.descEl.setAttribute('data-pl', descSrc.getAttribute('data-pl'));
+
+                const lang = localStorage.getItem('language') || 'en';
+                this.titleEl.textContent = lang === 'pl'
+                    ? this.titleEl.getAttribute('data-pl')
+                    : this.titleEl.getAttribute('data-en');
+                this.descEl.textContent = lang === 'pl'
+                    ? this.descEl.getAttribute('data-pl')
+                    : this.descEl.getAttribute('data-en');
+            }
+
+            init() {
+                this.syncCaption(this.currentSlide);
+
+                this.dots.forEach((dot) => {
+                    dot.addEventListener('click', () => {
+                        const idx = parseInt(dot.getAttribute('data-impact-index'), 10);
+                        if (!Number.isNaN(idx)) this.goToSlide(idx);
+                    });
+                });
+
+                if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.previousSlide());
+                if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+                if (this.section) {
+                    this.section.addEventListener('mouseenter', () => this.stopAutoSlide());
+                    this.section.addEventListener('mouseleave', () => this.startAutoSlide());
+                }
+
+                this.startAutoSlide();
+            }
+
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                this.dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                this.syncCaption(index);
+            }
+
+            nextSlide() {
+                const next = (this.currentSlide + 1) % this.slides.length;
+                this.goToSlide(next);
+            }
+
+            previousSlide() {
+                const prev = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+                this.goToSlide(prev);
+            }
+
+            startAutoSlide() {
+                this.stopAutoSlide();
+                this.slideInterval = setInterval(() => this.nextSlide(), 6500);
+            }
+
+            stopAutoSlide() {
+                if (this.slideInterval) {
+                    clearInterval(this.slideInterval);
+                    this.slideInterval = null;
+                }
+            }
+        }
+
         // Initialize slider when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             new HeroSlider();
+            new ImpactStoriesSlider();
         });
 
         // Add smooth scrolling for anchor links

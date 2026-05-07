@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const headerHTML = `
         <header class="bg-[#150f4b] shadow-lg fixed top-0 left-0 right-0 z-50" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
-            <nav class="container mx-auto px-3 sm:px-6 lg:px-8">
+            <nav class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
                 <div class="flex items-center justify-between h-16 sm:h-20">
                     <!-- Logo -->
                     <div class="flex-shrink-0">
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
 
                 <!-- Mobile Menu -->
-                <div id="mobile-menu" class="hidden lg:hidden pb-4 bg-[#0f0a3a]/95 -mx-3 sm:-mx-6 px-3 sm:px-6 mt-4 rounded-b-lg">
+                <div id="mobile-menu" class="hidden lg:hidden pb-4 bg-[#0f0a3a]/95 -mx-8 sm:-mx-10 px-8 sm:px-10 mt-4 rounded-b-lg">
                     <div class="flex flex-col space-y-1">
                         <a href="index.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="Home" data-pl="Strona Główna">Home</a>
                         <a href="about.html" class="text-white hover:bg-[#22c55e]/20 hover:text-[#22c55e] font-medium py-3 px-4 rounded-lg transition-all duration-300 text-base" data-en="About" data-pl="O Nas">About</a>

@@ -50,6 +50,32 @@
         .stagger-animation > *:nth-child(4) { transition-delay: 0.4s; }
         .stagger-animation > *:nth-child(5) { transition-delay: 0.5s; }
         .stagger-animation > *:nth-child(6) { transition-delay: 0.6s; }
+
+        .programs-gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(15, 10, 53, 0.18);
+        }
+
+        .programs-gallery-card img {
+            transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .programs-gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .programs-gallery-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+            z-index: 2;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -63,15 +89,63 @@
             <div class="absolute inset-0 bg-gradient-to-r from-[#150f4b]/95 to-[#0f0a3a]/90"></div>
         </div>
         
-        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="relative z-10 container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20 text-center">
             <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6" data-en="Our Programs" data-pl="Nasze Programy">Our Programs</h1>
             <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto" data-en="Transforming lives through education, healthcare, and family support" data-pl="Transformacja życia poprzez edukację, opiekę zdrowotną i wsparcie rodzin">Transforming lives through education, healthcare, and family support</p>
         </div>
     </section>
 
+    <!-- Programs gallery -->
+    <section class="relative overflow-hidden py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white via-gray-50/80 to-white">
+        <div class="pointer-events-none absolute top-1/2 left-0 h-72 w-72 -translate-y-1/2 rounded-full bg-[#22c55e]/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute top-0 right-0 h-64 w-64 rounded-full bg-[#150f4b]/10 blur-3xl"></div>
+
+        <div class="relative container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
+            <div class="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+                <span class="mb-4 inline-block rounded-full bg-[#150f4b]/10 px-4 py-2 text-sm font-semibold text-[#150f4b]" data-en="Through the lens" data-pl="Obiektywem">Through the lens</span>
+                <h2 class="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl" data-en="Programs in action" data-pl="Programy w działaniu">Programs in action</h2>
+                <p class="text-lg text-gray-600" data-en="Real moments from education, health, mentorship, and outreach across the communities we serve." data-pl="Prawdziwe chwile z edukacji, zdrowia, mentorowania i działań społecznych w społecznościach, które wspieramy.">Real moments from education, health, mentorship, and outreach across the communities we serve.</p>
+            </div>
+
+            <div class="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:grid-rows-2 lg:gap-6">
+                <figure class="programs-gallery-card fade-in-up group relative min-h-[280px] sm:col-span-2 sm:min-h-[300px] lg:col-span-2 lg:row-span-2 lg:min-h-[420px]">
+                    <img src="images/wolayo-community-feeding.png" alt="Wolayo volunteers serving bread and drinks to children during a community meal program." class="absolute inset-0 h-full w-full object-cover" width="1200" height="900" loading="lazy">
+                    <figcaption class="absolute inset-0 z-[3] flex flex-col justify-end bg-gradient-to-t from-[#0f0a3a]/95 via-[#150f4b]/25 to-transparent p-6 md:p-8">
+                        <span class="mb-1 text-xs font-semibold uppercase tracking-wider text-[#22c55e]" data-en="Nutrition &amp; outreach" data-pl="Żywienie i działania terenowe">Nutrition &amp; outreach</span>
+                        <p class="font-serif text-2xl font-bold leading-tight text-white md:text-3xl" data-en="Shared meals, shared dignity" data-pl="Wspólne posiłki, wspólna godność">Shared meals, shared dignity</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="programs-gallery-card fade-in-up relative min-h-[220px] sm:col-span-2 lg:col-span-2 lg:min-h-[200px]">
+                    <img src="images/wolayo-medical-outreach.png" alt="Healthcare worker caring for a child at a Wolayo-supported community clinic." class="absolute inset-0 h-full w-full object-cover" width="1200" height="900" loading="lazy">
+                    <figcaption class="absolute inset-0 z-[3] flex flex-col justify-end bg-gradient-to-t from-black/75 via-transparent to-transparent p-5 md:p-6">
+                        <span class="mb-1 text-xs font-semibold uppercase tracking-wider text-[#86efac]" data-en="Healthcare" data-pl="Opieka zdrowotna">Healthcare</span>
+                        <p class="font-serif text-xl font-bold text-white md:text-2xl" data-en="Care where it is needed most" data-pl="Opieka tam, gdzie jest najbardziej potrzebna">Care where it is needed most</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="programs-gallery-card fade-in-up relative min-h-[200px] sm:col-span-1">
+                    <img src="images/wolayo-friendship.png" alt="Mentor lying on the grass with a child during a mentoring moment." class="absolute inset-0 h-full w-full object-cover" width="1200" height="900" loading="lazy">
+                    <figcaption class="absolute inset-0 z-[3] flex flex-col justify-end bg-gradient-to-t from-[#150f4b]/90 via-transparent to-transparent p-5">
+                        <span class="mb-1 text-xs font-semibold uppercase tracking-wider text-[#22c55e]" data-en="Mentorship" data-pl="Mentoring">Mentorship</span>
+                        <p class="font-serif text-lg font-bold text-white" data-en="Presence that heals" data-pl="Obecność, która leczy">Presence that heals</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="programs-gallery-card fade-in-up relative min-h-[200px] sm:col-span-1">
+                    <img src="images/distribute.jpeg" alt="Children receiving supplies and support during a Wolayo distribution activity." class="absolute inset-0 h-full w-full object-cover" width="1200" height="800" loading="lazy">
+                    <figcaption class="absolute inset-0 z-[3] flex flex-col justify-end bg-gradient-to-t from-black/80 via-transparent to-transparent p-5">
+                        <span class="mb-1 text-xs font-semibold uppercase tracking-wider text-[#86efac]" data-en="Education &amp; supplies" data-pl="Edukacja i materiały">Education &amp; supplies</span>
+                        <p class="font-serif text-lg font-bold text-white" data-en="Tools for a fresh start" data-pl="Narzędzia na nowy start">Tools for a fresh start</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
     <!-- Core Programs -->
     <section class="py-16 sm:py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="text-center mb-12 sm:mb-16">
                 <span class="inline-block bg-[#22c55e]/10 text-[#22c55e] px-4 py-2 rounded-full text-sm font-semibold mb-4" data-en="WHAT WE DO" data-pl="CO ROBIMY">WHAT WE DO</span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4" data-en="Core Programs" data-pl="Główne Programy">Core Programs</h2>
@@ -192,11 +266,26 @@
 
     <!-- Additional Programs -->
     <section class="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4" data-en="Community Impact" data-pl="Wpływ Społeczności">Community Impact</h2>
                     <p class="text-lg text-gray-600" data-en="Building stronger communities through outreach and spiritual development" data-pl="Budowanie silniejszych społeczności poprzez działania i rozwój duchowy">Building stronger communities through outreach and spiritual development</p>
+                </div>
+
+                <div class="mb-12 grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-5 fade-in-up">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg md:col-span-3 md:h-64 lg:h-72 ring-1 ring-black/5">
+                        <img src="images/treat.jpeg" alt="Volunteers and children during a community health and wellness activity." class="h-full w-full object-cover transition duration-700 hover:scale-105" width="900" height="600" loading="lazy">
+                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#150f4b]/30 to-transparent"></div>
+                    </div>
+                    <div class="grid gap-4 md:col-span-2 md:h-64 lg:h-72 md:grid-rows-2">
+                        <div class="relative overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5">
+                            <img src="images/give.jpeg" alt="Hands passing supplies during a Wolayo community distribution." class="h-full min-h-[9rem] w-full object-cover transition duration-700 hover:scale-105 md:min-h-0" width="600" height="400" loading="lazy">
+                        </div>
+                        <div class="relative overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5">
+                            <img src="images/wall2.jpeg" alt="Decorated community space where Wolayo hosts gatherings and programs." class="h-full min-h-[9rem] w-full object-cover transition duration-700 hover:scale-105 md:min-h-0" width="600" height="400" loading="lazy">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -224,7 +313,7 @@
 
     <!-- Impact Statistics -->
     <section class="py-16 sm:py-20 bg-gradient-to-r from-[#150f4b] to-[#0f0a3a] text-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-en="Our Impact" data-pl="Nasz Wpływ">Our Impact</h2>

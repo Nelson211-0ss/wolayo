@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const footerHTML = `
         <footer class="bg-[#150f4b] text-white" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- About Section -->
                     <div>
