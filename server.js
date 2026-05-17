@@ -7,15 +7,88 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const https = require('https');
 const Stripe = require('stripe');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Stripe Configuration
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY || '');
+// Stripe — only instantiate when configured (Stripe() throws if key is missing/empty).
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
+const stripe = stripeSecretKey ? Stripe(stripeSecretKey) : null;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
+
+const MONGODB_URI_RAW = process.env.MONGODB_URI || '';
+const MONGODB_URI = typeof MONGODB_URI_RAW === 'string' ? MONGODB_URI_RAW.trim() : '';
+const mongoEnabled = Boolean(MONGODB_URI);
+
+// PayPal API Configuration
+const PAYPAL_MODE = process.env.PAYPAL_MODE || 'sandbox';
+const PAYPAL_API_BASE = PAYPAL_MODE === 'live'
+  ? 'https://api-m.paypal.com'
+  : 'https://api-m.sandbox.paypal.com';
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
+
+function paypalHttpsRequest(options, postData) {
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = data ? JSON.parse(data) : {};
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve(parsed);
+          } else {
+            const msg = parsed.message || parsed.error_description || parsed.name || `PayPal API error ${res.statusCode}`;
+            reject(new Error(msg));
+          }
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+    req.on('error', reject);
+    if (postData) req.write(postData);
+    req.end();
+  });
+}
+
+async function getPayPalAccessToken() {
+  const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`).toString('base64');
+  const postData = 'grant_type=client_credentials';
+  const url = new URL(`${PAYPAL_API_BASE}/v1/oauth2/token`);
+  const response = await paypalHttpsRequest({
+    hostname: url.hostname,
+    path: url.pathname,
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${auth}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  }, postData);
+  return response.access_token;
+}
+
+async function paypalApi(method, path, body) {
+  const accessToken = await getPayPalAccessToken();
+  const url = new URL(`${PAYPAL_API_BASE}${path}`);
+  const postData = body ? JSON.stringify(body) : null;
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json'
+  };
+  if (postData) headers['Content-Length'] = Buffer.byteLength(postData);
+  return paypalHttpsRequest({
+    hostname: url.hostname,
+    path: url.pathname + url.search,
+    method,
+    headers
+  }, postData);
+}
 
 // Middleware
 app.use(cors());
@@ -34,150 +107,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// =============================================================
-// STRIPE WEBHOOK (must come BEFORE express.json so we can verify
-// the raw request body signature).
-// =============================================================
-app.post('/api/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
-
-  try {
-    if (STRIPE_WEBHOOK_SECRET) {
-      event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
-    } else {
-      // No signing secret configured (dev/local) — parse the body directly.
-      event = JSON.parse(req.body.toString());
-    }
-  } catch (err) {
-    console.error('Stripe webhook signature verification failed:', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  try {
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-
-      const update = {
-        status: 'completed',
-        stripeSessionId: session.id,
-        stripePaymentIntentId: session.payment_intent || null,
-        donorEmail: session.customer_details?.email || undefined,
-        donorName: session.customer_details?.name || undefined
-      };
-
-      const donationId = session.metadata?.donationId;
-      if (donationId) {
-        await Donation.findByIdAndUpdate(donationId, update);
-      } else {
-        // Fallback: create a record if metadata is missing.
-        await Donation.create({
-          amount: (session.amount_total || 0) / 100,
-          currency: (session.currency || 'usd').toUpperCase(),
-          donationType: 'once',
-          paymentMethod: 'stripe',
-          ...update
-        });
-      }
-      console.log('Stripe checkout completed:', session.id);
-    }
-    // Other event types are fine — Stripe just needs a 2xx.
-    res.json({ received: true });
-  } catch (err) {
-    console.error('Stripe webhook handler error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Body parsers for other routes
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// =============================================================
-// STRIPE CHECKOUT
-// =============================================================
-
-// Create a Stripe Checkout Session and return its URL.
-app.post('/api/stripe/create-checkout-session', async (req, res) => {
-  try {
-    if (!process.env.STRIPE_SECRET_KEY) {
-      return res.status(500).json({ error: 'Stripe is not configured on the server.' });
-    }
-
-    const { amount, name, email, phone } = req.body;
-
-    const numericAmount = parseFloat(amount);
-    if (!numericAmount || numericAmount < 1) {
-      return res.status(400).json({ error: 'Please enter a valid donation amount (minimum 1).' });
-    }
-    if (!email) {
-      return res.status(400).json({ error: 'Email is required.' });
-    }
-
-    // Persist a pending donation; Stripe webhook will mark it completed.
-    const donation = await Donation.create({
-      amount: numericAmount,
-      currency: 'USD',
-      donationType: 'once',
-      donorName: name,
-      donorEmail: email,
-      donorPhone: phone,
-      paymentMethod: 'stripe',
-      status: 'pending'
-    });
-
-    // Stripe expects the smallest currency unit (e.g. cents).
-    const unitAmount = Math.round(numericAmount * 100);
-
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      payment_method_types: ['card'],
-      customer_email: email,
-      line_items: [{
-        quantity: 1,
-        price_data: {
-          currency: 'usd',
-          unit_amount: unitAmount,
-          product_data: {
-            name: 'Donation to Wolayo',
-            description: 'Thank you for supporting Wolayo Child Restoration.'
-          }
-        }
-      }],
-      success_url: `${APP_URL}/donate?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${APP_URL}/donate?cancelled=true`,
-      metadata: {
-        donationId: donation._id.toString(),
-        donorName: name || '',
-        donorPhone: phone || ''
-      },
-      payment_intent_data: {
-        metadata: { donationId: donation._id.toString() }
-      }
-    });
-
-    // Save the session id so the webhook can reconcile if needed.
-    donation.stripeSessionId = session.id;
-    await donation.save();
-
-    res.json({ id: session.id, url: session.url });
-  } catch (error) {
-    console.error('Stripe create-checkout-session error:', error);
-    res.status(500).json({ error: error.message || 'Could not start checkout.' });
-  }
-});
-
-// Public config: Stripe publishable key (safe to expose).
-app.get('/api/config/stripe', (req, res) => {
-  res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
-});
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-// Mongoose Models
+// Mongoose schemas & models (before webhooks/APIs reference Donation, etc.)
 const DonationSchema = new mongoose.Schema({
   amount: Number,
   currency: String,
@@ -185,7 +115,8 @@ const DonationSchema = new mongoose.Schema({
   donorName: String,
   donorEmail: String,
   donorPhone: String,
-  paymentMethod: { type: String, enum: ['stripe'], default: 'stripe' },
+  paymentMethod: { type: String, enum: ['stripe', 'paypal'], default: 'paypal' },
+  paypalOrderId: String,
   stripeSessionId: String,
   stripePaymentIntentId: String,
   transactionId: String,
@@ -210,7 +141,6 @@ const ContactSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now, index: true }
 });
 
-// Password Reset Token Schema
 const PasswordResetSchema = new mongoose.Schema({
   email: String,
   token: String,
@@ -223,8 +153,270 @@ const Volunteer = mongoose.model('Volunteer', VolunteerSchema);
 const Contact = mongoose.model('Contact', ContactSchema);
 const PasswordReset = mongoose.model('PasswordReset', PasswordResetSchema);
 
+if (mongoEnabled) {
+  mongoose.connect(MONGODB_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
+} else {
+  console.log('MongoDB disabled (empty MONGODB_URI): checkout works; donation records not stored.');
+}
+
+// =============================================================
+// STRIPE WEBHOOK (must come BEFORE express.json so we can verify
+// the raw request body signature).
+// =============================================================
+app.post('/api/stripe/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+
+  try {
+    if (STRIPE_WEBHOOK_SECRET) {
+      if (!stripe) {
+        return res.status(503).json({ error: 'Stripe is not configured; cannot verify webhook.' });
+      }
+      event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
+    } else {
+      // No signing secret configured (dev/local) — parse the body directly.
+      event = JSON.parse(req.body.toString());
+    }
+  } catch (err) {
+    console.error('Stripe webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  try {
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+
+      if (!mongoEnabled) {
+        console.log('Stripe checkout completed (no MongoDB persistence):', session.id);
+      } else {
+        const update = {
+          status: 'completed',
+          stripeSessionId: session.id,
+          stripePaymentIntentId: session.payment_intent || null,
+          donorEmail: session.customer_details?.email || undefined,
+          donorName: session.customer_details?.name || undefined
+        };
+
+        const donationId = session.metadata?.donationId;
+        if (donationId) {
+          await Donation.findByIdAndUpdate(donationId, update);
+        } else {
+          // Fallback: create a record if metadata is missing.
+          await Donation.create({
+            amount: (session.amount_total || 0) / 100,
+            currency: (session.currency || 'usd').toUpperCase(),
+            donationType: 'once',
+            paymentMethod: 'stripe',
+            ...update
+          });
+        }
+        console.log('Stripe checkout completed:', session.id);
+      }
+    }
+    // Other event types are fine — Stripe just needs a 2xx.
+    res.json({ received: true });
+  } catch (err) {
+    console.error('Stripe webhook handler error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Body parsers for other routes
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// =============================================================
+// STRIPE CHECKOUT
+// =============================================================
+
+// Create a Stripe Checkout Session and return its URL.
+app.post('/api/stripe/create-checkout-session', async (req, res) => {
+  try {
+    if (!stripe) {
+      return res.status(500).json({ error: 'Stripe is not configured on the server.' });
+    }
+
+    const { amount, name, email, phone } = req.body;
+
+    const numericAmount = parseFloat(amount);
+    if (!numericAmount || numericAmount < 1) {
+      return res.status(400).json({ error: 'Please enter a valid donation amount (minimum 1).' });
+    }
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required.' });
+    }
+
+    let donationDoc = null;
+    if (mongoEnabled) {
+      donationDoc = await Donation.create({
+        amount: numericAmount,
+        currency: 'USD',
+        donationType: 'once',
+        donorName: name,
+        donorEmail: email,
+        donorPhone: phone,
+        paymentMethod: 'stripe',
+        status: 'pending'
+      });
+    }
+
+    // Stripe expects the smallest currency unit (e.g. cents).
+    const unitAmount = Math.round(numericAmount * 100);
+
+    const donationIdMeta = donationDoc ? donationDoc._id.toString() : '';
+
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      customer_email: email,
+      line_items: [{
+        quantity: 1,
+        price_data: {
+          currency: 'usd',
+          unit_amount: unitAmount,
+          product_data: {
+            name: 'Donation to Wolayo',
+            description: 'Thank you for supporting Wolayo Child Restoration.'
+          }
+        }
+      }],
+      success_url: `${APP_URL}/donate?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP_URL}/donate?cancelled=true`,
+      metadata: {
+        ...(donationIdMeta ? { donationId: donationIdMeta } : {}),
+        donorName: name || '',
+        donorPhone: phone || ''
+      },
+      payment_intent_data: {
+        ...(donationIdMeta ? { metadata: { donationId: donationIdMeta } } : {})
+      }
+    });
+
+    if (donationDoc) {
+      donationDoc.stripeSessionId = session.id;
+      await donationDoc.save();
+    }
+
+    res.json({ id: session.id, url: session.url });
+  } catch (error) {
+    console.error('Stripe create-checkout-session error:', error);
+    res.status(500).json({ error: error.message || 'Could not start checkout.' });
+  }
+});
+
+// Public config: Stripe publishable key (safe to expose).
+app.get('/api/config/stripe', (req, res) => {
+  res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '' });
+});
+
+// =============================================================
+// PAYPAL CHECKOUT (dynamic amounts — not fixed payment links)
+// =============================================================
+
+app.post('/api/paypal/create-order', async (req, res) => {
+  try {
+    if (!PAYPAL_CLIENT_ID || !PAYPAL_SECRET) {
+      return res.status(500).json({ error: 'PayPal is not configured on the server. Add PAYPAL_CLIENT_ID and PAYPAL_SECRET to your environment.' });
+    }
+
+    const { amount, name, email, phone } = req.body;
+    const numericAmount = parseFloat(amount);
+    if (!numericAmount || numericAmount < 1) {
+      return res.status(400).json({ error: 'Please enter a valid donation amount (minimum $1).' });
+    }
+
+    let donationDoc = null;
+    const referenceId = crypto.randomUUID ? `donate-${crypto.randomUUID()}` : `donate-${Date.now()}`;
+    if (mongoEnabled) {
+      donationDoc = await Donation.create({
+        amount: numericAmount,
+        currency: 'USD',
+        donationType: 'once',
+        donorName: name || undefined,
+        donorEmail: email || undefined,
+        donorPhone: phone || undefined,
+        paymentMethod: 'paypal',
+        status: 'pending'
+      });
+    }
+
+    const order = await paypalApi('POST', '/v2/checkout/orders', {
+      intent: 'CAPTURE',
+      purchase_units: [{
+        reference_id: donationDoc ? donationDoc._id.toString() : referenceId,
+        description: 'Donation to Wolayo Child Restoration',
+        amount: {
+          currency_code: 'USD',
+          value: numericAmount.toFixed(2)
+        }
+      }],
+      application_context: {
+        brand_name: 'Wolayo Child Restoration',
+        landing_page: 'NO_PREFERENCE',
+        user_action: 'PAY_NOW',
+        return_url: `${APP_URL}/donate?paypal_return=true`,
+        cancel_url: `${APP_URL}/donate?cancelled=true`
+      }
+    });
+
+    if (donationDoc) {
+      donationDoc.paypalOrderId = order.id;
+      await donationDoc.save();
+    }
+
+    const approveUrl = order.links?.find((link) => link.rel === 'approve')?.href;
+    if (!approveUrl) {
+      throw new Error('PayPal did not return an approval URL.');
+    }
+
+    res.json({ id: order.id, url: approveUrl });
+  } catch (error) {
+    console.error('PayPal create-order error:', error);
+    res.status(500).json({ error: error.message || 'Could not start PayPal checkout.' });
+  }
+});
+
+app.post('/api/paypal/capture-order', async (req, res) => {
+  try {
+    if (!PAYPAL_CLIENT_ID || !PAYPAL_SECRET) {
+      return res.status(500).json({ error: 'PayPal is not configured on the server.' });
+    }
+
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ error: 'Missing PayPal order ID.' });
+    }
+
+    const captureResult = await paypalApi('POST', `/v2/checkout/orders/${orderId}/capture`, {});
+    const capture = captureResult.purchase_units?.[0]?.payments?.captures?.[0];
+
+    if (mongoEnabled) {
+      await Donation.findOneAndUpdate(
+        { paypalOrderId: orderId },
+        {
+          status: 'completed',
+          transactionId: capture?.id || orderId,
+          amount: capture?.amount?.value ? parseFloat(capture.amount.value) : undefined
+        }
+      );
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('PayPal capture-order error:', error);
+    res.status(500).json({ error: error.message || 'Could not complete PayPal payment.' });
+  }
+});
+
 // Legacy/manual record endpoint (kept for offline / pledge use cases).
 app.post('/api/donate', async (req, res) => {
+  if (!mongoEnabled) {
+    return res.status(503).json({
+      message: 'Donation ledger requires MongoDB. Use PayPal checkout on the donate page, or set MONGODB_URI.'
+    });
+  }
   try {
     const { amount, currency = 'USD', type, name, email, phone } = req.body;
     const newDonation = new Donation({
@@ -251,6 +443,9 @@ app.post('/api/donate', async (req, res) => {
 });
 
 app.post('/api/volunteer', async (req, res) => {
+  if (!mongoEnabled) {
+    return res.status(503).json({ message: 'Volunteer signup requires MongoDB (MONGODB_URI).' });
+  }
   try {
     const { name, email, phone, preferences, experience, availability } = req.body;
     const newVolunteer = new Volunteer({ name, email, phone, preferences, experience, availability });
@@ -263,6 +458,9 @@ app.post('/api/volunteer', async (req, res) => {
 });
 
 app.post('/api/contact', async (req, res) => {
+  if (!mongoEnabled) {
+    return res.status(503).json({ message: 'Contact form requires MongoDB (MONGODB_URI).' });
+  }
   try {
     const { name, email, message } = req.body;
     const newContact = new Contact({ name, email, message });
@@ -279,6 +477,15 @@ const adminAuth = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
   if (!token || token !== process.env.ADMIN_TOKEN) {
     return res.status(401).json({ message: 'Unauthorized' });
+  }
+  next();
+};
+
+const requireMongo = (req, res, next) => {
+  if (!mongoEnabled) {
+    return res.status(503).json({
+      message: 'Admin data features require MONGODB_URI. Public PayPal donations work without a database.'
+    });
   }
   next();
 };
@@ -303,7 +510,7 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 // Forgot Password - Generate Reset Token & Send Email
-app.post('/api/admin/forgot-password', async (req, res) => {
+app.post('/api/admin/forgot-password', requireMongo, async (req, res) => {
   try {
     const { email } = req.body;
     if (email !== process.env.ADMIN_USERNAME && email !== 'admin') {
@@ -349,7 +556,7 @@ app.post('/api/admin/forgot-password', async (req, res) => {
 });
 
 // Verify Reset Token
-app.post('/api/admin/verify-reset-token', async (req, res) => {
+app.post('/api/admin/verify-reset-token', requireMongo, async (req, res) => {
   try {
     const { resetToken } = req.body;
     const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
@@ -370,7 +577,7 @@ app.post('/api/admin/verify-reset-token', async (req, res) => {
 });
 
 // Reset Password with Token
-app.post('/api/admin/reset-password', async (req, res) => {
+app.post('/api/admin/reset-password', requireMongo, async (req, res) => {
   try {
     const { resetToken, newPassword } = req.body;
     const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
@@ -401,7 +608,7 @@ app.post('/api/admin/reset-password', async (req, res) => {
 });
 
 // Admin Dashboard: Get Analytics
-app.get('/api/admin/analytics', adminAuth, async (req, res) => {
+app.get('/api/admin/analytics', adminAuth, requireMongo, async (req, res) => {
   try {
     const totalDonations = await Donation.countDocuments();
     const totalDonationAmount = await Donation.aggregate([
@@ -434,7 +641,7 @@ app.get('/api/admin/analytics', adminAuth, async (req, res) => {
 });
 
 // Admin: Get all donations
-app.get('/api/admin/donations', adminAuth, async (req, res) => {
+app.get('/api/admin/donations', adminAuth, requireMongo, async (req, res) => {
   try {
     const donations = await Donation.find().sort({ createdAt: -1 }).limit(100).lean();
     res.json(donations);
@@ -444,7 +651,7 @@ app.get('/api/admin/donations', adminAuth, async (req, res) => {
 });
 
 // Admin: Get all volunteers
-app.get('/api/admin/volunteers', adminAuth, async (req, res) => {
+app.get('/api/admin/volunteers', adminAuth, requireMongo, async (req, res) => {
   try {
     const volunteers = await Volunteer.find().sort({ createdAt: -1 }).limit(100).lean();
     res.json(volunteers);
@@ -454,7 +661,7 @@ app.get('/api/admin/volunteers', adminAuth, async (req, res) => {
 });
 
 // Admin: Get all contacts
-app.get('/api/admin/contacts', adminAuth, async (req, res) => {
+app.get('/api/admin/contacts', adminAuth, requireMongo, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 }).limit(100).lean();
     res.json(contacts);
@@ -464,7 +671,7 @@ app.get('/api/admin/contacts', adminAuth, async (req, res) => {
 });
 
 // Admin: Delete donation
-app.delete('/api/admin/donations/:id', adminAuth, async (req, res) => {
+app.delete('/api/admin/donations/:id', adminAuth, requireMongo, async (req, res) => {
   try {
     await Donation.findByIdAndDelete(req.params.id);
     res.json({ message: 'Donation deleted' });
@@ -474,7 +681,7 @@ app.delete('/api/admin/donations/:id', adminAuth, async (req, res) => {
 });
 
 // Admin: Delete volunteer
-app.delete('/api/admin/volunteers/:id', adminAuth, async (req, res) => {
+app.delete('/api/admin/volunteers/:id', adminAuth, requireMongo, async (req, res) => {
   try {
     await Volunteer.findByIdAndDelete(req.params.id);
     res.json({ message: 'Volunteer record deleted' });
@@ -484,7 +691,7 @@ app.delete('/api/admin/volunteers/:id', adminAuth, async (req, res) => {
 });
 
 // Admin: Delete contact
-app.delete('/api/admin/contacts/:id', adminAuth, async (req, res) => {
+app.delete('/api/admin/contacts/:id', adminAuth, requireMongo, async (req, res) => {
   try {
     await Contact.findByIdAndDelete(req.params.id);
     res.json({ message: 'Contact deleted' });

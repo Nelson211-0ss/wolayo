@@ -170,103 +170,103 @@
     </section>
 
     <!-- Donation Form -->
-    <section class="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section class="py-10 sm:py-14 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         <!-- Background decoration -->
         <div class="absolute top-0 right-0 w-72 h-72 bg-[#22c55e]/5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#150f4b]/5 rounded-full blur-3xl"></div>
         
         <div class="container mx-auto px-8 sm:px-10 lg:px-12 xl:px-20 relative z-10">
-            <div class="max-w-3xl mx-auto">
+            <div class="max-w-xl mx-auto">
                 <!-- Form Header -->
-                <div class="text-center mb-10 fade-in-up">
-                    <div class="inline-block bg-gradient-to-r from-[#22c55e] to-[#16a34a] px-4 py-2 rounded-full mb-4">
-                        <span class="text-sm font-semibold text-white" data-en="Make Your Contribution" data-pl="Przekaż Swoją Darowiznę">Make Your Contribution</span>
+                <div class="text-center mb-5 sm:mb-6 fade-in-up">
+                    <div class="inline-block bg-gradient-to-r from-[#22c55e] to-[#16a34a] px-3 py-1 rounded-full mb-2">
+                        <span class="text-xs font-semibold text-white" data-en="Make Your Contribution" data-pl="Przekaż Swoją Darowiznę">Make Your Contribution</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-bold text-[#150f4b] mb-4" data-en="Choose Your Donation Amount" data-pl="Wybierz Kwotę Darowizny">Choose Your Donation Amount</h2>
-                    <p class="text-gray-600" data-en="Every contribution helps us restore hope and transform lives" data-pl="Każdy wkład pomaga nam przywracać nadzieję i zmieniać życie">Every contribution helps us restore hope and transform lives</p>
+                    <h2 class="text-xl sm:text-2xl font-bold text-[#150f4b] mb-2" data-en="Choose Your Donation Amount" data-pl="Wybierz Kwotę Darowizny">Choose Your Donation Amount</h2>
+                    <p class="text-gray-600 text-sm" data-en="Every contribution helps us restore hope and transform lives" data-pl="Każdy wkład pomaga nam przywracać nadzieję i zmieniać życie">Every contribution helps us restore hope and transform lives</p>
                 </div>
                 
-                <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 border border-gray-100 scale-in">
+                <div id="donation-card" class="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100 scale-in">
                     <!-- Preset Amounts -->
-                    <div class="mb-8">
-                        <label class="block text-gray-700 font-semibold mb-4 text-center" data-en="Quick Select Amount" data-pl="Szybki Wybór Kwoty">Quick Select Amount</label>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="25">$25</button>
-                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="50">$50</button>
-                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="100">$100</button>
-                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-4 rounded-xl font-bold text-lg transition-all duration-300" data-amount="250">$250</button>
+                    <div class="mb-5">
+                        <label class="block text-gray-700 font-semibold mb-2 text-center text-sm" data-en="Quick Select Amount" data-pl="Szybki Wybór Kwoty">Quick Select Amount</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-2.5 rounded-lg font-bold text-sm sm:text-base transition-all duration-300" data-amount="25">$25</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-2.5 rounded-lg font-bold text-sm sm:text-base transition-all duration-300" data-amount="50">$50</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-2.5 rounded-lg font-bold text-sm sm:text-base transition-all duration-300" data-amount="100">$100</button>
+                            <button class="donation-btn border-2 border-[#150f4b] text-[#150f4b] py-2.5 rounded-lg font-bold text-sm sm:text-base transition-all duration-300" data-amount="250">$250</button>
                         </div>
                     </div>
 
                     <!-- Custom Amount -->
-                    <div class="mb-8">
-                        <label class="block text-gray-700 font-semibold mb-3 text-center" data-en="Or Enter Custom Amount" data-pl="Lub Wprowadź Własną Kwotę">Or Enter Custom Amount</label>
+                    <div class="mb-5">
+                        <label class="block text-gray-700 font-semibold mb-2 text-center text-sm" data-en="Or Enter Custom Amount" data-pl="Lub Wprowadź Własną Kwotę">Or Enter Custom Amount</label>
                         <div class="relative">
-                            <span class="absolute left-5 top-1/2 transform -translate-y-1/2 text-[#150f4b] text-2xl font-bold" id="currency-symbol">$</span>
-                            <input type="number" id="custom-amount" class="form-input w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl text-2xl font-bold text-center transition-all duration-300" placeholder="0.00" min="1">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#150f4b] text-lg font-bold" id="currency-symbol">$</span>
+                            <input type="number" id="custom-amount" class="form-input w-full pl-10 pr-3 py-2.5 border-2 border-gray-300 rounded-lg text-lg font-bold text-center transition-all duration-300" placeholder="0.00" min="1">
                         </div>
                     </div>
 
-                    <!-- Currency (USD only with Stripe) -->
                     <input type="hidden" name="currency" value="usd">
 
-                    <div class="border-t border-gray-200 my-8"></div>
+                    <div class="border-t border-gray-200 my-5"></div>
 
-                    <!-- Donor Information -->
-                    <div class="space-y-5 mb-8">
+                    <!-- Donor Information (optional — PayPal collects payment details) -->
+                    <div class="space-y-3 mb-5">
+                        <p class="text-xs text-gray-500 text-center" data-en="Optional — helps us thank you for your gift" data-pl="Opcjonalne — pomaga nam podziękować za darowiznę">Optional — helps us thank you for your gift</p>
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-2" data-en="Full Name" data-pl="Imię i Nazwisko">
-                                <i class="fas fa-user text-[#150f4b] mr-2"></i>Full Name
+                            <label class="block text-gray-700 font-semibold mb-1 text-sm" data-en="Full Name" data-pl="Imię i Nazwisko">
+                                <i class="fas fa-user text-[#150f4b] mr-1.5 text-xs"></i>Full Name <span class="text-gray-400 font-normal text-xs">(Optional)</span>
                             </label>
-                            <input type="text" id="donor-name" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="John Doe">
+                            <input type="text" id="donor-name" class="form-input w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg transition-all duration-300" placeholder="John Doe">
                         </div>
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-2" data-en="Email Address" data-pl="Adres Email">
-                                <i class="fas fa-envelope text-[#150f4b] mr-2"></i>Email Address
+                            <label class="block text-gray-700 font-semibold mb-1 text-sm" data-en="Email Address" data-pl="Adres Email">
+                                <i class="fas fa-envelope text-[#150f4b] mr-1.5 text-xs"></i>Email Address <span class="text-gray-400 font-normal text-xs">(Optional)</span>
                             </label>
-                            <input type="email" id="donor-email" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="john@example.com">
+                            <input type="email" id="donor-email" class="form-input w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg transition-all duration-300" placeholder="john@example.com">
                         </div>
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-2" data-en="Phone Number (Optional)" data-pl="Numer Telefonu (Opcjonalny)">
-                                <i class="fas fa-phone text-[#150f4b] mr-2"></i>Phone Number <span class="text-gray-400 text-sm">(Optional)</span>
+                            <label class="block text-gray-700 font-semibold mb-1 text-sm" data-en="Phone Number (Optional)" data-pl="Numer Telefonu (Opcjonalny)">
+                                <i class="fas fa-phone text-[#150f4b] mr-1.5 text-xs"></i>Phone Number <span class="text-gray-400 font-normal text-xs">(Optional)</span>
                             </label>
-                            <input type="tel" id="donor-phone" class="form-input w-full px-4 py-3 border-2 border-gray-300 rounded-xl transition-all duration-300" placeholder="+1 234 567 890">
+                            <input type="tel" id="donor-phone" class="form-input w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg transition-all duration-300" placeholder="+1 234 567 890">
                         </div>
                     </div>
 
-                    <!-- Stripe Checkout Button -->
-                    <button type="button" id="stripe-checkout-btn"
-                        class="w-full bg-gradient-to-r from-[#22c55e] to-[#16a34a] hover:from-[#16a34a] hover:to-[#15803d] text-white font-bold py-4 px-6 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <i class="fas fa-lock"></i>
-                        <span data-en="Donate Securely with Stripe" data-pl="Przekaż Bezpiecznie przez Stripe">Donate Securely with Stripe</span>
+                    <!-- PayPal Donate Button -->
+                    <button type="button" id="paypal-donate-btn"
+                        class="w-full bg-[#0070ba] hover:bg-[#003087] text-white font-bold py-3 px-4 rounded-lg text-base shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fab fa-paypal text-xl"></i>
+                        <span data-en="Donate with PayPal" data-pl="Przekaż przez PayPal">Donate with PayPal</span>
                     </button>
-                    <p id="stripe-error" class="text-red-600 text-sm text-center mt-3 hidden"></p>
-                    <p class="text-xs text-gray-500 text-center mt-3">
-                        <i class="fab fa-cc-visa mx-1"></i>
-                        <i class="fab fa-cc-mastercard mx-1"></i>
-                        <i class="fab fa-cc-amex mx-1"></i>
-                        <span data-en="Cards accepted via Stripe Checkout" data-pl="Karty akceptowane przez Stripe Checkout">Cards accepted via Stripe Checkout</span>
+                    <p id="paypal-error" class="text-red-600 text-xs text-center mt-2 hidden"></p>
+                    <p class="text-[11px] text-gray-500 text-center mt-2">
+                        <i class="fab fa-paypal mx-0.5"></i>
+                        <i class="fab fa-cc-visa mx-0.5"></i>
+                        <i class="fab fa-cc-mastercard mx-0.5"></i>
+                        <span data-en="Secure checkout powered by PayPal" data-pl="Bezpieczna płatność przez PayPal">Secure checkout powered by PayPal</span>
                     </p>
 
                     <!-- Security Badge -->
-                    <div class="mt-6 flex items-center justify-center gap-2 text-gray-600 text-sm">
+                    <div class="mt-3 flex items-center justify-center gap-1.5 text-gray-600 text-xs">
                         <i class="fas fa-shield-alt text-[#22c55e]"></i>
                         <p data-en="Your donation is secure and tax-deductible" data-pl="Twoja darowizna jest bezpieczna i można ją odliczyć od podatku">Your donation is secure and tax-deductible</p>
                     </div>
                     
                     <!-- Trust Badges -->
-                    <div class="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center gap-6 flex-wrap">
-                        <div class="flex items-center gap-2 text-gray-500">
-                            <i class="fas fa-lock text-lg"></i>
-                            <span class="text-xs font-medium">SSL Encrypted</span>
+                    <div class="mt-4 pt-4 border-t border-gray-200 flex items-center justify-center gap-4 flex-wrap">
+                        <div class="flex items-center gap-1 text-gray-500">
+                            <i class="fas fa-lock text-sm"></i>
+                            <span class="text-[10px] font-medium uppercase tracking-wide">SSL Encrypted</span>
                         </div>
-                        <div class="flex items-center gap-2 text-gray-500">
-                            <i class="fas fa-credit-card text-lg"></i>
-                            <span class="text-xs font-medium">Secure Payment</span>
+                        <div class="flex items-center gap-1 text-gray-500">
+                            <i class="fas fa-credit-card text-sm"></i>
+                            <span class="text-[10px] font-medium uppercase tracking-wide">Secure Payment</span>
                         </div>
-                        <div class="flex items-center gap-2 text-gray-500">
-                            <i class="fas fa-check-circle text-lg"></i>
-                            <span class="text-xs font-medium">Verified Nonprofit</span>
+                        <div class="flex items-center gap-1 text-gray-500">
+                            <i class="fas fa-check-circle text-sm"></i>
+                            <span class="text-[10px] font-medium uppercase tracking-wide">Verified Nonprofit</span>
                         </div>
                     </div>
                 </div>
@@ -344,27 +344,44 @@
     <script src="js/animations.js"></script>
     <script>
         // ============================================================
-        // STRIPE CHECKOUT INTEGRATION
+        // PAYPAL CHECKOUT — amount from this form (not a fixed payment link)
         // ============================================================
 
-        function showStripeError(msg) {
-            const el = document.getElementById('stripe-error');
+        function showPayPalError(msg) {
+            const el = document.getElementById('paypal-error');
             el.textContent = msg;
             el.classList.remove('hidden');
         }
 
-        function hideStripeError() {
-            const el = document.getElementById('stripe-error');
+        function hidePayPalError() {
+            const el = document.getElementById('paypal-error');
             el.textContent = '';
             el.classList.add('hidden');
         }
 
-        async function startStripeCheckout() {
-            hideStripeError();
+        /** Parse JSON from fetch; avoids "Unexpected end of JSON input" on empty/non-JSON bodies */
+        async function readJsonBody(response) {
+            const raw = await response.text();
+            const trimmed = raw.trim();
+            if (!trimmed) {
+                if (!response.ok) {
+                    throw new Error('Server returned an empty response (' + response.status + '). Use the Node app (npm start) so /api/paypal works, or check your deployment.');
+                }
+                throw new Error('Empty response from server.');
+            }
+            try {
+                return JSON.parse(trimmed);
+            } catch (err) {
+                throw new Error('Server did not return JSON (got HTML or plain text?). Make sure requests go to your Express server, not static file hosting.');
+            }
+        }
+
+        async function startPayPalDonation() {
+            hidePayPalError();
 
             const amount = parseFloat(document.getElementById('custom-amount').value) || 0;
             if (amount < 1) {
-                showStripeError('Please enter or select a donation amount of at least $1.');
+                showPayPalError('Please enter or select a donation amount of at least $1.');
                 return;
             }
 
@@ -372,39 +389,46 @@
             const email = document.getElementById('donor-email').value.trim();
             const phone = document.getElementById('donor-phone').value.trim();
 
-            if (!name || !email) {
-                showStripeError('Please fill in your name and email before donating.');
-                return;
-            }
-
-            const btn = document.getElementById('stripe-checkout-btn');
+            const btn = document.getElementById('paypal-donate-btn');
             const originalHTML = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Redirecting to Stripe...</span>';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Redirecting to PayPal...</span>';
 
             try {
-                const response = await fetch('/api/stripe/create-checkout-session', {
+                const response = await fetch('/api/paypal/create-order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ amount, name, email, phone })
                 });
 
-                const data = await response.json();
-
+                const data = await readJsonBody(response);
                 if (!response.ok || !data.url) {
                     throw new Error(data.error || `Server error: ${response.status}`);
                 }
 
                 window.location.href = data.url;
             } catch (err) {
-                console.error('Stripe checkout error:', err);
-                showStripeError(err.message || 'Could not start checkout. Please try again.');
+                console.error('PayPal checkout error:', err);
+                showPayPalError(err.message || 'Could not start PayPal checkout. Please try again.');
                 btn.disabled = false;
                 btn.innerHTML = originalHTML;
             }
         }
 
-        document.getElementById('stripe-checkout-btn').addEventListener('click', startStripeCheckout);
+        async function completePayPalReturn(orderId) {
+            const response = await fetch('/api/paypal/capture-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId })
+            });
+            const data = await readJsonBody(response);
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || 'Payment could not be completed.');
+            }
+            window.location.replace('/thank-you-donation');
+        }
+
+        document.getElementById('paypal-donate-btn').addEventListener('click', startPayPalDonation);
 
         // Donation button interactions
         document.querySelectorAll('.donation-btn').forEach(btn => {
@@ -439,9 +463,14 @@
                 scrollAnimationObserver.observe(el);
             });
 
-            // If returning from a successful Stripe checkout, send to thank-you page.
             const params = new URLSearchParams(window.location.search);
-            if (params.get('success') === 'true') {
+            const paypalToken = params.get('token');
+            if (params.get('paypal_return') === 'true' && paypalToken) {
+                completePayPalReturn(paypalToken).catch((err) => {
+                    console.error('PayPal capture error:', err);
+                    showPayPalError(err.message || 'Payment could not be completed. Please contact us if you were charged.');
+                });
+            } else if (params.get('success') === 'true') {
                 window.location.replace('/thank-you-donation');
             }
         });
