@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -12,6 +13,7 @@ const Stripe = require('stripe');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const PUBLIC_DIR = path.join(__dirname, 'public');
 
 // Stripe — only instantiate when configured (Stripe() throws if key is missing/empty).
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
@@ -701,21 +703,20 @@ app.delete('/api/admin/contacts/:id', adminAuth, requireMongo, async (req, res) 
 });
 
 // Serve admin dashboard at /admin
-const path = require('path');
 app.get('/admin', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'admin.html'));
+  res.sendFile(path.join(PUBLIC_DIR, 'admin.html'));
 });
 
 // Clean URLs - serve pages without .html extension
-app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, 'index.html')));
-app.get('/donate', (req, res) => res.sendFile(path.resolve(__dirname, 'donate.html')));
-app.get('/volunteer-application', (req, res) => res.sendFile(path.resolve(__dirname, 'volunteer-application.html')));
-app.get('/contact', (req, res) => res.sendFile(path.resolve(__dirname, 'contact.html')));
-app.get('/about', (req, res) => res.sendFile(path.resolve(__dirname, 'about.html')));
-app.get('/programs', (req, res) => res.sendFile(path.resolve(__dirname, 'programs.html')));
-app.get('/get-involved', (req, res) => res.sendFile(path.resolve(__dirname, 'get-involved.html')));
-app.get('/thank-you-volunteer', (req, res) => res.sendFile(path.resolve(__dirname, 'thank-you-volunteer.html')));
-app.get('/thank-you-donation', (req, res) => res.sendFile(path.resolve(__dirname, 'thank-you-donation.html')));
+app.get('/', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'index.html')));
+app.get('/donate', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'donate.html')));
+app.get('/volunteer-application', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'volunteer-application.html')));
+app.get('/contact', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'contact.html')));
+app.get('/about', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'about.html')));
+app.get('/programs', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'programs.html')));
+app.get('/get-involved', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'get-involved.html')));
+app.get('/thank-you-volunteer', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'thank-you-volunteer.html')));
+app.get('/thank-you-donation', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'thank-you-donation.html')));
 
 // Redirect .html URLs to clean URLs
 app.get('/donate.html', (req, res) => res.redirect(301, '/donate'));
@@ -728,10 +729,10 @@ app.get('/thank-you-volunteer.html', (req, res) => res.redirect(301, '/thank-you
 app.get('/thank-you-donation.html', (req, res) => res.redirect(301, '/thank-you-donation'));
 app.get('/admin.html', (req, res) => res.redirect(301, '/admin'));
 
-// Serve static files (your HTML, CSS, JS) - MUST be after API routes
-app.use(express.static('.'));
+// Serve static files (HTML, CSS, JS, images) - MUST be after API routes
+app.use(express.static(PUBLIC_DIR));
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
