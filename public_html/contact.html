@@ -187,6 +187,8 @@
     <script src="js/footer.js"></script>
     <script src="js/language.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script>
         // Scroll Animation Observer
         const scrollAnimationObserver = new IntersectionObserver((entries) => {
@@ -216,7 +218,7 @@
             const message = `${this.subject.value}: ${this.message.value}`;
 
             try {
-                const response = await fetch('/api/contact', {
+                const response = await fetch(apiUrl('/api/contact'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, message })

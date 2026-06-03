@@ -13,7 +13,8 @@ const Stripe = require('stripe');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const PUBLIC_DIR = path.join(__dirname, 'public_html');
+const API_BASE_URL = process.env.API_BASE_URL || '';
 
 // Stripe — only instantiate when configured (Stripe() throws if key is missing/empty).
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
@@ -728,6 +729,12 @@ app.get('/get-involved.html', (req, res) => res.redirect(301, '/get-involved'));
 app.get('/thank-you-volunteer.html', (req, res) => res.redirect(301, '/thank-you-volunteer'));
 app.get('/thank-you-donation.html', (req, res) => res.redirect(301, '/thank-you-donation'));
 app.get('/admin.html', (req, res) => res.redirect(301, '/admin'));
+
+// Frontend API config (overrides public_html/js/config.js when using one Node server)
+app.get('/js/config.js', (req, res) => {
+  res.type('application/javascript');
+  res.send(`window.WOLAYO_API_BASE = ${JSON.stringify(API_BASE_URL)};`);
+});
 
 // Serve static files (HTML, CSS, JS, images) - MUST be after API routes
 app.use(express.static(PUBLIC_DIR));

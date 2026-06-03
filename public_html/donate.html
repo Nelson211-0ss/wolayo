@@ -342,6 +342,8 @@
     <script src="js/footer.js"></script>
     <script src="js/language.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script>
         // ============================================================
         // PAYPAL CHECKOUT — amount from this form (not a fixed payment link)
@@ -395,7 +397,7 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Redirecting to PayPal...</span>';
 
             try {
-                const response = await fetch('/api/paypal/create-order', {
+                const response = await fetch(apiUrl('/api/paypal/create-order'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ amount, name, email, phone })
@@ -416,7 +418,7 @@
         }
 
         async function completePayPalReturn(orderId) {
-            const response = await fetch('/api/paypal/capture-order', {
+            const response = await fetch(apiUrl('/api/paypal/capture-order'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ orderId })
@@ -425,7 +427,7 @@
             if (!response.ok || !data.success) {
                 throw new Error(data.error || 'Payment could not be completed.');
             }
-            window.location.replace('/thank-you-donation');
+            window.location.replace(sitePath('/thank-you-donation'));
         }
 
         document.getElementById('paypal-donate-btn').addEventListener('click', startPayPalDonation);
@@ -471,7 +473,7 @@
                     showPayPalError(err.message || 'Payment could not be completed. Please contact us if you were charged.');
                 });
             } else if (params.get('success') === 'true') {
-                window.location.replace('/thank-you-donation');
+                window.location.replace(sitePath('/thank-you-donation'));
             }
         });
     </script>

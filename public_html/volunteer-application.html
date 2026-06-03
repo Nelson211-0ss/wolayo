@@ -380,6 +380,8 @@
     <script src="js/footer.js"></script>
     <script src="js/language.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script>
         let currentStep = 1;
 
@@ -541,14 +543,14 @@
             const data = { name, email, phone, preferences, experience, availability };
 
             try {
-                const response = await fetch('/api/volunteer', {
+                const response = await fetch(apiUrl('/api/volunteer'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    window.location.href = '/thank-you-volunteer';
+                    window.location.href = sitePath('/thank-you-volunteer');
                 } else {
                     alert('Error: ' + result.message);
                 }
